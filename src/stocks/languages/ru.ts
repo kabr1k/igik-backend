@@ -1,0 +1,14 @@
+export const STOCKS_SAVE_STARTED = 'перезапись бирж в БД';
+export const COINS_SAVE_STARTED = 'перезапись монет в БД';
+export const COINS_SAVED = 'монеты сохранены';
+export const OHLCV_SAVE_STARTED = 'запись свечей в БД';
+export const OHLCV_SAVED = 'сохранено';
+export const MARKETS_SAVED = 'рынки сохранены';
+export const STOCKS_SAVED = 'биржа сохранена';
+export const STOCK_START = 'загрузка рынков';
+export const MARKETS_START = 'сохраняю рынки';
+export const REGISTRY_RELOAD_STARTED = 'загружаю реестр рынков с API бирж';
+export const REGISTRY_READY_1 = 'рынки загружены у ';
+export const REGISTRY_READY_2 = ' бирж, отказов ';
+export const STOCK_OK = 'норм';
+export const STOCK_ERROR = 'ошибки';
