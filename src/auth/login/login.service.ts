@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { createHash } from 'crypto';
-import { User } from '../users/user.entity';
+import { User } from '../../users/user.entity';
 
 @Injectable()
-export class AuthService {
+export class LoginService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<User | null> {
-    const user = await this.usersService.findOne(email);
+    const user = await this.usersService.findByEmail(email);
     const hash = createHash('sha256').update(password).digest('hex');
     if (user && user.passwordHash === hash) {
       return user;

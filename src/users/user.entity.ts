@@ -1,10 +1,20 @@
-import { Entity, Column, PrimaryColumn, OneToMany, JoinColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import common from '../common/entity.mixin';
 
 @Entity()
 export class User {
-  @PrimaryColumn(common.charRequired100)
+  @PrimaryGeneratedColumn()
+  id: bigint;
+  @Column(common.varcharNullable)
   email: string;
+  @Column(common.varcharNullable)
+  walletAddress: string;
+  @Column({
+    nullable: true,
+    type: 'bigint',
+    default: null,
+  })
+  nonce: number;
   @Column({ default: true })
   enabled: boolean;
   @Column(common.varcharNullable)

@@ -4,7 +4,7 @@
   "port": 3306,
   "username": "root",
   "password": "Serenity81&",
-  "database": "bitcontrol",
+  "database": "nft-mint",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true,
   "logging": ["error", "warn", "info", "log"]

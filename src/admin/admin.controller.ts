@@ -1,0 +1,38 @@
+import { Controller, Get, Request, UseGuards } from '@nestjs/common';
+import { JwtGuard } from '../auth/guards/jwt.guard';
+import { RolesGuard } from '../auth/roles/roles.guard';
+import { Roles } from '../auth/roles/roles.decorator';
+import {
+  ApiBearerAuth,
+  ApiHeader,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+
+@Controller()
+export class AdminController {
+  constructor() {}
+  @Get('admin')
+  @ApiTags('Protected routes')
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'OK',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, access denied',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden resource, access denied',
+  })
+  @ApiHeader({
+    name: 'Authorization',
+  })
+  @Roles('string')
+  @UseGuards(JwtGuard, RolesGuard)
+  getProfile(@Request() req) {
+    return req.user;
+  }
+}

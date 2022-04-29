@@ -3,14 +3,23 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { LoginModule } from './auth/login/login.module';
+import { RegisterModule } from './auth/register/register.module';
+import { MetamaskModule } from './auth/metamask/metamask.module';
+import { PassportModule } from '@nestjs/passport';
+import { AdminModule } from "./admin/admin.module";
+import { PublicModule } from "./public/public.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(),
+    LoginModule,
+    RegisterModule,
+    MetamaskModule,
     UsersModule,
-    AuthModule,
+    AdminModule,
+    PublicModule,
   ],
 })
 export class AppModule {
