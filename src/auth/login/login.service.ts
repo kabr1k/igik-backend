@@ -11,7 +11,10 @@ export class LoginService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<User | null> {
+  public async validateUser(
+    email: string,
+    password: string,
+  ): Promise<User | null> {
     const user = await this.usersService.findByEmail(email);
     const hash = createHash('sha256').update(password).digest('hex');
     if (user && user.passwordHash === hash) {
@@ -20,7 +23,7 @@ export class LoginService {
     return null;
   }
 
-  async login(user: User) {
+  public async login(user: User) {
     return {
       access_token: this.jwtService.sign({ sub: user }),
     };

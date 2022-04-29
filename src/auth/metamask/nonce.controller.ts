@@ -1,7 +1,7 @@
-import { Controller, Get, Request } from '@nestjs/common';
+import { Controller, Get, Request, Res } from "@nestjs/common";
 import { MetamaskService } from './metamask.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtDto } from '../../interfaces/jwt.dto';
+import { NonceDto } from '../../interfaces/nonce.dto';
 
 @Controller()
 export class NonceController {
@@ -11,15 +11,11 @@ export class NonceController {
   @Get(':wallet_address/nonce')
   @ApiTags('Metamask authentication')
   @ApiResponse({
-    status: 201,
-    description: 'User has been successfully created, and logged in',
-    type: JwtDto,
+    status: 200,
+    description: 'OK',
+    type: NonceDto,
   })
-  @ApiResponse({
-    status: 406,
-    description: 'Not acceptable, user already exists',
-  })
-  async nonce(@Request() req) {
-    return await this.metamaskService.createNonce(req.wallet_address);
+  async nonce(@Request() req, @Res() response) {
+    return await this.metamaskService.getNonce(req.wallet_address);
   }
 }

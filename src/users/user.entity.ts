@@ -21,6 +21,6 @@ export class User {
   name: string;
   @Column(common.varcharNullable)
   role: string;
-  @Column(common.charRequired256)
+  @Column(common.varcharNullable)
   passwordHash: string;
 }

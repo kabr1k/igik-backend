@@ -8,7 +8,7 @@ export class RegisterService {
   constructor(
     private readonly usersService: UsersService,
   ) {}
-  async createUser({ email, password, role, name }): Promise<User | null> {
+  public async createUser({ email, password, role, name }): Promise<User | null> {
     if (await this.usersService.findByEmail(email)) {
       return null;
     } else {

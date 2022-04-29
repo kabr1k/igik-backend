@@ -9,13 +9,13 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
-  async findByWallet(walletAddress: string): Promise<User | undefined> {
+  public async findByWallet(walletAddress: string): Promise<User | undefined> {
     return await this.usersRepository.findOne({ walletAddress });
   }
-  async findByEmail(email: string): Promise<User | undefined> {
+  public async findByEmail(email: string): Promise<User | undefined> {
     return await this.usersRepository.findOne({ email });
   }
-  async saveUser(user): Promise<User | null> {
+  public async saveUser(user): Promise<User | null> {
     return await this.usersRepository.save(user);
   }
 }
