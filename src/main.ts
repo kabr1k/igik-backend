@@ -17,7 +17,7 @@ import { PublicModule } from './public/public.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useWebSocketAdapter(new IoAdapter(app));
-  app.useStaticAssets(join(__dirname, '../..', 'bcfront/public'));
+  app.useStaticAssets(join(__dirname, '../..', 'nftfront/dist'));
   app.setBaseViewsDir(join(__dirname, '..', 'src/stocks/views'));
   app.setViewEngine('pug');
   const config = new DocumentBuilder()

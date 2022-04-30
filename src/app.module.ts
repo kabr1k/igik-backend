@@ -6,9 +6,8 @@ import { UsersModule } from './users/users.module';
 import { LoginModule } from './auth/login/login.module';
 import { RegisterModule } from './auth/register/register.module';
 import { MetamaskModule } from './auth/metamask/metamask.module';
-import { PassportModule } from '@nestjs/passport';
-import { AdminModule } from "./admin/admin.module";
-import { PublicModule } from "./public/public.module";
+import { AdminModule } from './admin/admin.module';
+import { PublicModule } from './public/public.module';
 
 @Module({
   imports: [
@@ -19,7 +18,7 @@ import { PublicModule } from "./public/public.module";
     MetamaskModule,
     UsersModule,
     AdminModule,
-    PublicModule,
+    // PublicModule,
   ],
 })
 export class AppModule {
