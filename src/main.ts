@@ -8,11 +8,8 @@ import {
   SwaggerDocumentOptions,
 } from '@nestjs/swagger';
 import { join } from 'path';
-import { RegisterModule } from './auth/register/register.module';
-import { LoginModule } from './auth/login/login.module';
 import { MetamaskModule } from './auth/metamask/metamask.module';
 import { AdminModule } from './admin/admin.module';
-import { PublicModule } from './public/public.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -21,22 +18,19 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'src/stocks/views'));
   app.setViewEngine('pug');
   const config = new DocumentBuilder()
-    .setTitle('NFT mint')
-    .setDescription('NFT-mint internal API')
+    .setTitle('Cheer&Earn API')
+    .setDescription('Cheer&Earn internal API')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
   const options: SwaggerDocumentOptions = {
-    include: [
-      MetamaskModule,
-      LoginModule,
-      RegisterModule,
-      AdminModule,
-      PublicModule,
-    ],
+    include: [MetamaskModule, AdminModule],
+  };
+  const setupOptions = {
+    customSiteTitle: 'Cheer&Earn API docs',
   };
   const document = SwaggerModule.createDocument(app, config, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('v1/api', app, document, setupOptions);
   await app.listen(3000);
 }
 bootstrap();

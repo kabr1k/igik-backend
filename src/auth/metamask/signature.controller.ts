@@ -1,9 +1,15 @@
-import { Body, Controller, HttpCode, Param, Post, Query, Request } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { MetamaskService } from './metamask.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtDto } from '../../interfaces/jwt.dto';
 import { SignatureDto } from '../../interfaces/signature.dto';
-import { WalletDto } from "../../interfaces/wallet.dto";
+import { WalletDto } from '../../interfaces/wallet.dto';
 
 @Controller()
 export class SignatureController {
@@ -17,21 +23,29 @@ export class SignatureController {
     type: JwtDto,
   })
   @ApiResponse({
-    status: 401,
+    status: 406,
     description: 'Signature is not valid',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Signature address does not match wallet',
   })
   @ApiResponse({
     status: 404,
     description: 'Wallet not found',
   })
-  async nonce(@Body() signatureDto: SignatureDto, @Param() walletDto: WalletDto) {
+  async nonce(
+    @Body() signatureDto: SignatureDto,
+    @Param() walletDto: WalletDto,
+  ) {
     if (
       await this.metamaskService.verifySignature(
         walletDto.wallet_address,
         signatureDto.signature,
       )
     ) {
-      // create new nonce, save user, set jwt token
+      await this.metamaskService.newNonce(walletDto.wallet_address);
+      // set jwt token
       return;
     }
   }

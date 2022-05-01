@@ -18,7 +18,6 @@ import { PublicModule } from './public/public.module';
     MetamaskModule,
     UsersModule,
     AdminModule,
-    // PublicModule,
   ],
 })
 export class AppModule {

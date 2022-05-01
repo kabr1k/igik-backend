@@ -17,6 +17,8 @@ export class User {
   nonce: number;
   @Column({ default: true })
   enabled: boolean;
+  @Column({ default: false })
+  whitelist: boolean;
   @Column(common.varcharNullable)
   name: string;
   @Column(common.varcharNullable)
