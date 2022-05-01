@@ -1,19 +1,19 @@
-import {
-  Body,
-  Controller,
-  HttpCode,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, Param, Post } from '@nestjs/common';
 import { MetamaskService } from './metamask.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtDto } from '../../interfaces/jwt.dto';
 import { SignatureDto } from '../../interfaces/signature.dto';
 import { WalletDto } from '../../interfaces/wallet.dto';
+import { LoginService } from '../login/login.service';
+import { UsersService } from "../../users/users.service";
 
 @Controller()
 export class SignatureController {
-  constructor(private readonly metamaskService: MetamaskService) {}
+  constructor(
+    private readonly metamaskService: MetamaskService,
+    private readonly loginService: LoginService,
+    private readonly usersService: UsersService,
+  ) {}
   @Post(':wallet_address/signature')
   @ApiTags('Metamask authentication')
   @HttpCode(200)
@@ -34,7 +34,7 @@ export class SignatureController {
     status: 404,
     description: 'Wallet not found',
   })
-  async nonce(
+  async signature(
     @Body() signatureDto: SignatureDto,
     @Param() walletDto: WalletDto,
   ) {
@@ -45,8 +45,9 @@ export class SignatureController {
       )
     ) {
       await this.metamaskService.newNonce(walletDto.wallet_address);
-      // set jwt token
-      return;
+      return await this.loginService.login(
+        await this.usersService.findByWallet(walletDto.wallet_address),
+      );
     }
   }
 }
