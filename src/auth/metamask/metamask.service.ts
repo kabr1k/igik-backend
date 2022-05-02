@@ -1,8 +1,9 @@
 import {
-  Injectable, NotAcceptableException,
+  Injectable,
+  NotAcceptableException,
   NotFoundException,
-  UnauthorizedException
-} from "@nestjs/common";
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../../users/users.service';
 import { NonceDto } from '../../interfaces/nonce.dto';
 const util = require('ethereumjs-util');
@@ -34,12 +35,12 @@ export class MetamaskService {
       try {
         const sig = util.fromRpcSig(signature);
         const publicKey = util.ecrecover(
-          web3.utils.sha3(message),
+          util.hashPersonalMessage(Buffer.from(message)),
           sig.v,
           sig.r,
           sig.s,
         );
-        const address = util.pubToAddress(publicKey).toString('hex');
+        const address = '0x' + util.pubToAddress(publicKey).toString('hex');
         if (address.toLowerCase() === walletAddress) {
           return 200;
         } else {
