@@ -8,9 +8,13 @@ import { RegisterModule } from './auth/register/register.module';
 import { MetamaskModule } from './auth/metamask/metamask.module';
 import { AdminModule } from './admin/admin.module';
 import { PublicModule } from './public/public.module';
-
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from 'path';
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'dist2'),
+    }),
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(),
     LoginModule,

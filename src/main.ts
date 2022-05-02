@@ -14,7 +14,7 @@ import { AdminModule } from './admin/admin.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useWebSocketAdapter(new IoAdapter(app));
-  app.useStaticAssets('dist2');
+  // app.useStaticAssets('dist2');
   console.log(join(__dirname, '..', 'dist2'));
   app.setBaseViewsDir(join(__dirname, '..', 'src/stocks/views'));
   app.setViewEngine('pug');
