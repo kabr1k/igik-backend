@@ -17,6 +17,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '../..', 'nftfront/dist'));
   app.setBaseViewsDir(join(__dirname, '..', 'src/stocks/views'));
   app.setViewEngine('pug');
+  app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('Cheer&Earn API')
     .setDescription('Cheer&Earn internal API')
