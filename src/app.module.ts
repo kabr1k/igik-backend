@@ -13,7 +13,7 @@ import { join } from 'path';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'dist2'),
+      rootPath: join(__dirname, '../..', 'nft-mint-front/dist'),
     }),
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(),
