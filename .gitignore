@@ -26,3 +26,4 @@ lerna-debug.log*
 .settings/
 *.sublime-workspace
 .env
+ormconfig.json
