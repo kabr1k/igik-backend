@@ -2,9 +2,9 @@
   "type": "mysql",
   "host": "localhost",
   "port": 3306,
-  "username": "dbster",
+  "username": "root",
   "password": "Serenity81&",
-  "database": "nft",
+  "database": "nft-mint",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true,
   "logging": ["error", "warn", "info", "log"]
