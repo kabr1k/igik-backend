@@ -27,7 +27,7 @@ export class MetamaskService {
       return await this.newNonce(walletAddress);
     }
   }
-  public async verifySignature(walletAddress, signature): Promise<boolean> {
+  public async verifySignature(walletAddress, signature): Promise<number> {
     const user = await this.usersService.findByWallet(walletAddress);
     if (user) {
       const message = `Nonce: ${user.nonce}`;
@@ -41,15 +41,15 @@ export class MetamaskService {
         );
         const address = util.pubToAddress(publicKey).toString('hex');
         if (address.toLowerCase() === walletAddress) {
-          return true;
+          return 200;
         } else {
-          throw new UnauthorizedException();
+          return 401;
         }
       } catch (e) {
-        throw new NotAcceptableException();
+        return 406;
       }
     } else {
-      throw new NotFoundException();
+      return 404;
     }
   }
 }
