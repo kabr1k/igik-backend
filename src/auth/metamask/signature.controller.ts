@@ -1,11 +1,13 @@
 import {
   Body,
   Controller,
-  HttpCode, NotAcceptableException,
+  HttpCode,
+  NotAcceptableException,
   NotFoundException,
   Param,
-  Post, UnauthorizedException
-} from "@nestjs/common";
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { MetamaskService } from './metamask.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtDto } from '../../interfaces/jwt.dto';
@@ -28,6 +30,10 @@ export class SignatureController {
     status: 200,
     description: 'OK',
     type: JwtDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Validation failed',
   })
   @ApiResponse({
     status: 401,

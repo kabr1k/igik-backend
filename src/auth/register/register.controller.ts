@@ -4,6 +4,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtDto } from '../../interfaces/jwt.dto';
 import { RegisterService } from './register.service';
 import { LoginService } from '../login/login.service';
+import { ValidationPipe } from '../metamask/validation.pipe';
 
 @Controller()
 export class RegisterController {
@@ -22,7 +23,11 @@ export class RegisterController {
     status: 406,
     description: 'Not acceptable, user already exists',
   })
-  async register(@Body() registerUserDto: RegisterUserDto) {
+  @ApiResponse({
+    status: 400,
+    description: 'Validation failed',
+  })
+  async register(@Body(new ValidationPipe()) registerUserDto: RegisterUserDto) {
     const user = await this.registerService.createUser(registerUserDto);
     if (user) {
       return await this.loginService.login(user);

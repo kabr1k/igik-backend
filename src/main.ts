@@ -9,14 +9,15 @@ import {
 } from '@nestjs/swagger';
 import { join } from 'path';
 import { MetamaskModule } from './auth/metamask/metamask.module';
-import { AdminModule } from './admin/admin.module';
+import { LoginModule } from './auth/login/login.module';
+import { RegisterModule } from './auth/register/register.module';
+import { SettingsModule } from './settings/settings.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useWebSocketAdapter(new IoAdapter(app));
-  // app.useStaticAssets('dist2');
-  console.log(join(__dirname, '..', 'dist2'));
   app.setBaseViewsDir(join(__dirname, '..', 'src/stocks/views'));
+  app.useStaticAssets('upload/');
   app.setViewEngine('pug');
   app.enableCors();
   const config = new DocumentBuilder()
@@ -26,7 +27,7 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const options: SwaggerDocumentOptions = {
-    include: [MetamaskModule, AdminModule],
+    include: [RegisterModule, LoginModule, MetamaskModule, SettingsModule],
   };
   const setupOptions = {
     customSiteTitle: 'Cheer&Earn API docs',
