@@ -5,7 +5,7 @@ import { ApiProperty } from "@nestjs/swagger";
 @Entity()
 export class Settings {
   @PrimaryGeneratedColumn()
-  id?: number;
+  id: number;
   @ApiProperty()
   @Column(common.varcharNullable)
   contractId: string;

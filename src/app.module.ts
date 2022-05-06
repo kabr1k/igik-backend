@@ -11,11 +11,34 @@ import { SettingsModule } from './settings/settings.module';
 import { join } from 'path';
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../..', 'nft-mint-front/dist'),
-    }),
     ConfigModule.forRoot(),
-    TypeOrmModule.forRoot(),
+    ServeStaticModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => [
+        {
+          rootPath: join(
+            __dirname,
+            '../../..',
+            configService.get<string>('FRONTEND_PATH'),
+          ),
+        },
+      ],
+      inject: [ConfigService],
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get('DB_HOST'),
+        port: +configService.get<number>('DB_PORT'),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_DATABASE'),
+        entities: ['dist/**/*.entity{.ts,.js}'],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
+    }),
     RegisterModule,
     LoginModule,
     MetamaskModule,

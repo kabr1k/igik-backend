@@ -26,10 +26,9 @@ export class PutSettingsController {
   @ApiConsumes('multipart/form-data')
   @UseGuards(JwtGuard)
   async putSettings(@Body() settings: SettingsDto) {
-    const result = await this.settingsService.saveSettings({
+    await this.settingsService.saveSettings({
       id: 1,
       ...settings,
     });
-    return;
   }
 }

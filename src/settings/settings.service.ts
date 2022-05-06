@@ -13,7 +13,6 @@ export class SettingsService {
     return await this.settingsRepository.save(settings);
   }
   public async getSettings(): Promise<Settings | null> {
-    const settings = await this.settingsRepository.findOne();
-    return settings;
+    return await this.settingsRepository.findOne();
   }
 }

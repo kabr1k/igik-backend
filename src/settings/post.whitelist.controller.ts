@@ -1,8 +1,6 @@
 import {
   Controller,
   Post,
-  Put,
-  Request,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -12,12 +10,11 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiConsumes,
-  ApiHeader,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import multer, { diskStorage } from 'multer';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @Controller()
 export class PostWhitelistController {

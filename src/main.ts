@@ -12,6 +12,7 @@ import { MetamaskModule } from './auth/metamask/metamask.module';
 import { LoginModule } from './auth/login/login.module';
 import { RegisterModule } from './auth/register/register.module';
 import { SettingsModule } from './settings/settings.module';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -34,6 +35,9 @@ async function bootstrap() {
   };
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('v1/api', app, document, setupOptions);
-  await app.listen(3000);
+  const configService = app.get(ConfigService);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  await app.listen(configService.get<string>('PORT'));
 }
 bootstrap();
