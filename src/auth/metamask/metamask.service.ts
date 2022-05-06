@@ -17,7 +17,12 @@ export class MetamaskService {
   }
   public async newNonce(walletAddress) {
     const nonce = this.createNonce();
-    await this.usersService.saveUser({ walletAddress, nonce });
+    const user = await this.usersService.findByWallet(walletAddress);
+    if (user) {
+      await this.usersService.saveUser({ id: user.id, nonce });
+    } else {
+      await this.usersService.saveUser({ walletAddress, nonce });
+    }
     return { nonce };
   }
   public async getNonce(walletAddress): Promise<NonceDto> {

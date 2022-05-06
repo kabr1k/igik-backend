@@ -25,11 +25,11 @@ export class Settings {
   @Column('float')
   tokenPrice: number;
   @ApiProperty()
-  @Column('bigint')
-  preSaleDate: number;
+  @Column('datetime')
+  preSaleDate: Date;
   @ApiProperty()
-  @Column('bigint')
-  saleDate: number;
+  @Column('datetime')
+  saleDate: Date;
   @ApiProperty()
   @Column(common.varcharNullable)
   apiUrl: string;

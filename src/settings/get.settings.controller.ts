@@ -33,7 +33,8 @@ export class GetSettingsController {
     if (settings) {
       return settings;
     } else {
-      throw new NotFoundException();
+      await this.settingsService.setDefaultSettings();
+      return await this.settingsService.getSettings();
     }
   }
 }
