@@ -24,7 +24,7 @@
 
 ## Description
 
-Cheer&Earn NFT-collection mint startup
+Mentees in search of mentors startup
 
 ## Installation
 

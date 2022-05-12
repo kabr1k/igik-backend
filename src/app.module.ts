@@ -5,9 +5,8 @@ import { Connection } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { LoginModule } from './auth/login/login.module';
 import { RegisterModule } from './auth/register/register.module';
-import { MetamaskModule } from './auth/metamask/metamask.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { SettingsModule } from './settings/settings.module';
+import { AdminModule } from './admin/admin.module';
 import { join } from 'path';
 @Module({
   imports: [
@@ -41,9 +40,8 @@ import { join } from 'path';
     }),
     RegisterModule,
     LoginModule,
-    MetamaskModule,
     UsersModule,
-    SettingsModule,
+    AdminModule,
   ],
 })
 export class AppModule {

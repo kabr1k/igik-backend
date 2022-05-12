@@ -8,36 +8,37 @@ import {
   SwaggerDocumentOptions,
 } from '@nestjs/swagger';
 import { join } from 'path';
-import { MetamaskModule } from './auth/metamask/metamask.module';
 import { LoginModule } from './auth/login/login.module';
 import { RegisterModule } from './auth/register/register.module';
-import { SettingsModule } from './settings/settings.module';
 import { ConfigService } from '@nestjs/config';
+import { AdminModule } from './admin/admin.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.enableCors();
   app.useWebSocketAdapter(new IoAdapter(app));
   app.setBaseViewsDir(join(__dirname, '..', 'src/stocks/views'));
   app.useStaticAssets('upload/');
   app.setViewEngine('pug');
-  app.enableCors();
-  const config = new DocumentBuilder()
-    .setTitle('Cheer&Earn API')
-    .setDescription('Cheer&Earn internal API')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
-  const options: SwaggerDocumentOptions = {
-    include: [RegisterModule, LoginModule, MetamaskModule, SettingsModule],
-  };
-  const setupOptions = {
-    customSiteTitle: 'Cheer&Earn API docs',
-  };
-  const document = SwaggerModule.createDocument(app, config, options);
-  SwaggerModule.setup('v1/api', app, document, setupOptions);
   const configService = app.get(ConfigService);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  await app.listen(configService.get<string>('PORT'));
+  const port = +configService.get('PORT');
+  const swagger = +configService.get('SWAGGER');
+  if (swagger) {
+    const config = new DocumentBuilder()
+      .setTitle('Instagig API')
+      .setDescription('Instagig internal API')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
+    const options: SwaggerDocumentOptions = {
+      include: [RegisterModule, LoginModule, AdminModule],
+    };
+    const setupOptions = {
+      customSiteTitle: 'Instagig API docs',
+    };
+    const document = SwaggerModule.createDocument(app, config, options);
+    SwaggerModule.setup('v1/api', app, document, setupOptions);
+  }
+  await app.listen(port);
 }
 bootstrap();

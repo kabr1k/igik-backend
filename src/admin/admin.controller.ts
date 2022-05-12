@@ -4,7 +4,6 @@ import { RolesGuard } from '../auth/roles/roles.guard';
 import { Roles } from '../auth/roles/roles.decorator';
 import {
   ApiBearerAuth,
-  ApiHeader,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -27,10 +26,7 @@ export class AdminController {
     status: 403,
     description: 'Forbidden resource, access denied',
   })
-  @ApiHeader({
-    name: 'Authorization',
-  })
-  @Roles('string')
+  @Roles('admin')
   @UseGuards(JwtGuard, RolesGuard)
   getProfile(@Request() req) {
     return req.user;
