@@ -1,8 +1,5 @@
 import {
   Injectable,
-  NotAcceptableException,
-  NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from '../../users/users.service';
 import { NonceDto } from '../../interfaces/nonce.dto';
@@ -19,7 +16,7 @@ export class MetamaskService {
     const nonce = this.createNonce();
     const user = await this.usersService.findByWallet(walletAddress);
     if (user) {
-      await this.usersService.saveUser({ id: user.id, nonce });
+      await this.usersService.saveUser({ uuid: user.uuid, nonce });
     } else {
       await this.usersService.saveUser({ walletAddress, nonce });
     }

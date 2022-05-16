@@ -1,10 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import common from '../common/entity.mixin';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: bigint;
+  @PrimaryGeneratedColumn('uuid')
+  uuid: string;
   @Column(common.varcharNullable)
   email: string;
   @Column(common.varcharNullable)
@@ -23,6 +24,11 @@ export class User {
   name: string;
   @Column(common.varcharNullable)
   role: string;
+  @Exclude()
   @Column(common.varcharNullable)
   passwordHash: string;
+  @Column(common.varcharNullable)
+  calendlyLink: string;
+  @Column(common.varcharNullable)
+  calendlyRefreshToken: string;
 }

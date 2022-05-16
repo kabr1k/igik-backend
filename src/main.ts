@@ -12,13 +12,14 @@ import { LoginModule } from './auth/login/login.module';
 import { RegisterModule } from './auth/register/register.module';
 import { ConfigService } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
+import { CalendlyModule } from './calendly/calendly.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors();
   app.useWebSocketAdapter(new IoAdapter(app));
   app.setBaseViewsDir(join(__dirname, '..', 'src/stocks/views'));
-  app.useStaticAssets('upload/');
+  app.useStaticAssets('static/');
   app.setViewEngine('pug');
   const configService = app.get(ConfigService);
   const port = +configService.get('PORT');
@@ -31,7 +32,7 @@ async function bootstrap() {
       .addBearerAuth()
       .build();
     const options: SwaggerDocumentOptions = {
-      include: [RegisterModule, LoginModule, AdminModule],
+      include: [RegisterModule, LoginModule, AdminModule, CalendlyModule],
     };
     const setupOptions = {
       customSiteTitle: 'Instagig API docs',

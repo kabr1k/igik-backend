@@ -7,6 +7,7 @@ import { LoginModule } from './auth/login/login.module';
 import { RegisterModule } from './auth/register/register.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AdminModule } from './admin/admin.module';
+import { CalendlyModule } from './calendly/calendly.module';
 import { join } from 'path';
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { join } from 'path';
     LoginModule,
     UsersModule,
     AdminModule,
+    CalendlyModule,
   ],
 })
 export class AppModule {

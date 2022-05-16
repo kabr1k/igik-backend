@@ -5,10 +5,13 @@ import { User } from '../../users/user.entity';
 
 @Injectable()
 export class RegisterService {
-  constructor(
-    private readonly usersService: UsersService,
-  ) {}
-  public async createUser({ email, password, role, name }): Promise<User | null> {
+  constructor(private readonly usersService: UsersService) {}
+  public async createUser({
+    email,
+    password,
+    role,
+    name,
+  }): Promise<User | null> {
     if (await this.usersService.findByEmail(email)) {
       return null;
     } else {
