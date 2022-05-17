@@ -45,6 +45,7 @@
     "hbs": "^4.1.2",
     "joi": "^17.6.0",
     "mysql2": "^2.2.5",
+    "nestjs-stripe": "^1.0.0",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",

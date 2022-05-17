@@ -13,6 +13,8 @@ import { RegisterModule } from './auth/register/register.module';
 import { ConfigService } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
 import { CalendlyModule } from './calendly/calendly.module';
+import { PaymentsModule } from './payments/payments.module';
+import { OrdersModule } from './orders/orders.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -32,7 +34,14 @@ async function bootstrap() {
       .addBearerAuth()
       .build();
     const options: SwaggerDocumentOptions = {
-      include: [RegisterModule, LoginModule, AdminModule, CalendlyModule],
+      include: [
+        RegisterModule,
+        LoginModule,
+        AdminModule,
+        CalendlyModule,
+        PaymentsModule,
+        OrdersModule,
+      ],
     };
     const setupOptions = {
       customSiteTitle: 'Instagig API docs',

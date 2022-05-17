@@ -7,10 +7,10 @@ import { AuthorizationCodeDto } from '../interfaces/authorization.code.dto';
 import { CalendlyService } from './calendly.service';
 
 @Controller()
-export class CalendlyController {
+export class CalendlyConnectController {
   constructor(private readonly calendlyService: CalendlyService) {}
-  @Get('calendly')
-  @ApiTags('Protected routes')
+  @Get('calendly/connect')
+  @ApiTags('Calendly')
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,
