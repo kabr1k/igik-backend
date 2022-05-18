@@ -3,6 +3,7 @@ import { InjectStripe } from 'nestjs-stripe';
 import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
+import { StripeLinkDto } from '../interfaces/stripe.link.dto';
 @Injectable()
 export class StripeService {
   constructor(
@@ -16,7 +17,7 @@ export class StripeService {
       email: user.email,
     });
   }
-  public async getAccountLink(user): Promise<string | null> {
+  public async getAccountLink(user): Promise<StripeLinkDto | null> {
     const { id } = await this.createAccount(user);
     await this.usersService.saveUser({ uuid: user.uuid, stripeAccount: id });
     const accountLink = await this.stripe.accountLinks.create({
@@ -27,6 +28,6 @@ export class StripeService {
     });
     console.log(user);
     console.log(accountLink);
-    return accountLink.url;
+    return { stripe_link: accountLink.url };
   }
 }

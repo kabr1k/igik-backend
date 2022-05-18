@@ -1,6 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
+import { CalendlyLinkDto } from '../interfaces/calendly.link.dto';
 import axios from 'axios';
 
 @Injectable()
@@ -61,7 +62,10 @@ export class CalendlyService {
       );
     }
   }
-  public async connectUser(user, authorizationCode): Promise<void | null> {
+  public async connectUser(
+    user,
+    authorizationCode,
+  ): Promise<CalendlyLinkDto | null> {
     const { calendlyRefreshToken } = await this.usersService.findByEmail(
       user.email,
     );
@@ -77,5 +81,6 @@ export class CalendlyService {
       calendlyRefreshToken: data.refresh_token,
       calendlyLink: calendlyUser.resource.scheduling_url,
     });
+    return { calendly_link: calendlyUser.resource.scheduling_url };
   }
 }

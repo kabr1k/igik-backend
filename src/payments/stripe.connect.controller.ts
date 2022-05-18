@@ -11,6 +11,7 @@ import { RolesGuard } from '../auth/roles/roles.guard';
 import { Roles } from '../auth/roles/roles.decorator';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { StripeService } from './stripe.service';
+import { StripeLinkDto } from "../interfaces/stripe.link.dto";
 
 @Controller()
 export class StripeConnectController {
@@ -21,6 +22,7 @@ export class StripeConnectController {
   @ApiResponse({
     status: 200,
     description: 'OK',
+    type: StripeLinkDto,
   })
   @ApiResponse({
     status: 401,

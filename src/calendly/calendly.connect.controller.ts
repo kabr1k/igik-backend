@@ -5,6 +5,7 @@ import { Roles } from '../auth/roles/roles.decorator';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthorizationCodeDto } from '../interfaces/authorization.code.dto';
 import { CalendlyService } from './calendly.service';
+import { CalendlyLinkDto } from "../interfaces/calendly.link.dto";
 
 @Controller()
 export class CalendlyConnectController {
@@ -15,6 +16,7 @@ export class CalendlyConnectController {
   @ApiResponse({
     status: 200,
     description: 'OK',
+    type: CalendlyLinkDto,
   })
   @ApiResponse({
     status: 400,
@@ -34,7 +36,7 @@ export class CalendlyConnectController {
     @Query() authorizationCodeDto: AuthorizationCodeDto,
     @Request() req,
   ) {
-    await this.calendlyService.connectUser(
+    return await this.calendlyService.connectUser(
       req.user.sub,
       authorizationCodeDto.code,
     );
