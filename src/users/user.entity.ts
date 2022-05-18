@@ -20,8 +20,6 @@ export class User {
   nonce: number;
   @Column({ default: true })
   enabled: boolean;
-  @Column({ default: false })
-  whitelist: boolean;
   @Column(common.varcharNullable)
   name: string;
   @Column(common.varcharNullable)
@@ -43,4 +41,6 @@ export class User {
   receivedOrders: Order[];
   @Column(common.varcharNullable)
   stripeAccount: string;
+  @Column({ default: false })
+  stripeOnboarded: boolean;
 }

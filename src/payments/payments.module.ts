@@ -10,6 +10,8 @@ import { UsersService } from '../users/users.service';
 import { User } from '../users/user.entity';
 import { StripeRefreshController } from './stripe.refresh.controller';
 import { StripeReturnController } from './stripe.return.controller';
+import { StripeOnboardedController } from './stripe.onboarded.controller';
+import { StripeCheckoutController } from './stripe.checkout.controller';
 
 @Module({
   imports: [
@@ -27,8 +29,10 @@ import { StripeReturnController } from './stripe.return.controller';
   providers: [PaymentsService, StripeService, UsersService],
   controllers: [
     StripeConnectController,
-    StripeRefreshController,
+    StripeOnboardedController,
+    StripeCheckoutController,
     StripeReturnController,
+    StripeRefreshController,
   ],
   exports: [PaymentsService],
 })

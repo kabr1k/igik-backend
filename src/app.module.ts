@@ -45,10 +45,10 @@ import { OrdersModule } from "./orders/orders.module";
     RegisterModule,
     LoginModule,
     UsersModule,
-    AdminModule,
     CalendlyModule,
     PaymentsModule,
     OrdersModule,
+    AdminModule,
   ],
 })
 export class AppModule {

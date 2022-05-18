@@ -13,7 +13,7 @@ export class CalendlyService {
   private async getTokenByCode(authorizationCode) {
     try {
       const response = await axios.post(
-        'https://auth.calendly.com/oauth/token',
+        this.configService.get('CAL_TOKEN_URL'),
         {
           grant_type: 'authorization_code',
           client_id: this.configService.get('CAL_CLIENT_ID'),
@@ -33,7 +33,7 @@ export class CalendlyService {
   private async getTokenByRefresh(refreshToken) {
     try {
       const response = await axios.post(
-        'https://auth.calendly.com/oauth/token',
+        this.configService.get('CAL_TOKEN_URL'),
         {
           grant_type: 'refresh_token',
           client_id: this.configService.get('CAL_CLIENT_ID'),
@@ -51,7 +51,7 @@ export class CalendlyService {
   }
   private async getCalendlyUser(accessToken) {
     try {
-      const response = await axios.get('https://api.calendly.com/users/me', {
+      const response = await axios.get(this.configService.get('CAL_USER_URL'), {
         headers: { Authorization: 'Bearer ' + accessToken },
       });
       return response.data;
