@@ -8,8 +8,6 @@ import { StripeConnectController } from './stripe.connect.controller';
 import { StripeService } from './stripe.service';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/user.entity';
-import { StripeRefreshController } from './stripe.refresh.controller';
-import { StripeReturnController } from './stripe.return.controller';
 import { StripeOnboardedController } from './stripe.onboarded.controller';
 import { StripeCheckoutController } from './stripe.checkout.controller';
 
@@ -31,8 +29,6 @@ import { StripeCheckoutController } from './stripe.checkout.controller';
     StripeConnectController,
     StripeOnboardedController,
     StripeCheckoutController,
-    StripeReturnController,
-    StripeRefreshController,
   ],
   exports: [PaymentsService],
 })

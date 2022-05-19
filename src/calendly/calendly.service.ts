@@ -79,7 +79,7 @@ export class CalendlyService {
     await this.usersService.saveUser({
       uuid: user.uuid,
       calendlyRefreshToken: data.refresh_token,
-      calendlyLink: calendlyUser.resource.scheduling_url,
+      // calendlyLink: calendlyUser.resource.scheduling_url,
     });
     return { calendly_link: calendlyUser.resource.scheduling_url };
   }

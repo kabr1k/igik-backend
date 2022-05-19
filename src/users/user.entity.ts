@@ -43,4 +43,10 @@ export class User {
   stripeAccount: string;
   @Column({ default: false })
   stripeOnboarded: boolean;
+  @Column({
+    nullable: true,
+    type: 'int',
+    default: 0,
+  })
+  eventPrice: number;
 }

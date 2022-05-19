@@ -43,4 +43,26 @@ export class StripeService {
     console.log(details_submitted);
     return { onboarded: details_submitted };
   }
+  public async checkOut(user, order): Promise<void> {
+    console.log(order);
+    const session = await this.stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: '{{PRICE_ID}}',
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: 'https://example.com/success',
+      cancel_url: 'https://example.com/failure',
+      payment_intent_data: {
+        application_fee_amount: 123,
+        transfer_data: {
+          destination: '{{CONNECTED_ACCOUNT_ID}}',
+        },
+      },
+    });
+
+    // 303 redirect to session.url
+  }
 }
