@@ -12,10 +12,26 @@ export class StripeService {
     private readonly configService: ConfigService,
     private readonly usersService: UsersService,
   ) {}
+  private async createProduct(user) {
+    return await this.stripe.products.create({
+      name: user.email,
+    });
+  }
+  private async createPrice(productUuid, price) {
+    return await this.stripe.prices.create({
+      unit_amount: price,
+      currency: 'usd',
+      product: productUuid,
+    });
+  }
   private async createAccount(user) {
     return await this.stripe.accounts.create({
       type: 'express',
       email: user.email,
+      capabilities: {
+        card_payments: { requested: true },
+        transfers: { requested: true },
+      },
     });
   }
   private async getAccount(id) {
@@ -45,24 +61,37 @@ export class StripeService {
   }
   public async checkOut(user, order): Promise<void> {
     console.log(order);
+    const { id } = await this.createProduct(user);
+    console.log(id);
+    const { eventPrice, stripeAccount } = await this.usersService.findByUuid(
+      order.mentor_uuid,
+    );
+    const price = await this.createPrice(id, eventPrice);
+    console.log(eventPrice);
+    console.log(price);
+
     const session = await this.stripe.checkout.sessions.create({
       line_items: [
         {
-          price: '{{PRICE_ID}}',
+          price: price.id,
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: 'https://example.com/success',
-      cancel_url: 'https://example.com/failure',
+      success_url: this.configService.get('STRIPE_SUCCESS_URL'),
+      cancel_url: this.configService.get('STRIPE_FAILURE_URL'),
       payment_intent_data: {
-        application_fee_amount: 123,
+        application_fee_amount: Math.round(
+          (eventPrice / 100) *
+            this.configService.get('APPLICATION_FEE_PERCENT'),
+        ),
         transfer_data: {
-          destination: '{{CONNECTED_ACCOUNT_ID}}',
+          destination: stripeAccount,
         },
       },
     });
 
+    console.log(session);
     // 303 redirect to session.url
   }
 }

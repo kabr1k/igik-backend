@@ -14,13 +14,18 @@ export class LoginService {
   public async validateUser(
     email: string,
     password: string,
-  ): Promise<User | null> {
+  ): Promise<User | 404 | 401> {
     const user = await this.usersService.findByEmail(email);
+    console.log(user);
+    if (!user) {
+      return 404;
+    }
     const hash = createHash('sha256').update(password).digest('hex');
     if (user && user.passwordHash === hash) {
       return user;
+    } else {
+      return 401;
     }
-    return null;
   }
 
   public async login(user: User) {

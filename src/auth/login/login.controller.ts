@@ -28,8 +28,12 @@ export class LoginController {
     description: 'Validation failed',
   })
   @ApiResponse({
-    status: 403,
+    status: 401,
     description: 'Invalid credentials',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
   })
   @HttpCode(200)
   @UseGuards(LocalGuard)
