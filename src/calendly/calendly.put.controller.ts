@@ -12,7 +12,7 @@ import { UsersService } from "../users/users.service";
 @Controller()
 export class CalendlyPutController {
   constructor(private readonly usersService: UsersService) {}
-  @Put('calendly/url')
+  @Put('calendly/settings')
   @ApiTags('Calendly')
   @ApiBearerAuth()
   @ApiResponse({
