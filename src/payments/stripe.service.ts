@@ -7,6 +7,7 @@ import { StripeLinkDto } from '../interfaces/stripe.link.dto';
 import { StripeOnboardedDto } from '../interfaces/stripe.onboarded.dto';
 import { PaymentsService } from './payments.service';
 import { OrdersService } from '../orders/orders.service';
+import { RedirectDto } from "../interfaces/redirect.dto";
 @Injectable()
 export class StripeService {
   constructor(
@@ -16,18 +17,6 @@ export class StripeService {
     private readonly paymentsService: PaymentsService,
     private readonly ordersService: OrdersService,
   ) {}
-  private async createProduct(user) {
-    return await this.stripe.products.create({
-      name: user.email,
-    });
-  }
-  private async createPrice(productUuid, price) {
-    return await this.stripe.prices.create({
-      unit_amount: price,
-      currency: 'usd',
-      product: productUuid,
-    });
-  }
   private async createAccount(user) {
     return await this.stripe.accounts.create({
       type: 'express',
@@ -63,11 +52,22 @@ export class StripeService {
     console.log(details_submitted);
     return { onboarded: details_submitted };
   }
-  public async checkOut(user, order): Promise<void> {
-    const { id } = await this.createProduct(user);
-    const { eventPrice, stripeAccount } = await this.usersService.findByUuid(
-      order.mentor_uuid,
-    );
+  private async createProduct(email) {
+    return await this.stripe.products.create({
+      name: 'Conversation with ' + email,
+    });
+  }
+  private async createPrice(productUuid, price) {
+    return await this.stripe.prices.create({
+      unit_amount: price,
+      currency: 'gbp',
+      product: productUuid,
+    });
+  }
+  public async checkOut(user, orderDto): Promise<RedirectDto> {
+    const { eventPrice, stripeAccount, uuid, email } =
+      await this.usersService.findByUuid(orderDto.mentor_uuid);
+    const { id } = await this.createProduct(email);
     const price = await this.createPrice(id, eventPrice);
     const session = await this.stripe.checkout.sessions.create({
       line_items: [
@@ -89,9 +89,21 @@ export class StripeService {
         },
       },
     });
-    await this.ordersService.saveOrder({});
-    await this.paymentsService.savePayment({});
+    const order = await this.ordersService.saveOrder({
+      amount: eventPrice,
+      buyer: { uuid: user.uuid },
+      seller: { uuid },
+    });
+    await this.paymentsService.savePayment({
+      amount: eventPrice,
+      order: { uuid: order.uuid },
+      sender: { uuid: user.uuid },
+      recipient: { uuid },
+    });
     console.log(session);
-    // 303 redirect to session.url
+    return {
+      url: session.url,
+      statusCode: 303,
+    };
   }
 }

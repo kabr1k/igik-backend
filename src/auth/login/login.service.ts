@@ -16,7 +16,6 @@ export class LoginService {
     password: string,
   ): Promise<User | 404 | 401> {
     const user = await this.usersService.findByEmail(email);
-    console.log(user);
     if (!user) {
       return 404;
     }

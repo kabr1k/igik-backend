@@ -2,14 +2,15 @@ import {
   Body,
   Controller,
   Get,
-  Post,
+  Post, Redirect,
   Request,
-  UseGuards,
-} from '@nestjs/common';
+  UseGuards
+} from "@nestjs/common";
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { StripeService } from './stripe.service';
 import { OrderDto } from '../interfaces/order.dto';
+import { RedirectDto } from "../interfaces/redirect.dto";
 
 @Controller()
 export class StripeCheckoutController {
@@ -20,13 +21,15 @@ export class StripeCheckoutController {
   @ApiResponse({
     status: 303,
     description: 'Redirect to checkout',
+    type: RedirectDto,
   })
   @ApiResponse({
     status: 401,
     description: 'Unauthorized, access denied',
   })
   @UseGuards(JwtGuard)
+  @Redirect()
   async checkOut(@Request() req, @Body() order: OrderDto) {
-    await this.stripeService.checkOut(req.user.sub, order);
+    return await this.stripeService.checkOut(req.user.sub, order);
   }
 }
