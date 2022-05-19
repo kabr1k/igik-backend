@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Query, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Put, Query, Request, UseGuards } from "@nestjs/common";
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { RolesGuard } from '../auth/roles/roles.guard';
 import { Roles } from '../auth/roles/roles.decorator';
@@ -34,7 +34,7 @@ export class CalendlyPutController {
   @Roles('mentor')
   @UseGuards(JwtGuard, RolesGuard)
   async connectCalendly(
-    @Query() mentorSettingsDto: MentorSettingsDto,
+    @Body() mentorSettingsDto: MentorSettingsDto,
     @Request() req,
   ) {
     await this.usersService.saveUser({
