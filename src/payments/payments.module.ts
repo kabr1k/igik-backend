@@ -10,11 +10,13 @@ import { UsersService } from '../users/users.service';
 import { User } from '../users/user.entity';
 import { StripeOnboardedController } from './stripe.onboarded.controller';
 import { StripeCheckoutController } from './stripe.checkout.controller';
+import { OrdersService } from '../orders/orders.service';
+import { Order } from "../orders/order.entity";
 
 @Module({
   imports: [
     ConfigModule,
-    TypeOrmModule.forFeature([Payment, User]),
+    TypeOrmModule.forFeature([Payment, User, Payment, Order]),
     StripeModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -24,7 +26,13 @@ import { StripeCheckoutController } from './stripe.checkout.controller';
       }),
     }),
   ],
-  providers: [PaymentsService, StripeService, UsersService],
+  providers: [
+    PaymentsService,
+    StripeService,
+    UsersService,
+    PaymentsService,
+    OrdersService,
+  ],
   controllers: [
     StripeConnectController,
     StripeOnboardedController,

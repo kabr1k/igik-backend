@@ -5,12 +5,16 @@ import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
 import { StripeLinkDto } from '../interfaces/stripe.link.dto';
 import { StripeOnboardedDto } from '../interfaces/stripe.onboarded.dto';
+import { PaymentsService } from './payments.service';
+import { OrdersService } from '../orders/orders.service';
 @Injectable()
 export class StripeService {
   constructor(
     @InjectStripe() private readonly stripe: Stripe,
     private readonly configService: ConfigService,
     private readonly usersService: UsersService,
+    private readonly paymentsService: PaymentsService,
+    private readonly ordersService: OrdersService,
   ) {}
   private async createProduct(user) {
     return await this.stripe.products.create({
@@ -60,16 +64,11 @@ export class StripeService {
     return { onboarded: details_submitted };
   }
   public async checkOut(user, order): Promise<void> {
-    console.log(order);
     const { id } = await this.createProduct(user);
-    console.log(id);
     const { eventPrice, stripeAccount } = await this.usersService.findByUuid(
       order.mentor_uuid,
     );
     const price = await this.createPrice(id, eventPrice);
-    console.log(eventPrice);
-    console.log(price);
-
     const session = await this.stripe.checkout.sessions.create({
       line_items: [
         {
@@ -90,7 +89,8 @@ export class StripeService {
         },
       },
     });
-
+    await this.ordersService.saveOrder({});
+    await this.paymentsService.savePayment({});
     console.log(session);
     // 303 redirect to session.url
   }
