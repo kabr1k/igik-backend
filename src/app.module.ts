@@ -45,9 +45,9 @@ import { OrdersModule } from "./orders/orders.module";
     RegisterModule,
     LoginModule,
     UsersModule,
+    OrdersModule,
     CalendlyModule,
     PaymentsModule,
-    OrdersModule,
     AdminModule,
   ],
 })

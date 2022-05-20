@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PaymentsService } from './payments.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Payment } from './payment.entity';
 import { StripeModule } from 'nestjs-stripe';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { StripeConnectController } from './stripe.connect.controller';
@@ -11,12 +9,12 @@ import { User } from '../users/user.entity';
 import { StripeOnboardedController } from './stripe.onboarded.controller';
 import { StripeCheckoutController } from './stripe.checkout.controller';
 import { OrdersService } from '../orders/orders.service';
-import { Order } from "../orders/order.entity";
+import { Order } from '../orders/order.entity';
 
 @Module({
   imports: [
     ConfigModule,
-    TypeOrmModule.forFeature([Payment, User, Payment, Order]),
+    TypeOrmModule.forFeature([User, Order]),
     StripeModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -27,10 +25,8 @@ import { Order } from "../orders/order.entity";
     }),
   ],
   providers: [
-    PaymentsService,
     StripeService,
     UsersService,
-    PaymentsService,
     OrdersService,
   ],
   controllers: [
@@ -38,6 +34,6 @@ import { Order } from "../orders/order.entity";
     StripeOnboardedController,
     StripeCheckoutController,
   ],
-  exports: [PaymentsService],
+  exports: [],
 })
 export class PaymentsModule {}

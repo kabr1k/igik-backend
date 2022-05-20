@@ -5,17 +5,13 @@ import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
 import { StripeLinkDto } from '../interfaces/stripe.link.dto';
 import { StripeOnboardedDto } from '../interfaces/stripe.onboarded.dto';
-import { PaymentsService } from './payments.service';
-import { OrdersService } from '../orders/orders.service';
-import { RedirectDto } from "../interfaces/redirect.dto";
+import { RedirectDto } from '../interfaces/redirect.dto';
 @Injectable()
 export class StripeService {
   constructor(
     @InjectStripe() private readonly stripe: Stripe,
     private readonly configService: ConfigService,
     private readonly usersService: UsersService,
-    private readonly paymentsService: PaymentsService,
-    private readonly ordersService: OrdersService,
   ) {}
   private async createAccount(user) {
     return await this.stripe.accounts.create({
@@ -31,16 +27,18 @@ export class StripeService {
     return await this.stripe.accounts.retrieve(id);
   }
   public async getAccountLink(user): Promise<StripeLinkDto | null> {
-    const { id } = await this.createAccount(user);
-    await this.usersService.saveUser({ uuid: user.uuid, stripeAccount: id });
+    let { stripeAccount } = await this.usersService.findByUuid(user.uuid);
+    if (!stripeAccount) {
+      const { id } = await this.createAccount(user);
+      stripeAccount = id;
+      await this.usersService.saveUser({ uuid: user.uuid, stripeAccount });
+    }
     const accountLink = await this.stripe.accountLinks.create({
-      account: id,
+      account: stripeAccount,
       refresh_url: this.configService.get('STRIPE_REFRESH_URL'),
       return_url: this.configService.get('STRIPE_RETURN_URL'),
       type: 'account_onboarding',
     });
-    console.log(user);
-    console.log(accountLink);
     return { stripe_link: accountLink.url };
   }
   public async checkAccount(user): Promise<StripeOnboardedDto | null> {
@@ -65,14 +63,24 @@ export class StripeService {
     });
   }
   public async checkOut(user, orderDto): Promise<RedirectDto> {
-    const { eventPrice, stripeAccount, uuid, email } =
-      await this.usersService.findByUuid(orderDto.mentor_uuid);
-    const { id } = await this.createProduct(email);
-    const price = await this.createPrice(id, eventPrice);
+    const mentor = await this.usersService.findByUuid(orderDto.mentor_uuid);
+    let priceId;
+    if (!mentor.stripeProductId) {
+      const product = await this.createProduct(mentor.email);
+      const price = await this.createPrice(product.id, mentor.eventPrice);
+      priceId = price.id;
+      await this.usersService.saveUser({
+        uuid: mentor.uuid,
+        stripeProductId: product.id,
+        stripePriceId: price.id,
+      });
+    } else {
+      priceId = mentor.stripePriceId;
+    }
     const session = await this.stripe.checkout.sessions.create({
       line_items: [
         {
-          price: price.id,
+          price: priceId,
           quantity: 1,
         },
       ],
@@ -81,29 +89,17 @@ export class StripeService {
       cancel_url: this.configService.get('STRIPE_FAILURE_URL'),
       payment_intent_data: {
         application_fee_amount: Math.round(
-          (eventPrice / 100) *
+          (mentor.eventPrice / 100) *
             this.configService.get('APPLICATION_FEE_PERCENT'),
         ),
         transfer_data: {
-          destination: stripeAccount,
+          destination: mentor.stripeAccount,
         },
       },
     });
-    const order = await this.ordersService.saveOrder({
-      amount: eventPrice,
-      buyer: { uuid: user.uuid },
-      seller: { uuid },
-    });
-    await this.paymentsService.savePayment({
-      amount: eventPrice,
-      order: { uuid: order.uuid },
-      sender: { uuid: user.uuid },
-      recipient: { uuid },
-    });
     console.log(session);
     return {
-      url: session.url,
-      statusCode: 303,
+      checkout_url: session.url,
     };
   }
 }

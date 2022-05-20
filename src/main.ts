@@ -38,11 +38,11 @@ async function bootstrap() {
       include: [
         RegisterModule,
         LoginModule,
-        AdminModule,
+        UsersModule,
+        OrdersModule,
         CalendlyModule,
         PaymentsModule,
-        OrdersModule,
-        UsersModule,
+        AdminModule,
       ],
     };
     const setupOptions = {

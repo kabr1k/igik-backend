@@ -19,7 +19,7 @@ export class StripeCheckoutController {
   @ApiTags('Stripe')
   @ApiBearerAuth()
   @ApiResponse({
-    status: 303,
+    status: 201,
     description: 'Redirect to checkout',
     type: RedirectDto,
   })
@@ -28,7 +28,6 @@ export class StripeCheckoutController {
     description: 'Unauthorized, access denied',
   })
   @UseGuards(JwtGuard)
-  @Redirect()
   async checkOut(@Request() req, @Body() order: OrderDto) {
     return await this.stripeService.checkOut(req.user.sub, order);
   }

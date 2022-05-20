@@ -1,9 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import common from '../common/entity.mixin';
-import { Payment } from '../payments/payment.entity';
 import { Order } from '../orders/order.entity';
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class User {
@@ -42,12 +41,6 @@ export class User {
   @Column(common.varcharNullable)
   calendlyRefreshToken: string;
   @ApiProperty()
-  @OneToMany(() => Payment, (payment) => payment.sender)
-  sentPayments: Payment[];
-  @ApiProperty()
-  @OneToMany(() => Payment, (payment) => payment.recipient)
-  receivedPayments: Payment[];
-  @ApiProperty()
   @OneToMany(() => Order, (order) => order.buyer)
   postedOrders: Order[];
   @ApiProperty()
@@ -56,6 +49,12 @@ export class User {
   @ApiProperty()
   @Column(common.varcharNullable)
   stripeAccount: string;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  stripeProductId: string;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  stripePriceId: string;
   @ApiProperty()
   @Column({ default: false })
   stripeOnboarded: boolean;
