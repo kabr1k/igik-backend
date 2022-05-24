@@ -30,7 +30,7 @@ export class RegisterController {
   async register(@Body(new ValidationPipe()) registerUserDto: RegisterUserDto) {
     const user = await this.registerService.createUser(registerUserDto);
     if (user) {
-      return await this.loginService.login(user);
+      return;
     } else {
       throw new HttpException('Email already exists', 406);
     }
