@@ -1,4 +1,5 @@
 import {
+  HttpException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -17,9 +18,11 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     const user = await this.loginService.validateUser(email, password);
     switch (user) {
       case 401:
-        throw new UnauthorizedException();
+        throw new HttpException('Invalid credentials', 401);
       case 404:
-        throw new NotFoundException();
+        throw new HttpException('User not found', 404);
+      case 406:
+        throw new HttpException('Email is not confirmed', 406);
       default:
         return user;
     }

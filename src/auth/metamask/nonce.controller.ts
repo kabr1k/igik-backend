@@ -3,7 +3,7 @@ import { MetamaskService } from './metamask.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NonceDto } from '../../interfaces/nonce.dto';
 import { WalletDto } from '../../interfaces/wallet.dto';
-import { ValidationPipe } from './validation.pipe';
+import { ValidationPipe } from '../../common/validation.pipe';
 
 @Controller()
 export class NonceController {

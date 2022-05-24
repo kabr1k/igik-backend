@@ -1,10 +1,10 @@
-import { Body, Controller, NotAcceptableException, Post } from '@nestjs/common';
+import { Body, Controller, HttpException, NotAcceptableException, Post } from "@nestjs/common";
 import { RegisterUserDto } from '../../interfaces/register.user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtDto } from '../../interfaces/jwt.dto';
 import { RegisterService } from './register.service';
 import { LoginService } from '../login/login.service';
-import { ValidationPipe } from '../metamask/validation.pipe';
+import { ValidationPipe } from '../../common/validation.pipe';
 
 @Controller()
 export class RegisterController {
@@ -32,7 +32,7 @@ export class RegisterController {
     if (user) {
       return await this.loginService.login(user);
     } else {
-      throw new NotAcceptableException();
+      throw new HttpException('Email already exists', 406);
     }
   }
 }

@@ -7,7 +7,10 @@ export class RegisterUserDto {
   email: string;
   @ApiProperty()
   @Length(1, 30)
-  name: string;
+  firstName: string;
+  @ApiProperty()
+  @Length(1, 30)
+  lastName: string;
   @ApiProperty()
   @IsString()
   role: string;

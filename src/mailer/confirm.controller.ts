@@ -1,0 +1,35 @@
+import { Controller, Get, HttpException, Query, Request } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { MailerService } from './mailer.service';
+import { UsersService } from '../users/users.service';
+import { ConfirmEmailDto } from '../interfaces/confirm.email.dto';
+
+@Controller()
+export class ConfirmController {
+  constructor(
+    private readonly mailerService: MailerService,
+    private readonly usersService: UsersService,
+  ) {}
+  @Get('confirm')
+  @ApiTags('Standard authentication')
+  @ApiResponse({
+    status: 200,
+    description: 'Email confirmed',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Token is invalid',
+  })
+  async confirmEmail(@Query() { token, email }: ConfirmEmailDto) {
+    if (await this.mailerService.confirm(token, email)) {
+      const user = await this.usersService.findByEmail(email);
+      await this.usersService.saveUser({
+        uuid: user.uuid,
+        emailConfirmed: true,
+      });
+      return 'Email confirmed. Proceed to login';
+    } else {
+      throw new HttpException('Token is invalid', 401);
+    }
+  }
+}

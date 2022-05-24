@@ -11,7 +11,7 @@ import { LoginUserDto } from '../../interfaces/login.user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtDto } from '../../interfaces/jwt.dto';
 import { LoginService } from './login.service';
-import { ValidationPipe } from '../metamask/validation.pipe';
+import { ValidationPipe } from '../../common/validation.pipe';
 
 @Controller()
 export class LoginController {
@@ -34,6 +34,10 @@ export class LoginController {
   @ApiResponse({
     status: 404,
     description: 'User not found',
+  })
+  @ApiResponse({
+    status: 406,
+    description: 'Email is not confirmed',
   })
   @HttpCode(200)
   @UseGuards(LocalGuard)

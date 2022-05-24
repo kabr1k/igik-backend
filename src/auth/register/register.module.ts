@@ -9,9 +9,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../../users/user.entity';
 import { RegisterController } from './register.controller';
+import { MailerModule } from '../../mailer/mailer.module';
+import { MailerService } from '../../mailer/mailer.service';
 
 @Module({
   imports: [
+    ConfigModule,
+    MailerModule,
     LoginModule,
     UsersModule,
     TypeOrmModule.forFeature([User]),
@@ -24,7 +28,13 @@ import { RegisterController } from './register.controller';
       inject: [ConfigService],
     }),
   ],
-  providers: [RegisterService, LoginService, UsersService],
+  providers: [
+    RegisterService,
+    LoginService,
+    UsersService,
+    MailerService,
+    ConfigService,
+  ],
   controllers: [RegisterController],
   exports: [],
 })

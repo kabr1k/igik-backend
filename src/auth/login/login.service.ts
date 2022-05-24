@@ -14,13 +14,16 @@ export class LoginService {
   public async validateUser(
     email: string,
     password: string,
-  ): Promise<User | 404 | 401> {
+  ): Promise<User | 401 | 404 | 406> {
     const user = await this.usersService.findByEmail(email);
     if (!user) {
       return 404;
     }
+    if (!user.emailConfirmed) {
+      return 406;
+    }
     const hash = createHash('sha256').update(password).digest('hex');
-    if (user && user.passwordHash === hash) {
+    if (user.passwordHash === hash) {
       return user;
     } else {
       return 401;

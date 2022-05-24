@@ -27,7 +27,10 @@ export class User {
   enabled: boolean;
   @ApiProperty()
   @Column(common.varcharNullable)
-  name: string;
+  firstName: string;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  lastName: string;
   @ApiProperty()
   @Column(common.varcharNullable)
   role: string;
@@ -58,6 +61,9 @@ export class User {
   @ApiProperty()
   @Column({ default: false })
   stripeOnboarded: boolean;
+  @ApiProperty()
+  @Column({ default: false })
+  emailConfirmed: boolean;
   @ApiProperty()
   @Column({
     nullable: true,
