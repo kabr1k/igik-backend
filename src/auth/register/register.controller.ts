@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, NotAcceptableException, Post } from "@nestjs/common";
+import { Body, Controller, HttpException, Post } from "@nestjs/common";
 import { RegisterUserDto } from '../../interfaces/register.user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtDto } from '../../interfaces/jwt.dto';
@@ -17,7 +17,6 @@ export class RegisterController {
   @ApiResponse({
     status: 201,
     description: 'User has been successfully created, and logged in',
-    type: JwtDto,
   })
   @ApiResponse({
     status: 406,
