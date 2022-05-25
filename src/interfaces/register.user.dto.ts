@@ -17,4 +17,7 @@ export class RegisterUserDto {
   @Length(1, 30)
   @ApiProperty()
   password: string;
+  @Length(1, 30)
+  @ApiProperty()
+  passwordConfirm: string;
 }
