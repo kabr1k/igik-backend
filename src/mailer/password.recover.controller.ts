@@ -1,14 +1,8 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
-import { JwtGuard } from '../auth/guards/jwt.guard';
-import { RolesGuard } from '../auth/roles/roles.guard';
-import { Roles } from '../auth/roles/roles.decorator';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UsersService } from '../users/users.service';
-import { User } from '../users/user.entity';
-import { UpdateProfileDto } from "../interfaces/update.profile.dto";
-import { MailerService } from "./mailer.service";
-import { RecoverDto } from "../interfaces/recover.dto";
-import { ValidationPipe } from "../common/validation.pipe";
+import { Body, Controller, Post } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { MailerService } from './mailer.service';
+import { RecoverDto } from '../interfaces/recover.dto';
+import { ValidationPipe } from '../common/validation.pipe';
 
 @Controller()
 export class PasswordRecoverController {
