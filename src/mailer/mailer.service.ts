@@ -23,17 +23,17 @@ export class MailerService {
       .digest('hex');
     return token === hash;
   }
-  public async sendRecoverMessage(user): Promise<void> {
+  public async sendRecoverMessage(email): Promise<void> {
     const hash = createHash('sha256')
-      .update(user.email + this.configService.get('HASH_SALT'))
+      .update(email + this.configService.get('HASH_SALT'))
       .digest('hex');
     const link =
       this.configService.get('RECOVER_LINK') +
-      `?token=${hash}&email=${user.email}`;
+      `?token=${hash}&email=${email}`;
     console.log(link);
     const info = await this.transporter.sendMail({
       from: this.configService.get('SMTP_SENDER'),
-      to: user.email,
+      to: email,
       subject: 'Instagig password recovery',
       html: `
       <p>You have requested password recovery for instagig.
