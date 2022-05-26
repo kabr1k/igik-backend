@@ -6,9 +6,14 @@ import { OrderController } from './order.controller';
 import { PaymentsModule } from '../payments/payments.module';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/user.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [PaymentsModule, TypeOrmModule.forFeature([Order, User])],
+  imports: [
+    ConfigModule,
+    PaymentsModule,
+    TypeOrmModule.forFeature([Order, User]),
+  ],
   providers: [OrdersService, UsersService],
   controllers: [OrderController],
   exports: [OrdersService],
