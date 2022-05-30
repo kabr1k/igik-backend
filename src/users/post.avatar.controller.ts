@@ -15,10 +15,12 @@ import {
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ImageService } from "./image.service";
+const sharp = require('sharp');
 
 @Controller()
 export class PostAvatarController {
-  constructor() {}
+  constructor(private readonly imageService: ImageService) {}
   @Post('profile/avatar')
   @ApiTags('Users')
   @ApiBearerAuth()
@@ -57,10 +59,7 @@ export class PostAvatarController {
       }),
     }),
   )
-  uploadFile(@UploadedFile() file: Express.Multer.File, @Req() req) {
-    const user = req.user.sub;
-    const extension = file.originalname.split('.').pop();
-    const filename = user.uuid + '.' + extension;
-    console.log(file);
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Req() req) {
+    return await this.imageService.processImages(req.user.sub, file);
   }
 }

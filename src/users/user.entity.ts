@@ -1,8 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn
+} from "typeorm";
 import { Exclude } from 'class-transformer';
 import common from '../common/entity.mixin';
 import { Order } from '../orders/order.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Speciality } from "../speciality/speciality.entity";
 
 @Entity()
 export class User {
@@ -23,7 +33,7 @@ export class User {
   })
   nonce: number;
   @ApiProperty()
-  @Column({ default: true })
+  @Column({ default: false })
   enabled: boolean;
   @ApiProperty()
   @Column(common.varcharNullable)
@@ -48,6 +58,10 @@ export class User {
   @ApiProperty()
   @OneToMany(() => Order, (order) => order.seller)
   receivedOrders: Order[];
+  @ApiProperty()
+  @ManyToMany(() => Speciality, (speciality) => speciality.users)
+  @JoinTable()
+  specialities: Speciality[];
   @ApiProperty()
   @Column(common.varcharNullable)
   stripeAccount: string;
@@ -79,4 +93,11 @@ export class User {
     default: 0,
   })
   eventPrice: number;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  phone: string;
+  @CreateDateColumn()
+  createdAt: string;
+  @UpdateDateColumn()
+  updatedAt: string;
 }

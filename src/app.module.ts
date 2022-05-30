@@ -11,6 +11,7 @@ import { CalendlyModule } from './calendly/calendly.module';
 import { join } from 'path';
 import { PaymentsModule } from './payments/payments.module';
 import { OrdersModule } from './orders/orders.module';
+import { SpecialitiesModule } from "./speciality/specialities.module";
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -48,6 +49,7 @@ import { OrdersModule } from './orders/orders.module';
     CalendlyModule,
     PaymentsModule,
     AdminModule,
+    SpecialitiesModule,
   ],
 })
 export class AppModule {

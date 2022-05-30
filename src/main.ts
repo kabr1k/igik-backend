@@ -17,6 +17,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
 import { MailerModule } from './mailer/mailer.module';
+import { SpecialitiesModule } from "./speciality/specialities.module";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -45,6 +46,7 @@ async function bootstrap() {
         PaymentsModule,
         AdminModule,
         MailerModule,
+        SpecialitiesModule,
       ],
     };
     const setupOptions = {

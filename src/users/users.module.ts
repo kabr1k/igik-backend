@@ -6,11 +6,12 @@ import { ProfileMeController } from './profile.me.controller';
 import { ProfileUpdateController } from './profile.update.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PasswordUpdateController } from './password.update.controller';
-import { PostAvatarController } from "./post.avatar.controller";
+import { PostAvatarController } from './post.avatar.controller';
+import { ImageService } from './image.service';
 
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([User])],
-  providers: [UsersService, ConfigService],
+  providers: [UsersService, ConfigService, ImageService],
   controllers: [
     ProfileMeController,
     ProfileUpdateController,
