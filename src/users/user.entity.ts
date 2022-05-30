@@ -58,6 +58,15 @@ export class User {
   @Column(common.varcharNullable)
   stripePriceId: string;
   @ApiProperty()
+  @Column(common.varcharNullable)
+  avatarS: string;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  avatarM: string;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  avatarL: string;
+  @ApiProperty()
   @Column({ default: false })
   stripeOnboarded: boolean;
   @ApiProperty()

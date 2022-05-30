@@ -8,10 +8,9 @@ import { RegisterModule } from './auth/register/register.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AdminModule } from './admin/admin.module';
 import { CalendlyModule } from './calendly/calendly.module';
-import { StripeModule } from 'nestjs-stripe';
 import { join } from 'path';
-import { PaymentsModule } from "./payments/payments.module";
-import { OrdersModule } from "./orders/orders.module";
+import { PaymentsModule } from './payments/payments.module';
+import { OrdersModule } from './orders/orders.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),

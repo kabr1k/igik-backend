@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, Post } from "@nestjs/common";
+import { Body, Controller, HttpException, Post } from '@nestjs/common';
 import { RegisterUserDto } from '../../interfaces/register.user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtDto } from '../../interfaces/jwt.dto';
@@ -20,7 +20,7 @@ export class RegisterController {
   })
   @ApiResponse({
     status: 406,
-    description: 'Not acceptable, user already exists',
+    description: 'The email field must contain a unique value',
   })
   @ApiResponse({
     status: 400,
@@ -31,7 +31,10 @@ export class RegisterController {
     if (user) {
       return;
     } else {
-      throw new HttpException('Email already exists', 406);
+      throw new HttpException(
+        'The email field must contain a unique value',
+        406,
+      );
     }
   }
 }

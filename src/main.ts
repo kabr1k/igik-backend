@@ -16,7 +16,7 @@ import { CalendlyModule } from './calendly/calendly.module';
 import { PaymentsModule } from './payments/payments.module';
 import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
-import { MailerModule } from "./mailer/mailer.module";
+import { MailerModule } from './mailer/mailer.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

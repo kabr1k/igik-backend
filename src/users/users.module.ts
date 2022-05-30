@@ -6,6 +6,7 @@ import { ProfileMeController } from './profile.me.controller';
 import { ProfileUpdateController } from './profile.update.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PasswordUpdateController } from './password.update.controller';
+import { PostAvatarController } from "./post.avatar.controller";
 
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([User])],
@@ -14,6 +15,7 @@ import { PasswordUpdateController } from './password.update.controller';
     ProfileMeController,
     ProfileUpdateController,
     PasswordUpdateController,
+    PostAvatarController,
   ],
   exports: [UsersService],
 })
