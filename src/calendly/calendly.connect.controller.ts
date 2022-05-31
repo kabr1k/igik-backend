@@ -2,16 +2,22 @@ import { Controller, Get, Query, Request, UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { RolesGuard } from '../auth/roles/roles.guard';
 import { Roles } from '../auth/roles/roles.decorator';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthorizationCodeDto } from '../interfaces/authorization.code.dto';
 import { CalendlyService } from './calendly.service';
-import { CalendlyLinkDto } from "../interfaces/calendly.link.dto";
+import { CalendlyLinkDto } from '../interfaces/calendly.link.dto';
 
 @Controller()
 export class CalendlyConnectController {
   constructor(private readonly calendlyService: CalendlyService) {}
   @Get('calendly/connect')
   @ApiTags('Calendly')
+  @ApiOperation({ description: "Connect mentor's calendly account" })
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,

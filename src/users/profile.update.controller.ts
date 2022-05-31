@@ -1,6 +1,11 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../auth/guards/jwt.guard';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UpdateProfileDto } from '../interfaces/update.profile.dto';
 import { User } from './user.entity';
@@ -10,6 +15,10 @@ export class ProfileUpdateController {
   constructor(private readonly usersService: UsersService) {}
   @Post('profile/update')
   @ApiTags('Users')
+  @ApiOperation({
+    description:
+      'Update user profile. Each field is optional, changing only the provided fields.',
+  })
   @ApiBearerAuth()
   @ApiResponse({
     status: 201,

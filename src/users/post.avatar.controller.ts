@@ -1,21 +1,24 @@
 import {
   Controller,
-  Post, Req,
+  Post,
+  Req,
   UploadedFile,
   UseGuards,
-  UseInterceptors
-} from "@nestjs/common";
+  UseInterceptors,
+} from '@nestjs/common';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import {
   ApiBearerAuth,
   ApiBody,
   ApiConsumes,
+  ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ImageService } from "./image.service";
+import { ImageService } from './image.service';
+import { User } from './user.entity';
 const sharp = require('sharp');
 
 @Controller()
@@ -23,10 +26,15 @@ export class PostAvatarController {
   constructor(private readonly imageService: ImageService) {}
   @Post('profile/avatar')
   @ApiTags('Users')
+  @ApiOperation({
+    description:
+      'Upload user avatar. Creates 3 resized images for a user. Returns user object populated with the images paths',
+  })
   @ApiBearerAuth()
   @ApiResponse({
     status: 201,
     description: 'File uploaded',
+    type: User,
   })
   @ApiResponse({
     status: 401,

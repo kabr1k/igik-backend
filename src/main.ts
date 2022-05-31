@@ -18,6 +18,10 @@ import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
 import { MailerModule } from './mailer/mailer.module';
 import { SpecialitiesModule } from "./speciality/specialities.module";
+import { CategoriesModule } from "./category/categories.module";
+import { LanguagesModule } from "./languages/languages.module";
+import { LocationsModule } from "./location/locations.module";
+import { ExperienceModule } from "./experience/experience.module";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -47,6 +51,10 @@ async function bootstrap() {
         AdminModule,
         MailerModule,
         SpecialitiesModule,
+        CategoriesModule,
+        LanguagesModule,
+        LocationsModule,
+        ExperienceModule,
       ],
     };
     const setupOptions = {

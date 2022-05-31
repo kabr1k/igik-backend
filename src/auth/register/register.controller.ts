@@ -1,6 +1,6 @@
 import { Body, Controller, HttpException, Post } from '@nestjs/common';
 import { RegisterUserDto } from '../../interfaces/register.user.dto';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { JwtDto } from '../../interfaces/jwt.dto';
 import { RegisterService } from './register.service';
 import { LoginService } from '../login/login.service';
@@ -14,6 +14,7 @@ export class RegisterController {
   ) {}
   @Post('auth/register')
   @ApiTags('Standard authentication')
+  @ApiOperation({ description: 'Register user' })
   @ApiResponse({
     status: 201,
     description: 'User has been successfully created, and logged in',

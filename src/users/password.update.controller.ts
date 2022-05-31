@@ -1,6 +1,18 @@
-import { Body, Controller, HttpException, Post, Request, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  HttpException,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtGuard } from '../auth/guards/jwt.guard';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UpdateProfileDto } from '../interfaces/update.profile.dto';
 import { User } from './user.entity';
@@ -11,6 +23,10 @@ export class PasswordUpdateController {
   constructor(private readonly usersService: UsersService) {}
   @Post('profile/update/pass')
   @ApiTags('Users')
+  @ApiOperation({
+    description:
+      'Public endpoint to recover the password, invoke after entering the new password.',
+  })
   @ApiResponse({
     status: 201,
     description: 'OK',

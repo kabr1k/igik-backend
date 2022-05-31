@@ -6,13 +6,18 @@ import {
   ManyToMany,
   JoinTable,
   CreateDateColumn,
-  UpdateDateColumn
-} from "typeorm";
+  UpdateDateColumn,
+  ManyToOne,
+} from 'typeorm';
 import { Exclude } from 'class-transformer';
 import common from '../common/entity.mixin';
 import { Order } from '../orders/order.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Speciality } from "../speciality/speciality.entity";
+import { Speciality } from '../speciality/speciality.entity';
+import { Category } from '../category/category.entity';
+import { Location } from '../location/location.entity';
+import { Language } from '../languages/language.entity';
+import { Experience } from "../experience/experience.entity";
 
 @Entity()
 export class User {
@@ -62,6 +67,19 @@ export class User {
   @ManyToMany(() => Speciality, (speciality) => speciality.users)
   @JoinTable()
   specialities: Speciality[];
+  @ApiProperty()
+  @ManyToMany(() => Category, (category) => category.users)
+  @JoinTable()
+  categories: Category[];
+  @ApiProperty()
+  @ManyToOne(() => Language, (language) => language.users)
+  language: Language;
+  @ApiProperty()
+  @ManyToOne(() => Location, (location) => location.users)
+  location: Location;
+  @ApiProperty()
+  @ManyToOne(() => Experience, (experience) => experience.users)
+  experience: Experience;
   @ApiProperty()
   @Column(common.varcharNullable)
   stripeAccount: string;

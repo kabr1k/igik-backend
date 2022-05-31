@@ -2,21 +2,30 @@ import {
   Body,
   Controller,
   Get,
-  Post, Redirect,
+  Post,
+  Redirect,
   Request,
-  UseGuards
-} from "@nestjs/common";
+  UseGuards,
+} from '@nestjs/common';
 import { JwtGuard } from '../auth/guards/jwt.guard';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { StripeService } from './stripe.service';
 import { OrderDto } from '../interfaces/order.dto';
-import { RedirectDto } from "../interfaces/redirect.dto";
+import { RedirectDto } from '../interfaces/redirect.dto';
 
 @Controller()
 export class StripeCheckoutController {
   constructor(private readonly stripeService: StripeService) {}
   @Post('stripe/checkout')
   @ApiTags('Stripe')
+  @ApiOperation({
+    description: 'Checkout endpoint. Redirects to the payment gateway and back',
+  })
   @ApiBearerAuth()
   @ApiResponse({
     status: 201,

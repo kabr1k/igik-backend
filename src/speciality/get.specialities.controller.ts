@@ -1,21 +1,18 @@
-import {
-  Controller,
-  Get,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
-import { JwtGuard } from '../auth/guards/jwt.guard';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Request, UseGuards } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SpecialityService } from './speciality.service';
+import { SpecialitiesResponseDto } from '../interfaces/specialities.response.dto';
 
 @Controller()
 export class GetSpecialitiesController {
   constructor(private readonly specialityService: SpecialityService) {}
   @Get('specialities')
-  @ApiTags('Profile')
+  @ApiTags('Specialities')
+  @ApiOperation({ description: 'Get all specialities' })
   @ApiResponse({
     status: 200,
     description: 'OK',
+    type: [SpecialitiesResponseDto],
   })
   async find(@Request() req) {
     return await this.specialityService.findAll();

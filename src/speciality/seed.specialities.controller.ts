@@ -1,6 +1,6 @@
 import { Controller, Get, Query, Request, UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../auth/guards/jwt.guard';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { SpecialityService } from './speciality.service';
 import { SpecialityDto } from '../interfaces/speciality.dto';
 
@@ -8,7 +8,8 @@ import { SpecialityDto } from '../interfaces/speciality.dto';
 export class SeedSpecialitiesController {
   constructor(private readonly specialityService: SpecialityService) {}
   @Get('specialities/seed')
-  @ApiTags('Profile')
+  @ApiTags('Specialities')
+  @ApiOperation({ description: 'Seed default specialities to DB. Use only in dev environment' })
   @ApiResponse({
     status: 200,
     description: 'OK',

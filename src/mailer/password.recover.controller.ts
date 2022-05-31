@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { MailerService } from './mailer.service';
 import { RecoverDto } from '../interfaces/recover.dto';
 import { ValidationPipe } from '../common/validation.pipe';
@@ -9,6 +9,7 @@ export class PasswordRecoverController {
   constructor(private readonly mailerService: MailerService) {}
   @Post('auth/recover')
   @ApiTags('Standard authentication')
+  @ApiOperation({ description: 'Send recover password email message' })
   @ApiResponse({
     status: 201,
     description: 'OK, recover message sent',

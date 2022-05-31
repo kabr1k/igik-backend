@@ -6,7 +6,7 @@ import {
   Request,
   Res,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { MailerService } from './mailer.service';
 import { UsersService } from '../users/users.service';
 import { ConfirmEmailDto } from '../interfaces/confirm.email.dto';
@@ -19,6 +19,7 @@ export class ConfirmController {
   ) {}
   @Get('auth/confirm')
   @ApiTags('Standard authentication')
+  @ApiOperation({ description: 'Email confirmation endpoint' })
   @ApiResponse({
     status: 200,
     description: 'Email confirmed',

@@ -9,7 +9,7 @@ import {
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { RolesGuard } from '../auth/roles/roles.guard';
 import { Roles } from '../auth/roles/roles.decorator';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { StripeService } from './stripe.service';
 import { StripeLinkDto } from "../interfaces/stripe.link.dto";
 
@@ -18,6 +18,7 @@ export class StripeConnectController {
   constructor(private readonly stripeService: StripeService) {}
   @Get('stripe/connect')
   @ApiTags('Stripe')
+  @ApiOperation({ description: 'Initiate stripe onboarding process' })
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,

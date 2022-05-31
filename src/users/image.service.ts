@@ -47,5 +47,6 @@ export class ImageService {
       avatarL,
     };
     await this.usersService.saveUser({ uuid: user.uuid, ...images });
+    return await this.usersService.findByUuid(user.uuid);
   }
 }

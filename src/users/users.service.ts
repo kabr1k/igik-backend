@@ -44,18 +44,22 @@ export class UsersService {
     } else {
       profile = { uuid, ...updateDto };
     }
-    return await this.usersRepository.save(profile);
+    await this.usersRepository.save(profile);
+    return await this.usersRepository.findOne({ uuid });
   }
   public async updatePassword(updateDto): Promise<User | null> {
     if (this.check(updateDto.token, updateDto.email)) {
       const user = await this.usersRepository.findOne({
         email: updateDto.email,
       });
-      return await this.usersRepository.save({
+      await this.usersRepository.save({
         uuid: user.uuid,
         passwordHash: createHash('sha256')
           .update(updateDto.password)
           .digest('hex'),
+      });
+      return await this.usersRepository.findOne({
+        uuid: user.uuid,
       });
     } else {
       return null;

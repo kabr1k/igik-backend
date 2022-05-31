@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { LocalGuard } from '../guards/local.guard';
 import { LoginUserDto } from '../../interfaces/login.user.dto';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtDto } from '../../interfaces/jwt.dto';
 import { LoginService } from './login.service';
 import { ValidationPipe } from '../../common/validation.pipe';
@@ -18,6 +18,9 @@ export class LoginController {
   constructor(private readonly loginService: LoginService) {}
   @Post('auth/login')
   @ApiTags('Standard authentication')
+  @ApiOperation({
+    description: 'JWT login endpoint. Email confirmation required to log in.',
+  })
   @ApiResponse({
     status: 200,
     description: 'User has been logged in',

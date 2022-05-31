@@ -1,12 +1,11 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../auth/guards/jwt.guard';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { StripeOnboardedDto } from '../interfaces/stripe.onboarded.dto';
 import { OrderDto } from '../interfaces/order.dto';
 import { OrdersService } from './orders.service';
@@ -16,6 +15,10 @@ export class OrderController {
   constructor(private readonly ordersService: OrdersService) {}
   @Post('order')
   @ApiTags('Orders')
+  @ApiOperation({
+    description:
+      'Post order. Invoke after successful payment to create an order in DB',
+  })
   @ApiBearerAuth()
   @ApiResponse({
     status: 201,
