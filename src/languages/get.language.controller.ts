@@ -1,13 +1,15 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, HttpException, Query } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LanguageService } from './language.service';
 import { CategoryDto } from '../interfaces/category.dto';
 import { Language } from './language.entity';
 import { LanguageDto } from "../interfaces/language.dto";
+import { Speciality } from "../speciality/speciality.entity";
+import { SpecialityDto } from "../interfaces/speciality.dto";
 
 @Controller()
 export class GetLanguageController {
-  constructor(private readonly categoryService: LanguageService) {}
+  constructor(private readonly languageService: LanguageService) {}
   @Get('language')
   @ApiTags('Languages')
   @ApiOperation({
@@ -18,7 +20,17 @@ export class GetLanguageController {
     description: 'OK',
     type: Language,
   })
+  @ApiResponse({
+    status: 404,
+    description: 'Not found',
+    type: Language,
+  })
   async find(@Query() query: LanguageDto) {
-    return await this.categoryService.findOne(query.uuid);
+    const result = await this.languageService.findOne(query.uuid)
+    if (result) {
+      return result;
+    } else {
+      throw new HttpException('Not found', 404);
+    }
   }
 }

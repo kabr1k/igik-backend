@@ -7,8 +7,8 @@ import {
   JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
-} from 'typeorm';
+  ManyToOne, JoinColumn
+} from "typeorm";
 import { Exclude } from 'class-transformer';
 import common from '../common/entity.mixin';
 import { Order } from '../orders/order.entity';
@@ -17,7 +17,7 @@ import { Speciality } from '../speciality/speciality.entity';
 import { Category } from '../category/category.entity';
 import { Location } from '../location/location.entity';
 import { Language } from '../languages/language.entity';
-import { Experience } from "../experience/experience.entity";
+import { Experience } from '../experience/experience.entity';
 
 @Entity()
 export class User {
@@ -57,28 +57,31 @@ export class User {
   @ApiProperty()
   @Column(common.varcharNullable)
   calendlyRefreshToken: string;
-  @ApiProperty()
+  @ApiProperty({ type: [Order] })
   @OneToMany(() => Order, (order) => order.buyer)
   postedOrders: Order[];
-  @ApiProperty()
+  @ApiProperty({ type: [Order] })
   @OneToMany(() => Order, (order) => order.seller)
   receivedOrders: Order[];
-  @ApiProperty()
+  @ApiProperty({ type: [Speciality] })
   @ManyToMany(() => Speciality, (speciality) => speciality.users)
   @JoinTable()
   specialities: Speciality[];
-  @ApiProperty()
+  @ApiProperty({ type: [Category] })
   @ManyToMany(() => Category, (category) => category.users)
   @JoinTable()
   categories: Category[];
   @ApiProperty()
   @ManyToOne(() => Language, (language) => language.users)
+  @JoinTable()
   language: Language;
   @ApiProperty()
   @ManyToOne(() => Location, (location) => location.users)
+  @JoinTable()
   location: Location;
   @ApiProperty()
   @ManyToOne(() => Experience, (experience) => experience.users)
+  @JoinTable()
   experience: Experience;
   @ApiProperty()
   @Column(common.varcharNullable)
@@ -112,10 +115,25 @@ export class User {
   })
   eventPrice: number;
   @ApiProperty()
+  @Column({
+    nullable: true,
+    type: 'int',
+    default: 0,
+  })
+  timezone: number;
+  @ApiProperty()
   @Column(common.varcharNullable)
   phone: string;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  about: string;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  socialNetworks: string;
+  @ApiProperty()
   @CreateDateColumn()
   createdAt: string;
+  @ApiProperty()
   @UpdateDateColumn()
   updatedAt: string;
 }

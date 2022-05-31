@@ -1,8 +1,10 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, HttpException, Query } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ExperienceService } from './experience.service';
 import { Experience } from './experience.entity';
 import { ExperienceDto } from '../interfaces/experience.dto';
+import { Speciality } from "../speciality/speciality.entity";
+import { SpecialityDto } from "../interfaces/speciality.dto";
 
 @Controller()
 export class GetExperienceController {
@@ -17,7 +19,17 @@ export class GetExperienceController {
     description: 'OK',
     type: Experience,
   })
+  @ApiResponse({
+    status: 404,
+    description: 'Not found',
+    type: Experience,
+  })
   async find(@Query() query: ExperienceDto) {
-    return await this.experienceService.findOne(query.uuid);
+    const result = await this.experienceService.findOne(query.uuid)
+    if (result) {
+      return result;
+    } else {
+      throw new HttpException('Not found', 404);
+    }
   }
 }

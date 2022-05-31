@@ -10,7 +10,7 @@ export class Experience {
   @ApiProperty()
   @Column(common.varcharNullable)
   name: string;
-  @ApiProperty()
+  // @ApiProperty({ type: () => [User] })
   @OneToMany(() => User, (user) => user.experience)
   users: User[];
 }

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { getManager, Repository } from "typeorm";
 import { User } from './user.entity';
 import { createHash } from 'crypto';
 import { ConfigService } from '@nestjs/config';
+import { Location } from "../location/location.entity";
 
 @Injectable()
 export class UsersService {
@@ -19,7 +20,19 @@ export class UsersService {
     return await this.usersRepository.findOne({ email });
   }
   public async findByUuid(uuid: string): Promise<User | undefined> {
-    return await this.usersRepository.findOne({ uuid });
+    const entityManager = getManager();
+    return await entityManager
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.uuid = :uuid', { uuid })
+      .leftJoinAndSelect('user.location', 'location')
+      .leftJoinAndSelect('user.language', 'language')
+      .leftJoinAndSelect('user.experience', 'experience')
+      .leftJoinAndSelect('user.specialities', 'specialities')
+      .leftJoinAndSelect('user.categories', 'categories')
+      .leftJoinAndSelect('user.receivedOrders', 'receivedOrders')
+      .leftJoinAndSelect('user.postedOrders', 'postedOrders')
+      .getOne();
   }
   public async saveUser(user): Promise<User | null> {
     return await this.usersRepository.save(user);
@@ -45,7 +58,7 @@ export class UsersService {
       profile = { uuid, ...updateDto };
     }
     await this.usersRepository.save(profile);
-    return await this.usersRepository.findOne({ uuid });
+    return await this.findByUuid(uuid);
   }
   public async updatePassword(updateDto): Promise<User | null> {
     if (this.check(updateDto.token, updateDto.email)) {

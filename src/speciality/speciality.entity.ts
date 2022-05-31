@@ -10,7 +10,6 @@ export class Speciality {
   @ApiProperty()
   @Column(common.varcharNullable)
   name: string;
-  @ApiProperty()
   @ManyToMany(() => User, (user) => user.specialities)
   users: User[];
 }

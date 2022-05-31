@@ -10,7 +10,7 @@ export class Language {
   @ApiProperty()
   @Column(common.varcharNullable)
   name: string;
-  @ApiProperty()
+  // @ApiProperty()
   @OneToMany(() => User, (user) => user.language)
   users: User[];
 }

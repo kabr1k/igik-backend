@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, HttpException, Query } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SpecialityService } from './speciality.service';
 import { SpecialityDto } from '../interfaces/speciality.dto';
@@ -17,7 +17,17 @@ export class GetSpecialityController {
     description: 'OK',
     type: Speciality,
   })
+  @ApiResponse({
+    status: 404,
+    description: 'Not found',
+    type: Speciality,
+  })
   async find(@Query() query: SpecialityDto) {
-    return await this.specialityService.findOne(query.uuid);
+    const result = await this.specialityService.findOne(query.uuid)
+    if (result) {
+      return result;
+    } else {
+      throw new HttpException('Not found', 404);
+    }
   }
 }
