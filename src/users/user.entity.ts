@@ -123,7 +123,15 @@ export class User {
   timezone: number;
   @ApiProperty()
   @Column(common.varcharNullable)
-  phone: string;
+  socialNetwork1: string;
+  @ApiProperty()
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  socialNetwork2: string;
+  @ApiProperty()
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  socialNetwork3: string;
   @ApiProperty()
   @Column(common.varcharNullable)
   about: string;

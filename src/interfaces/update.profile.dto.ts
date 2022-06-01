@@ -36,7 +36,11 @@ export class UpdateProfileDto {
   @ApiPropertyOptional()
   timezone: number;
   @ApiPropertyOptional()
-  phone: string;
+  socialNetwork1: string;
+  @ApiPropertyOptional()
+  socialNetwork2: string;
+  @ApiPropertyOptional()
+  socialNetwork3: string;
   @ApiPropertyOptional()
   about: string;
   @ApiPropertyOptional()
