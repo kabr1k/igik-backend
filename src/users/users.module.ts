@@ -8,6 +8,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PasswordUpdateController } from './password.update.controller';
 import { PostAvatarController } from './post.avatar.controller';
 import { ImageService } from './image.service';
+import { MentorController } from "./mentor.controller";
+import { MentorsController } from "./mentors.controller";
 
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([User])],
@@ -17,6 +19,8 @@ import { ImageService } from './image.service';
     ProfileUpdateController,
     PasswordUpdateController,
     PostAvatarController,
+    MentorController,
+    MentorsController,
   ],
   exports: [UsersService],
 })

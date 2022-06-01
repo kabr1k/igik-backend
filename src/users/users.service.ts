@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getManager, Repository } from "typeorm";
+import { getManager, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { createHash } from 'crypto';
 import { ConfigService } from '@nestjs/config';
-import { Location } from "../location/location.entity";
+import { Location } from '../location/location.entity';
 
 @Injectable()
 export class UsersService {
@@ -13,12 +13,6 @@ export class UsersService {
     private usersRepository: Repository<User>,
     private readonly configService: ConfigService,
   ) {}
-  public async findByWallet(walletAddress: string): Promise<User | undefined> {
-    return await this.usersRepository.findOne({ walletAddress });
-  }
-  public async findByEmail(email: string): Promise<User | undefined> {
-    return await this.usersRepository.findOne({ email });
-  }
   public async findByUuid(uuid: string): Promise<User | undefined> {
     const entityManager = getManager();
     return await entityManager
@@ -33,6 +27,36 @@ export class UsersService {
       .leftJoinAndSelect('user.receivedOrders', 'receivedOrders')
       .leftJoinAndSelect('user.postedOrders', 'postedOrders')
       .getOne();
+  }
+  public async find({ amount, page }): Promise<User[] | undefined> {
+    let offset, limit;
+    if (+page === 1) {
+      limit = +amount + 1;
+      offset = 0;
+    } else {
+      limit = +amount;
+      offset = +page * +amount - 1;
+    }
+    console.log(offset, amount);
+    const entityManager = getManager();
+    return await entityManager
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.location', 'location')
+      .leftJoinAndSelect('user.language', 'language')
+      .leftJoinAndSelect('user.experience', 'experience')
+      .leftJoinAndSelect('user.specialities', 'specialities')
+      .leftJoinAndSelect('user.categories', 'categories')
+      .orderBy('user.email')
+      .limit(limit)
+      .offset(offset)
+      .getMany();
+  }
+  public async findByWallet(walletAddress: string): Promise<User | undefined> {
+    return await this.usersRepository.findOne({ walletAddress });
+  }
+  public async findByEmail(email: string): Promise<User | undefined> {
+    return await this.usersRepository.findOne({ email });
   }
   public async saveUser(user): Promise<User | null> {
     return await this.usersRepository.save(user);

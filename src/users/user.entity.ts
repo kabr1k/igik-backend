@@ -49,6 +49,7 @@ export class User {
   @ApiProperty()
   @Column(common.varcharNullable)
   role: string;
+  @Exclude()
   @Column(common.varcharNullable)
   passwordHash: string;
   @ApiProperty()
