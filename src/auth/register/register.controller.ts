@@ -21,7 +21,7 @@ export class RegisterController {
   })
   @ApiResponse({
     status: 406,
-    description: 'The email field must contain a unique value',
+    description: 'Email already exists',
   })
   @ApiResponse({
     status: 400,
@@ -33,7 +33,7 @@ export class RegisterController {
       return;
     } else {
       throw new HttpException(
-        'The email field must contain a unique value',
+        'Email already exists.',
         406,
       );
     }
