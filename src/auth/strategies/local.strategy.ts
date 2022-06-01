@@ -23,7 +23,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         throw new HttpException('User not found.', 404);
       case 406:
         throw new HttpException(
-          'Please, confirm your email address to complete the registration.',
+          'Please confirm your email address to complete the registration.',
           406,
         );
       default:
