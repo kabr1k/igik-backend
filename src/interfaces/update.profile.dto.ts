@@ -18,11 +18,15 @@ export class UpdateProfileDto {
   @ApiPropertyOptional()
   password: string;
   @ApiPropertyOptional()
+  oldPassword: string;
+  @ApiPropertyOptional()
   calendlyLink: string;
   @ApiPropertyOptional()
   eventPrice: number;
   @ApiPropertyOptional()
   enabled: boolean;
+  @ApiPropertyOptional()
+  active: boolean;
   @ApiPropertyOptional({ type: () => [SpecialityDto] })
   specialities: [SpecialityDto];
   @ApiPropertyOptional({ type: () => [CategoryDto] })

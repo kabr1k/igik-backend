@@ -7,8 +7,8 @@ import {
   JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne, JoinColumn
-} from "typeorm";
+  ManyToOne,
+} from 'typeorm';
 import { Exclude } from 'class-transformer';
 import common from '../common/entity.mixin';
 import { Order } from '../orders/order.entity';
@@ -37,6 +37,9 @@ export class User {
     default: null,
   })
   nonce: number;
+  @ApiProperty()
+  @Column({ default: false })
+  active: boolean;
   @ApiProperty()
   @Column({ default: false })
   enabled: boolean;

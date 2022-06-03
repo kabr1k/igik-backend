@@ -10,6 +10,7 @@ import { PostAvatarController } from './post.avatar.controller';
 import { ImageService } from './image.service';
 import { MentorController } from "./mentor.controller";
 import { MentorsController } from "./mentors.controller";
+import { DeleteAvatarController } from "./delete.avatar.controller";
 
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([User])],
@@ -19,6 +20,7 @@ import { MentorsController } from "./mentors.controller";
     ProfileUpdateController,
     PasswordUpdateController,
     PostAvatarController,
+    DeleteAvatarController,
     MentorController,
     MentorsController,
   ],

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpException, Post, Request, UseGuards } from "@nestjs/common";
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import {
   ApiBearerAuth,
@@ -31,9 +31,15 @@ export class ProfileUpdateController {
   })
   @UseGuards(JwtGuard)
   async change(@Request() req, @Body() updateProfileDto: UpdateProfileDto) {
-    return await this.usersService.updateProfile(
+    const user = await this.usersService.updateProfile(
       req.user.sub,
       updateProfileDto,
     );
+    switch (user) {
+      case 401:
+        throw new HttpException('Old password is incorrect', 401);
+      default:
+        return user;
+    }
   }
 }

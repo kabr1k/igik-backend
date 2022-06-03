@@ -1,7 +1,10 @@
-import { Injectable } from '@nestjs/common';
 const sharp = require('sharp');
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from './users.service';
+const fs = require('fs');
+const { promisify } = require('util');
+const unlinkAsync = promisify(fs.unlink);
 
 @Injectable()
 export class ImageService {
@@ -48,5 +51,18 @@ export class ImageService {
     };
     await this.usersService.saveUser({ uuid: user.uuid, ...images });
     return await this.usersService.findByUuid(user.uuid);
+  }
+  public async deleteAvatar({ uuid }) {
+    const user = await this.usersService.findByUuid(uuid);
+    await unlinkAsync('static' + user.avatarS);
+    await unlinkAsync('static' + user.avatarM);
+    await unlinkAsync('static' + user.avatarL);
+    await this.usersService.saveUser({
+      uuid,
+      avatarS: null,
+      avatarM: null,
+      avatarL: null,
+    });
+    return await this.usersService.findByUuid(uuid);
   }
 }

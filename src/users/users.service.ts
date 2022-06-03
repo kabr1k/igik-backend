@@ -67,17 +67,27 @@ export class UsersService {
       .digest('hex');
     return token === hash;
   }
-  public async updateProfile({ uuid }, updateDto): Promise<User | null> {
+  public async updateProfile({ uuid }, updateDto): Promise<User | null | 401> {
+    const user = await this.findByUuid(uuid);
+    let hash;
+    if (updateDto.oldPassword) {
+      hash = createHash('sha256').update(updateDto.oldPassword).digest('hex');
+    }
     let profile;
     if (updateDto.password) {
-      profile = {
-        uuid,
-        passwordHash: createHash('sha256')
-          .update(updateDto.password)
-          .digest('hex'),
-        ...updateDto,
-      };
-      delete profile.password;
+      if (user.passwordHash === hash) {
+        profile = {
+          uuid,
+          passwordHash: createHash('sha256')
+            .update(updateDto.password)
+            .digest('hex'),
+          ...updateDto,
+        };
+        delete profile.password;
+        delete profile.oldPassword;
+      } else {
+        return 401;
+      }
     } else {
       profile = { uuid, ...updateDto };
     }
