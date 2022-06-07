@@ -75,10 +75,10 @@ export class User {
   @ManyToMany(() => Category, (category) => category.users)
   @JoinTable()
   categories: Category[];
-  @ApiProperty()
-  @ManyToOne(() => Language, (language) => language.users)
+  @ApiProperty({ type: [Language] })
+  @ManyToMany(() => Language, (language) => language.users)
   @JoinTable()
-  language: Language;
+  languages: Language[];
   @ApiProperty()
   @ManyToOne(() => Location, (location) => location.users)
   @JoinTable()

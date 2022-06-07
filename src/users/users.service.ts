@@ -20,7 +20,7 @@ export class UsersService {
       .createQueryBuilder('user')
       .where('user.uuid = :uuid', { uuid })
       .leftJoinAndSelect('user.location', 'location')
-      .leftJoinAndSelect('user.language', 'language')
+      .leftJoinAndSelect('user.languages', 'languages')
       .leftJoinAndSelect('user.experience', 'experience')
       .leftJoinAndSelect('user.specialities', 'specialities')
       .leftJoinAndSelect('user.categories', 'categories')
@@ -43,7 +43,7 @@ export class UsersService {
       .getRepository(User)
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.location', 'location')
-      .leftJoinAndSelect('user.language', 'language')
+      .leftJoinAndSelect('user.languages', 'languages')
       .leftJoinAndSelect('user.experience', 'experience')
       .leftJoinAndSelect('user.specialities', 'specialities')
       .leftJoinAndSelect('user.categories', 'categories')
@@ -68,7 +68,7 @@ export class UsersService {
     return token === hash;
   }
   public async updateProfile({ uuid }, updateDto): Promise<User | null | 401> {
-    const user = await this.findByUuid(uuid);
+    let user = await this.findByUuid(uuid);
     let hash;
     if (updateDto.oldPassword) {
       hash = createHash('sha256').update(updateDto.oldPassword).digest('hex');
@@ -92,7 +92,28 @@ export class UsersService {
       profile = { uuid, ...updateDto };
     }
     await this.usersRepository.save(profile);
-    return await this.findByUuid(uuid);
+    user = await this.findByUuid(uuid);
+    if (this.checkUser(user)) {
+      await this.usersRepository.save({ uuid, enabled: true });
+      return await this.findByUuid(uuid);
+    } else {
+      return user;
+    }
+  }
+  private checkUser(user) {
+    return !!(
+      user.firstName &&
+      user.lastName &&
+      user.calendlyLink &&
+      user.stripeOnboarded &&
+      user.specialities.length >= 1 &&
+      user.categories.length >= 1 &&
+      user.languages.length >= 1 &&
+      user.location &&
+      user.experience &&
+      user.eventPrice &&
+      user.about
+    );
   }
   public async updatePassword(updateDto): Promise<User | null> {
     if (this.check(updateDto.token, updateDto.email)) {

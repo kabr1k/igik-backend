@@ -24,15 +24,13 @@ export class UpdateProfileDto {
   @ApiPropertyOptional()
   eventPrice: number;
   @ApiPropertyOptional()
-  enabled: boolean;
-  @ApiPropertyOptional()
   active: boolean;
   @ApiPropertyOptional({ type: () => [SpecialityDto] })
   specialities: [SpecialityDto];
   @ApiPropertyOptional({ type: () => [CategoryDto] })
   categories: [CategoryDto];
-  @ApiPropertyOptional()
-  language: LanguageDto;
+  @ApiPropertyOptional({ type: () => [LanguageDto] })
+  languages: [LanguageDto];
   @ApiPropertyOptional()
   location: LocationDto;
   @ApiPropertyOptional()
