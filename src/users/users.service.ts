@@ -4,8 +4,7 @@ import { getManager, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { createHash } from 'crypto';
 import { ConfigService } from '@nestjs/config';
-import { Location } from '../location/location.entity';
-
+import { usersSeed } from '../seed/seeds/users.seed';
 @Injectable()
 export class UsersService {
   constructor(
@@ -13,6 +12,9 @@ export class UsersService {
     private usersRepository: Repository<User>,
     private readonly configService: ConfigService,
   ) {}
+  public async seed(): Promise<void> {
+    await this.usersRepository.save(usersSeed);
+  }
   public async findByUuid(uuid: string): Promise<User | undefined> {
     const entityManager = getManager();
     return await entityManager
@@ -23,7 +25,7 @@ export class UsersService {
       .leftJoinAndSelect('user.languages', 'languages')
       .leftJoinAndSelect('user.experience', 'experience')
       .leftJoinAndSelect('user.specialities', 'specialities')
-      .leftJoinAndSelect('user.categories', 'categories')
+      .leftJoinAndSelect('user.category', 'category')
       .leftJoinAndSelect('user.receivedOrders', 'receivedOrders')
       .leftJoinAndSelect('user.postedOrders', 'postedOrders')
       .getOne();
@@ -46,7 +48,7 @@ export class UsersService {
       .leftJoinAndSelect('user.languages', 'languages')
       .leftJoinAndSelect('user.experience', 'experience')
       .leftJoinAndSelect('user.specialities', 'specialities')
-      .leftJoinAndSelect('user.categories', 'categories')
+      .leftJoinAndSelect('user.category', 'category')
       .orderBy('user.email')
       .limit(limit)
       .offset(offset)

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getManager } from 'typeorm';
 import { Experience } from './experience.entity';
-import { experienceSeed } from '../seeds/experience.seed';
+import { experienceSeed } from '../seed/seeds/experience.seed';
 @Injectable()
 export class ExperienceService {
   constructor(

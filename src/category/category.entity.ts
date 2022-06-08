@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 import { User } from '../users/user.entity';
 import common from '../common/entity.mixin';
 import { ApiProperty } from '@nestjs/swagger';
@@ -10,6 +10,6 @@ export class Category {
   @ApiProperty()
   @Column(common.varcharNullable)
   name: string;
-  @ManyToMany(() => User, (user) => user.categories)
+  @OneToMany(() => User, (user) => user.category)
   users: User[];
 }

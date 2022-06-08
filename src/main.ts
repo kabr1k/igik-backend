@@ -22,6 +22,7 @@ import { CategoriesModule } from "./category/categories.module";
 import { LanguagesModule } from "./languages/languages.module";
 import { LocationsModule } from "./location/locations.module";
 import { ExperienceModule } from "./experience/experience.module";
+import { SeedModule } from "./seed/seed.module";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -55,6 +56,7 @@ async function bootstrap() {
         LanguagesModule,
         LocationsModule,
         ExperienceModule,
+        SeedModule,
       ],
     };
     const setupOptions = {

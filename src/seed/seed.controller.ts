@@ -1,0 +1,42 @@
+import {
+  Controller,
+  Get,
+  Request,
+  Res,
+  StreamableFile,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LocationService } from '../location/location.service';
+import { LanguageService } from '../languages/language.service';
+import { SpecialityService } from '../speciality/speciality.service';
+import { UsersService } from '../users/users.service';
+import { CategoryService } from '../category/category.service';
+import { ExperienceService } from '../experience/experience.service';
+
+@Controller()
+export class SeedController {
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly locationService: LocationService,
+    private readonly languageService: LanguageService,
+    private readonly specialityService: SpecialityService,
+    private readonly categoryService: CategoryService,
+    private readonly experienceService: ExperienceService,
+  ) {}
+  @Get('seed')
+  @ApiTags('Development')
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'OK',
+  })
+  async seed(@Request() req) {
+    await this.categoryService.seed();
+    await this.locationService.seed();
+    await this.languageService.seed();
+    await this.experienceService.seed();
+    await this.specialityService.seed();
+    await this.usersService.seed();
+  }
+}

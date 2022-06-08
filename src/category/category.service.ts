@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getManager } from 'typeorm';
 import { Category } from './category.entity';
-import { categoriesSeed } from '../seeds/categories.seed';
+import { categoriesSeed } from '../seed/seeds/categories.seed';
 @Injectable()
 export class CategoryService {
   constructor(

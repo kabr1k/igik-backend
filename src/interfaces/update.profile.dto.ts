@@ -27,8 +27,8 @@ export class UpdateProfileDto {
   active: boolean;
   @ApiPropertyOptional({ type: () => [SpecialityDto] })
   specialities: [SpecialityDto];
-  @ApiPropertyOptional({ type: () => [CategoryDto] })
-  categories: [CategoryDto];
+  @ApiPropertyOptional()
+  category: CategoryDto;
   @ApiPropertyOptional({ type: () => [LanguageDto] })
   languages: [LanguageDto];
   @ApiPropertyOptional()

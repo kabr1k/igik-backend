@@ -5,5 +5,5 @@ export const languagesSeed = [
   { name: 'German' },
   { name: 'Russian' },
   { name: 'Japanese' },
-  { name: 'Mandarin' },
+  { name: 'Chinese' },
 ];
