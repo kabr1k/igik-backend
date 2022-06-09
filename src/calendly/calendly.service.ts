@@ -11,7 +11,7 @@ export class CalendlyService {
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
   ) {}
-  private async getTokenByCode(authorizationCode) {
+  private async getTokenByCode(authorizationCode, user) {
     try {
       const response = await axios.post(
         this.configService.get('CAL_TOKEN_URL'),
@@ -23,6 +23,10 @@ export class CalendlyService {
           redirect_uri: this.configService.get('CAL_REDIRECT_URI'),
         },
       );
+      await this.usersService.saveUser({
+        uuid: user.uuid,
+        calendlyRefreshToken: response.data.refresh_token,
+      });
       return response.data;
     } catch (error) {
       throw new HttpException(
@@ -95,7 +99,7 @@ export class CalendlyService {
     if (calendlyRefreshToken) {
       data = await this.getTokenByRefresh(calendlyRefreshToken, user);
     } else {
-      data = await this.getTokenByCode(authorizationCode);
+      data = await this.getTokenByCode(authorizationCode, user);
     }
     const calendlyUser = await this.getCalendlyUser(data.access_token);
     await this.usersService.saveUser({
