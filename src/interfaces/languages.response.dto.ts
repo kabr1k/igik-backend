@@ -5,4 +5,6 @@ export class LanguagesResponseDto {
   uuid: string;
   @ApiProperty()
   name: string;
+  @ApiProperty()
+  imagePath: string;
 }

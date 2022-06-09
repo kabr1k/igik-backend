@@ -10,6 +10,9 @@ export class Language {
   @ApiProperty()
   @Column(common.varcharNullable)
   name: string;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  imagePath: string;
   @ManyToMany(() => User, (user) => user.languages)
   users: User[];
 }
