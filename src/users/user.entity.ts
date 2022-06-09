@@ -60,6 +60,9 @@ export class User {
   calendlyLink: string;
   @ApiProperty()
   @Column(common.varcharNullable)
+  calendlyUserLink: string;
+  @ApiProperty()
+  @Column(common.varcharNullable)
   calendlyRefreshToken: string;
   @ApiProperty({ type: [Order] })
   @OneToMany(() => Order, (order) => order.buyer)
@@ -124,7 +127,10 @@ export class User {
     type: 'int',
     default: 0,
   })
-  timezone: number;
+  eventDuration: number;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  timezone: string;
   @ApiProperty()
   @Column(common.varcharNullable)
   socialNetwork1: string;

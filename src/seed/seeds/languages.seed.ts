@@ -1,8 +1,8 @@
 export const languagesSeed = [
   { name: 'English' },
-  { name: 'Spanish' },
-  { name: 'French' },
   { name: 'German' },
+  { name: 'French' },
+  { name: 'Spanish' },
   { name: 'Russian' },
   { name: 'Japanese' },
   { name: 'Chinese' },

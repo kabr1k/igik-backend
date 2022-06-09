@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { forwardRef, HttpException, Inject, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
 import { CalendlyLinkDto } from '../interfaces/calendly.link.dto';
@@ -7,6 +7,7 @@ import axios from 'axios';
 @Injectable()
 export class CalendlyService {
   constructor(
+    @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
   ) {}
@@ -30,7 +31,7 @@ export class CalendlyService {
       );
     }
   }
-  private async getTokenByRefresh(refreshToken) {
+  async getTokenByRefresh(refreshToken, user) {
     try {
       const response = await axios.post(
         this.configService.get('CAL_TOKEN_URL'),
@@ -41,6 +42,10 @@ export class CalendlyService {
           refresh_token: refreshToken,
         },
       );
+      await this.usersService.saveUser({
+        uuid: user.uuid,
+        calendlyRefreshToken: response.data.refresh_token,
+      });
       return response.data;
     } catch (error) {
       throw new HttpException(
@@ -62,25 +67,41 @@ export class CalendlyService {
       );
     }
   }
-  public async connectUser(
-    user,
-    authorizationCode,
-  ): Promise<CalendlyLinkDto | null> {
+  public async getCalendlyEvents(accessToken, user) {
+    try {
+      const response = await axios.get(
+        this.configService.get('CAL_EVENT_TYPES_URL') +
+          `?user=${user.calendlyUserLink}`,
+        {
+          headers: { Authorization: 'Bearer ' + accessToken },
+          params: {
+            user: user.calendlyUserLink,
+          },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      throw new HttpException(
+        error.response.data.error_description,
+        error.response.status,
+      );
+    }
+  }
+  public async connectUser(user, authorizationCode): Promise<void> {
     const { calendlyRefreshToken } = await this.usersService.findByEmail(
       user.email,
     );
     let data;
     if (calendlyRefreshToken) {
-      data = await this.getTokenByRefresh(calendlyRefreshToken);
+      data = await this.getTokenByRefresh(calendlyRefreshToken, user);
     } else {
       data = await this.getTokenByCode(authorizationCode);
     }
     const calendlyUser = await this.getCalendlyUser(data.access_token);
     await this.usersService.saveUser({
       uuid: user.uuid,
-      calendlyRefreshToken: data.refresh_token,
-      // calendlyLink: calendlyUser.resource.scheduling_url,
+      timezone: calendlyUser.resource.timezone,
+      calendlyUserLink: calendlyUser.resource.uri,
     });
-    return { calendly_link: calendlyUser.resource.scheduling_url };
   }
 }

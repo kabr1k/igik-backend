@@ -2,7 +2,7 @@ export const usersSeed = [
   {
     email: 'kabrin@mail.ru',
     passwordHash:
-      '473287f8298dba7163a897908958f7c0eae733e25d2e027992ea2edc9bed2fa8',
+      '53ab8af4ec2d25594b9df3938cf6935b5b3519d65987215e1ec27fc3c7c3d008',
     active: false,
     enabled: false,
     firstName: 'Andrei',
@@ -10,13 +10,12 @@ export const usersSeed = [
     role: 'mentor',
     emailConfirmed: true,
     eventPrice: 100,
-    timezone: 0,
     about: 'About test text',
   },
   {
     email: 'qwe_x1@mail.ru',
     passwordHash:
-      '473287f8298dba7163a897908958f7c0eae733e25d2e027992ea2edc9bed2fa8',
+      '53ab8af4ec2d25594b9df3938cf6935b5b3519d65987215e1ec27fc3c7c3d008',
     active: false,
     enabled: false,
     firstName: 'Elena',
@@ -24,7 +23,6 @@ export const usersSeed = [
     role: 'mentor',
     emailConfirmed: true,
     eventPrice: 100,
-    timezone: 0,
     about: 'About test text',
   },
 ];

@@ -11,9 +11,10 @@ import { ImageService } from './image.service';
 import { MentorController } from "./mentor.controller";
 import { MentorsController } from "./mentors.controller";
 import { DeleteAvatarController } from "./delete.avatar.controller";
+import { CalendlyModule } from "../calendly/calendly.module";
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([User])],
+  imports: [ConfigModule, TypeOrmModule.forFeature([User]), CalendlyModule],
   providers: [UsersService, ConfigService, ImageService],
   controllers: [
     ProfileMeController,

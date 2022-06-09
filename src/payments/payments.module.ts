@@ -10,9 +10,13 @@ import { StripeOnboardedController } from './stripe.onboarded.controller';
 import { StripeCheckoutController } from './stripe.checkout.controller';
 import { OrdersService } from '../orders/orders.service';
 import { Order } from '../orders/order.entity';
+import { UsersModule } from "../users/users.module";
+import { CalendlyModule } from "../calendly/calendly.module";
 
 @Module({
   imports: [
+    UsersModule,
+    CalendlyModule,
     ConfigModule,
     TypeOrmModule.forFeature([User, Order]),
     StripeModule.forRootAsync({

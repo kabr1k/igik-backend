@@ -24,6 +24,8 @@ export class UpdateProfileDto {
   @ApiPropertyOptional()
   eventPrice: number;
   @ApiPropertyOptional()
+  eventDuration: number;
+  @ApiPropertyOptional()
   active: boolean;
   @ApiPropertyOptional({ type: () => [SpecialityDto] })
   specialities: [SpecialityDto];
@@ -36,7 +38,7 @@ export class UpdateProfileDto {
   @ApiPropertyOptional()
   experience: ExperienceDto;
   @ApiPropertyOptional()
-  timezone: number;
+  timezone: string;
   @ApiPropertyOptional()
   socialNetwork1: string;
   @ApiPropertyOptional()

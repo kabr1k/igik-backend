@@ -5,12 +5,14 @@ import { User } from './user.entity';
 import { createHash } from 'crypto';
 import { ConfigService } from '@nestjs/config';
 import { usersSeed } from '../seed/seeds/users.seed';
+import { CalendlyService } from '../calendly/calendly.service';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private readonly configService: ConfigService,
+    private readonly calendlyService: CalendlyService,
   ) {}
   public async seed(): Promise<void> {
     await this.usersRepository.save(usersSeed);
@@ -93,8 +95,21 @@ export class UsersService {
     } else {
       profile = { uuid, ...updateDto };
     }
+    // обновим длительность события если пришла новая ссылка
+    if (profile.calendlyLink && user.calendlyRefreshToken) {
+      const response = await this.calendlyService.getTokenByRefresh(
+        user.calendlyRefreshToken,
+        user,
+      );
+      const calendlyEvents = await this.calendlyService.getCalendlyEvents(
+        response.access_token,
+        user
+      );
+      console.log(calendlyEvents);
+    }
     await this.usersRepository.save(profile);
     user = await this.findByUuid(uuid);
+    // включим возможность публикации если все поля заполнены
     if (this.checkUser(user)) {
       await this.usersRepository.save({ uuid, enabled: true });
       return await this.findByUuid(uuid);

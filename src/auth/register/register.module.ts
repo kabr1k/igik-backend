@@ -11,10 +11,12 @@ import { User } from '../../users/user.entity';
 import { RegisterController } from './register.controller';
 import { MailerModule } from '../../mailer/mailer.module';
 import { MailerService } from '../../mailer/mailer.service';
+import { CalendlyModule } from "../../calendly/calendly.module";
 
 @Module({
   imports: [
     ConfigModule,
+    CalendlyModule,
     MailerModule,
     LoginModule,
     UsersModule,

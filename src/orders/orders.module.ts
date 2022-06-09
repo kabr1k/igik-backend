@@ -7,12 +7,16 @@ import { PaymentsModule } from '../payments/payments.module';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/user.entity';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from "../users/users.module";
+import { CalendlyModule } from "../calendly/calendly.module";
 
 @Module({
   imports: [
     ConfigModule,
     PaymentsModule,
     TypeOrmModule.forFeature([Order, User]),
+    UsersModule,
+    CalendlyModule,
   ],
   providers: [OrdersService, UsersService],
   controllers: [OrderController],
