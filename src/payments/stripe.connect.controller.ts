@@ -9,9 +9,14 @@ import {
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { RolesGuard } from '../auth/roles/roles.guard';
 import { Roles } from '../auth/roles/roles.decorator';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { StripeService } from './stripe.service';
-import { StripeLinkDto } from "../interfaces/stripe.link.dto";
+import { StripeLinkDto } from '../interfaces/stripe.link.dto';
 
 @Controller()
 export class StripeConnectController {

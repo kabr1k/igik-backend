@@ -103,9 +103,11 @@ export class UsersService {
       );
       const calendlyEvents = await this.calendlyService.getCalendlyEvents(
         response.access_token,
-        user
+        user,
       );
-      console.log(calendlyEvents);
+      profile.eventDuration = calendlyEvents.collection.find(
+        (event) => event.scheduling_url === profile.calendlyLink,
+      ).duration;
     }
     await this.usersRepository.save(profile);
     user = await this.findByUuid(uuid);
