@@ -87,15 +87,15 @@ export class StripeService {
       mode: 'payment',
       success_url: this.configService.get('STRIPE_SUCCESS_URL'),
       cancel_url: this.configService.get('STRIPE_FAILURE_URL'),
-      payment_intent_data: {
-        application_fee_amount: Math.round(
-          (mentor.eventPrice / 100) *
-            this.configService.get('APPLICATION_FEE_PERCENT'),
-        ),
-        transfer_data: {
-          destination: mentor.stripeAccount,
-        },
-      },
+      // payment_intent_data: {
+      //   application_fee_amount: Math.round(
+      //     (mentor.eventPrice / 100) *
+      //       this.configService.get('APPLICATION_FEE_PERCENT'),
+      //   ),
+      //   transfer_data: {
+      //     destination: mentor.stripeAccount,
+      //   },
+      // },
     });
     console.log(session);
     return {

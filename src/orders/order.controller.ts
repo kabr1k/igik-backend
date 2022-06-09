@@ -30,6 +30,6 @@ export class OrderController {
   })
   @UseGuards(JwtGuard)
   async postOrder(@Request() req, @Body() orderDto: OrderDto) {
-    return await this.ordersService.postOrder(req.sub.user, orderDto);
+    return await this.ordersService.postOrder(req.user.sub, orderDto);
   }
 }
