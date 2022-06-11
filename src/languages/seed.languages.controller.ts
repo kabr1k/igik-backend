@@ -5,10 +5,10 @@ import { LanguageService } from './language.service';
 @Controller()
 export class SeedLanguagesController {
   constructor(private readonly languageService: LanguageService) {}
-  @Get('languages/seed')
+  @Get('locations/seed')
   @ApiTags('Languages')
   @ApiOperation({
-    description: 'Seed default languages to DB. Use only in dev environment',
+    description: 'Seed default locations to DB. Use only in dev environment',
   })
   @ApiResponse({
     status: 200,

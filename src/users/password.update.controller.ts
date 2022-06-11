@@ -21,7 +21,7 @@ import { UpdatePasswordDto } from '../interfaces/update.password.dto';
 @Controller()
 export class PasswordUpdateController {
   constructor(private readonly usersService: UsersService) {}
-  @Post('profile/update/pass')
+  @Post('api/v1/profile/update/pass')
   @ApiTags('Users')
   @ApiOperation({
     description:

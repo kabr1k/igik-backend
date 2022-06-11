@@ -13,7 +13,7 @@ import { User } from './user.entity';
 @Controller()
 export class ProfileUpdateController {
   constructor(private readonly usersService: UsersService) {}
-  @Post('profile/update')
+  @Post('api/v1/profile/update')
   @ApiTags('Users')
   @ApiOperation({
     description:

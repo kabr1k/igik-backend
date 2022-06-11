@@ -9,22 +9,19 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { User } from './user.entity';
-import { MentorQueryDto } from "../interfaces/mentor.query.dto";
 import { MentorsQueryDto } from "../interfaces/mentors.query.dto";
 
 @Controller()
-export class MentorsController {
+export class MentorsCountController {
   constructor(private readonly usersService: UsersService) {}
-  @Get('api/v1/mentors')
+  @Get('api/v1/mentors/count')
   @ApiTags('Users')
-  @ApiOperation({ description: 'Get random mentors list with pagination' })
+  @ApiOperation({ description: 'Get mentors count' })
   @ApiResponse({
     status: 200,
     description: 'OK',
-    type: [User],
   })
-  async getMentors(@Query() query: MentorsQueryDto) {
-    return await this.usersService.find(query);
+  async getMentorsCount() {
+    return await this.usersService.countMentors();
   }
 }

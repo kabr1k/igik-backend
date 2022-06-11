@@ -12,7 +12,6 @@ import { SeedCategoriesController } from './seed.categories.controller';
   controllers: [
     GetCategoriesController,
     GetCategoryController,
-    SeedCategoriesController,
   ],
   exports: [CategoryService],
 })

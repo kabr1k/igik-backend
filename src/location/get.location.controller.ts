@@ -10,7 +10,7 @@ import { SpecialityDto } from "../interfaces/speciality.dto";
 @Controller()
 export class GetLocationController {
   constructor(private readonly locationService: LocationService) {}
-  @Get('location')
+  @Get('api/v1/location')
   @ApiTags('Locations')
   @ApiOperation({
     description: 'Get location by UUID, returns location with users',

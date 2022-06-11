@@ -7,7 +7,7 @@ import { ValidationPipe } from '../common/validation.pipe';
 @Controller()
 export class PasswordRecoverController {
   constructor(private readonly mailerService: MailerService) {}
-  @Post('auth/recover')
+  @Post('api/v1/auth/recover')
   @ApiTags('Standard authentication')
   @ApiOperation({ description: 'Send recover password email message' })
   @ApiResponse({

@@ -6,7 +6,7 @@ import { LocationsResponseDto } from '../interfaces/locations.response.dto';
 @Controller()
 export class GetLocationsController {
   constructor(private readonly locationService: LocationService) {}
-  @Get('locations')
+  @Get('api/v1/locations')
   @ApiTags('Locations')
   @ApiOperation({ description: 'Get all locations' })
   @ApiResponse({

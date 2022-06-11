@@ -12,7 +12,6 @@ import { SeedLanguagesController } from './seed.languages.controller';
   controllers: [
     GetLanguagesController,
     GetLanguageController,
-    SeedLanguagesController,
   ],
   exports: [LanguageService],
 })

@@ -7,7 +7,7 @@ import { Speciality } from './speciality.entity';
 @Controller()
 export class GetSpecialityController {
   constructor(private readonly specialityService: SpecialityService) {}
-  @Get('speciality')
+  @Get('api/v1/speciality')
   @ApiTags('Specialities')
   @ApiOperation({
     description: 'Get speciality by UUID, returns speciality with users',

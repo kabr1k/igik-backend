@@ -6,9 +6,9 @@ import { LanguagesResponseDto } from "../interfaces/languages.response.dto";
 @Controller()
 export class GetLanguagesController {
   constructor(private readonly languageService: LanguageService) {}
-  @Get('languages')
+  @Get('api/v1/languages')
   @ApiTags('Languages')
-  @ApiOperation({ description: 'Get all languages' })
+  @ApiOperation({ description: 'Get all locations' })
   @ApiResponse({
     status: 200,
     description: 'OK',

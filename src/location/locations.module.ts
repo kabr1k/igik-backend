@@ -12,7 +12,6 @@ import { SeedLocationsController } from './seed.locations.controller';
   controllers: [
     GetLocationsController,
     GetLocationController,
-    SeedLocationsController,
   ],
   exports: [LocationService],
 })

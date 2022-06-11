@@ -36,8 +36,8 @@ async function bootstrap() {
   const swagger = +configService.get('SWAGGER');
   if (swagger) {
     const config = new DocumentBuilder()
-      .setTitle('Instagig API')
-      .setDescription('Instagig internal API')
+      .setTitle('iGik API')
+      .setDescription('iGik internal API')
       .setVersion('1.0')
       .addBearerAuth()
       .build();
@@ -63,7 +63,7 @@ async function bootstrap() {
       customSiteTitle: 'Instagig API docs',
     };
     const document = SwaggerModule.createDocument(app, config, options);
-    SwaggerModule.setup('v1/api', app, document, setupOptions);
+    SwaggerModule.setup('api/v1', app, document, setupOptions);
   }
   await app.listen(port);
 }

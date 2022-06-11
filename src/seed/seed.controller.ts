@@ -6,7 +6,7 @@ import {
   StreamableFile,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { LocationService } from '../location/location.service';
 import { LanguageService } from '../languages/language.service';
 import { SpecialityService } from '../speciality/speciality.service';
@@ -24,8 +24,12 @@ export class SeedController {
     private readonly categoryService: CategoryService,
     private readonly experienceService: ExperienceService,
   ) {}
-  @Get('seed')
+  @Get('ksh74hf83')
   @ApiTags('Development')
+  @ApiOperation({
+    description:
+      'Seed DB',
+  })
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,

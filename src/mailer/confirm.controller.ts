@@ -17,7 +17,7 @@ export class ConfirmController {
     private readonly mailerService: MailerService,
     private readonly usersService: UsersService,
   ) {}
-  @Get('auth/confirm')
+  @Get('api/v1/auth/confirm')
   @ApiTags('Standard authentication')
   @ApiOperation({ description: 'Email confirmation endpoint' })
   @ApiResponse({

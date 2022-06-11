@@ -15,7 +15,7 @@ import { MentorQueryDto } from "../interfaces/mentor.query.dto";
 @Controller()
 export class MentorController {
   constructor(private readonly usersService: UsersService) {}
-  @Get('mentor')
+  @Get('api/v1/mentor')
   @ApiTags('Users')
   @ApiOperation({ description: 'Get public mentor profile with joined entities' })
   @ApiResponse({

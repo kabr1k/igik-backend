@@ -9,7 +9,7 @@ import { SpecialityDto } from "../interfaces/speciality.dto";
 @Controller()
 export class GetExperienceController {
   constructor(private readonly experienceService: ExperienceService) {}
-  @Get('experience')
+  @Get('api/v1/experience')
   @ApiTags('Experiences')
   @ApiOperation({
     description: 'Get experience by UUID, returns experience with users',

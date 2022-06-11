@@ -12,6 +12,7 @@ import { MentorController } from "./mentor.controller";
 import { MentorsController } from "./mentors.controller";
 import { DeleteAvatarController } from "./delete.avatar.controller";
 import { CalendlyModule } from "../calendly/calendly.module";
+import { MentorsCountController } from "./mentors.count.controller";
 
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([User]), CalendlyModule],
@@ -24,6 +25,7 @@ import { CalendlyModule } from "../calendly/calendly.module";
     DeleteAvatarController,
     MentorController,
     MentorsController,
+    MentorsCountController,
   ],
   exports: [UsersService],
 })

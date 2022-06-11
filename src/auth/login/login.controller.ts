@@ -16,7 +16,7 @@ import { ValidationPipe } from '../../common/validation.pipe';
 @Controller()
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
-  @Post('auth/login')
+  @Post('api/v1/auth/login')
   @ApiTags('Standard authentication')
   @ApiOperation({
     description: 'JWT login endpoint. Email confirmation required to log in.',

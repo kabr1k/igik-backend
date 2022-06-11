@@ -6,7 +6,7 @@ import { SpecialitiesResponseDto } from '../interfaces/specialities.response.dto
 @Controller()
 export class GetSpecialitiesController {
   constructor(private readonly specialityService: SpecialityService) {}
-  @Get('specialities')
+  @Get('api/v1/specialities')
   @ApiTags('Specialities')
   @ApiOperation({ description: 'Get all specialities' })
   @ApiResponse({

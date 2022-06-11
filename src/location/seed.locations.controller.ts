@@ -8,7 +8,7 @@ export class SeedLocationsController {
   @Get('locations/seed')
   @ApiTags('Locations')
   @ApiOperation({
-    description: 'Seed default languages to DB. Use only in dev environment',
+    description: 'Seed default locations to DB. Use only in dev environment',
   })
   @ApiResponse({
     status: 200,

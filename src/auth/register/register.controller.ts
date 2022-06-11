@@ -12,7 +12,7 @@ export class RegisterController {
     private readonly registerService: RegisterService,
     private readonly loginService: LoginService,
   ) {}
-  @Post('auth/register')
+  @Post('api/v1/auth/register')
   @ApiTags('Standard authentication')
   @ApiOperation({ description: 'Register user' })
   @ApiResponse({

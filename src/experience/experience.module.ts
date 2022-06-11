@@ -12,7 +12,6 @@ import { SeedExperiencesController } from './seed.experiences.controller';
   controllers: [
     GetExperiencesController,
     GetExperienceController,
-    SeedExperiencesController,
   ],
   exports: [ExperienceService],
 })

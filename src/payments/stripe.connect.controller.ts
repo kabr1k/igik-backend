@@ -21,7 +21,7 @@ import { StripeLinkDto } from '../interfaces/stripe.link.dto';
 @Controller()
 export class StripeConnectController {
   constructor(private readonly stripeService: StripeService) {}
-  @Get('stripe/connect')
+  @Get('api/v1/stripe/connect')
   @ApiTags('Stripe')
   @ApiOperation({ description: 'Initiate stripe onboarding process' })
   @ApiBearerAuth()

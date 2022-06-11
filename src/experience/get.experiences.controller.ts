@@ -6,7 +6,7 @@ import { ExperienceResponseDto } from '../interfaces/experience.response.dto';
 @Controller()
 export class GetExperiencesController {
   constructor(private readonly experienceService: ExperienceService) {}
-  @Get('experiences')
+  @Get('api/v1/experiences')
   @ApiTags('Experiences')
   @ApiOperation({ description: 'Get all experiences' })
   @ApiResponse({

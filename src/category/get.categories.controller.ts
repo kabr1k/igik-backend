@@ -6,7 +6,7 @@ import { CategoriesResponseDto } from '../interfaces/categories.response.dto';
 @Controller()
 export class GetCategoriesController {
   constructor(private readonly categoryService: CategoryService) {}
-  @Get('categories')
+  @Get('api/v1/categories')
   @ApiTags('Categories')
   @ApiOperation({ description: 'Get all categories' })
   @ApiResponse({

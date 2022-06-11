@@ -6,6 +6,9 @@ import { createHash } from 'crypto';
 import { ConfigService } from '@nestjs/config';
 import { usersSeed } from '../seed/seeds/users.seed';
 import { CalendlyService } from '../calendly/calendly.service';
+import { UpdateProfileDto } from '../interfaces/update.profile.dto';
+import { UpdateProfileDbDto } from '../interfaces/update.profile.db.dto';
+import { updateOutput } from 'ts-jest/dist/compiler/compiler-utils';
 @Injectable()
 export class UsersService {
   constructor(
@@ -16,6 +19,14 @@ export class UsersService {
   ) {}
   public async seed(): Promise<void> {
     await this.usersRepository.save(usersSeed);
+  }
+  public async countMentors(): Promise<number | undefined> {
+    const entityManager = getManager();
+    return await entityManager.count(User, {
+      where: {
+        role: 'mentor',
+      },
+    });
   }
   public async findByUuid(uuid: string): Promise<User | undefined> {
     const entityManager = getManager();
@@ -77,26 +88,62 @@ export class UsersService {
     if (updateDto.oldPassword) {
       hash = createHash('sha256').update(updateDto.oldPassword).digest('hex');
     }
-    let profile;
+    const profile: UpdateProfileDbDto = {
+      uuid,
+    };
+    if (updateDto.firstName) {
+      profile.firstName = updateDto.firstName;
+    }
+    if (updateDto.lastName) {
+      profile.lastName = updateDto.lastName;
+    }
+    if (updateDto.calendlyLink) {
+      profile.calendlyLink = updateDto.calendlyLink;
+    }
+    if (updateDto.eventPrice) {
+      profile.eventPrice = updateDto.eventPrice;
+    }
+    if (updateDto.active) {
+      profile.active = updateDto.active;
+    }
+    if (updateDto.specialities) {
+      profile.specialities = updateDto.specialities;
+    }
+    if (updateDto.languages) {
+      profile.languages = updateDto.languages;
+    }
+    if (updateDto.category) {
+      profile.category = updateDto.category;
+    }
+    if (updateDto.location) {
+      profile.location = updateDto.location;
+    }
+    if (updateDto.experience) {
+      profile.experience = updateDto.experience;
+    }
+    if (updateDto.socialNetwork1) {
+      profile.socialNetwork1 = updateDto.socialNetwork1;
+    }
+    if (updateDto.socialNetwork2) {
+      profile.socialNetwork2 = updateDto.socialNetwork2;
+    }
+    if (updateDto.socialNetwork3) {
+      profile.socialNetwork3 = updateDto.socialNetwork3;
+    }
+    if (updateDto.about) {
+      profile.about = updateDto.about;
+    }
     if (updateDto.password) {
       if (user.passwordHash === hash) {
-        profile = {
-          uuid,
-          passwordHash: createHash('sha256')
-            .update(updateDto.password)
-            .digest('hex'),
-          ...updateDto,
-        };
-        delete profile.password;
-        delete profile.oldPassword;
+        profile.passwordHash = createHash('sha256')
+          .update(updateDto.password)
+          .digest('hex');
       } else {
         return 401;
       }
-    } else {
-      profile = { uuid, ...updateDto };
     }
     // обновим длительность события если пришла новая ссылка
-    if (profile.calendlyLink && user.calendlyRefreshToken) {
+    if (updateDto.calendlyLink && user.calendlyRefreshToken) {
       const response = await this.calendlyService.getTokenByRefresh(
         user.calendlyRefreshToken,
         user,

@@ -10,7 +10,7 @@ import { SpecialityDto } from "../interfaces/speciality.dto";
 @Controller()
 export class GetLanguageController {
   constructor(private readonly languageService: LanguageService) {}
-  @Get('language')
+  @Get('api/v1/language')
   @ApiTags('Languages')
   @ApiOperation({
     description: 'Get language by UUID, returns language with users',

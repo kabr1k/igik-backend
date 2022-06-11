@@ -67,7 +67,7 @@ export class StripeService {
     let priceId;
     if (!mentor.stripeProductId) {
       const product = await this.createProduct(mentor.email);
-      const price = await this.createPrice(product.id, mentor.eventPrice);
+      const price = await this.createPrice(product.id, mentor.eventPrice * 100);
       priceId = price.id;
       await this.usersService.saveUser({
         uuid: mentor.uuid,

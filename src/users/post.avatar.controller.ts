@@ -24,7 +24,7 @@ const sharp = require('sharp');
 @Controller()
 export class PostAvatarController {
   constructor(private readonly imageService: ImageService) {}
-  @Post('profile/avatar')
+  @Post('api/v1/profile/avatar')
   @ApiTags('Users')
   @ApiOperation({
     description:

@@ -14,7 +14,7 @@ import { User } from './user.entity';
 @Controller()
 export class ProfileMeController {
   constructor(private readonly usersService: UsersService) {}
-  @Get('profile/me')
+  @Get('api/v1/profile/me')
   @ApiTags('Users')
   @ApiOperation({ description: 'Get full user profile with joined entities' })
   @ApiBearerAuth()

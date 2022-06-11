@@ -13,7 +13,7 @@ import { OrdersService } from './orders.service';
 @Controller()
 export class OrderController {
   constructor(private readonly ordersService: OrdersService) {}
-  @Post('order')
+  @Post('api/v1/order')
   @ApiTags('Orders')
   @ApiOperation({
     description:

@@ -15,7 +15,7 @@ import { StripeOnboardedDto } from '../interfaces/stripe.onboarded.dto';
 @Controller()
 export class StripeOnboardedController {
   constructor(private readonly stripeService: StripeService) {}
-  @Get('stripe/onboarded')
+  @Get('api/v1/stripe/onboarded')
   @ApiTags('Stripe')
   @ApiOperation({
     description: 'Check if a user has completed stripe onboarding process',

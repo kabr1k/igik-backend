@@ -10,15 +10,15 @@ import { LanguageDto } from './language.dto';
 import { CategoryDto } from './category.dto';
 import { SpecialityDto } from './speciality.dto';
 
-export class UpdateProfileDto {
+export class UpdateProfileDbDto {
   @ApiProperty()
+  uuid: string;
+  @ApiPropertyOptional()
   firstName?: string;
   @ApiPropertyOptional()
   lastName?: string;
   @ApiPropertyOptional()
-  password?: string;
-  @ApiPropertyOptional()
-  oldPassword?: string;
+  passwordHash?: string;
   @ApiPropertyOptional()
   calendlyLink?: string;
   @ApiPropertyOptional()

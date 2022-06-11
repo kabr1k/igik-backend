@@ -12,7 +12,6 @@ import { SeedSpecialitiesController } from './seed.specialities.controller';
   controllers: [
     GetSpecialitiesController,
     GetSpecialityController,
-    SeedSpecialitiesController,
   ],
   exports: [SpecialityService],
 })

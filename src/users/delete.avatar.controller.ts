@@ -24,7 +24,7 @@ const sharp = require('sharp');
 @Controller()
 export class DeleteAvatarController {
   constructor(private readonly imageService: ImageService) {}
-  @Delete('profile/avatar')
+  @Delete('api/v1/profile/avatar')
   @ApiTags('Users')
   @ApiOperation({
     description:

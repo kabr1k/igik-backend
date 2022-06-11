@@ -10,7 +10,9 @@ export class Location {
   @ApiProperty()
   @Column(common.varcharNullable)
   name: string;
-  // @ApiProperty()
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  imagePath: string;
   @OneToMany(() => User, (user) => user.location)
   users: User[];
 }

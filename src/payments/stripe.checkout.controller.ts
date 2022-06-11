@@ -21,7 +21,7 @@ import { RedirectDto } from '../interfaces/redirect.dto';
 @Controller()
 export class StripeCheckoutController {
   constructor(private readonly stripeService: StripeService) {}
-  @Post('stripe/checkout')
+  @Post('api/v1/stripe/checkout')
   @ApiTags('Stripe')
   @ApiOperation({
     description: 'Checkout endpoint. Redirects to the payment gateway and back',

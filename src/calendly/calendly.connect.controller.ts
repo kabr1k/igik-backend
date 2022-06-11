@@ -15,7 +15,7 @@ import { CalendlyLinkDto } from '../interfaces/calendly.link.dto';
 @Controller()
 export class CalendlyConnectController {
   constructor(private readonly calendlyService: CalendlyService) {}
-  @Get('calendly/connect')
+  @Get('api/v1/calendly/connect')
   @ApiTags('Calendly')
   @ApiOperation({ description: "Connect mentor's calendly account" })
   @ApiBearerAuth()

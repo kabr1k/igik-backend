@@ -9,7 +9,7 @@ import { SpecialityDto } from "../interfaces/speciality.dto";
 @Controller()
 export class GetCategoryController {
   constructor(private readonly categoryService: CategoryService) {}
-  @Get('category')
+  @Get('api/v1/category')
   @ApiTags('Categories')
   @ApiOperation({
     description: 'Get category by UUID, returns category with users',
