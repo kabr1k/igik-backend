@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Put, Request, UseGuards } from "@nestjs/common";
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import {
   ApiBearerAuth,
@@ -9,19 +9,19 @@ import {
 import { StripeOnboardedDto } from '../interfaces/stripe.onboarded.dto';
 import { OrderDto } from '../interfaces/order.dto';
 import { OrdersService } from './orders.service';
+import { PutOrderDto } from "../interfaces/put.order.dto";
 
 @Controller()
-export class OrderController {
+export class PutOrderController {
   constructor(private readonly ordersService: OrdersService) {}
-  @Post('api/v1/order')
+  @Put('api/v1/order')
   @ApiTags('Orders')
   @ApiOperation({
-    description:
-      'Post order. Invoke after successful payment to create an order in DB',
+    description: 'Change order status. Invoke after successful payment',
   })
   @ApiBearerAuth()
   @ApiResponse({
-    status: 201,
+    status: 200,
     description: 'OK',
   })
   @ApiResponse({
@@ -29,7 +29,7 @@ export class OrderController {
     description: 'Unauthorized, access denied',
   })
   @UseGuards(JwtGuard)
-  async postOrder(@Request() req, @Body() orderDto: OrderDto) {
-    return await this.ordersService.postOrder(req.user.sub, orderDto);
+  async postOrder(@Request() req, @Body() orderDto: PutOrderDto) {
+    return await this.ordersService.putOrder(req.user.sub, orderDto);
   }
 }

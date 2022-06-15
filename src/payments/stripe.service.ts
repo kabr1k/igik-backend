@@ -6,12 +6,14 @@ import { UsersService } from '../users/users.service';
 import { StripeLinkDto } from '../interfaces/stripe.link.dto';
 import { StripeOnboardedDto } from '../interfaces/stripe.onboarded.dto';
 import { RedirectDto } from '../interfaces/redirect.dto';
+import { OrdersService } from '../orders/orders.service';
 @Injectable()
 export class StripeService {
   constructor(
     @InjectStripe() private readonly stripe: Stripe,
     private readonly configService: ConfigService,
     private readonly usersService: UsersService,
+    private readonly ordersService: OrdersService,
   ) {}
   private async createAccount(user) {
     return await this.stripe.accounts.create({
@@ -41,7 +43,8 @@ export class StripeService {
     });
     return { stripe_link: accountLink.url };
   }
-  public async checkAccount(user): Promise<StripeOnboardedDto | null> {
+  public async checkAccount({ uuid }): Promise<StripeOnboardedDto | null> {
+    const user = await this.usersService.findByUuid(uuid);
     const { details_submitted } = await this.getAccount(user.stripeAccount);
     await this.usersService.saveUser({
       uuid: user.uuid,
@@ -58,7 +61,7 @@ export class StripeService {
   private async createPrice(productUuid, price) {
     return await this.stripe.prices.create({
       unit_amount: price,
-      currency: 'gbp',
+      currency: 'usd',
       product: productUuid,
     });
   }
@@ -77,6 +80,7 @@ export class StripeService {
     } else {
       priceId = mentor.stripePriceId;
     }
+    const order = await this.ordersService.postOrder(user, orderDto);
     const session = await this.stripe.checkout.sessions.create({
       line_items: [
         {
@@ -85,7 +89,10 @@ export class StripeService {
         },
       ],
       mode: 'payment',
-      success_url: this.configService.get('STRIPE_SUCCESS_URL'),
+      success_url:
+        this.configService.get('STRIPE_SUCCESS_URL') +
+        '?order_uuid=' +
+        order.uuid,
       cancel_url: this.configService.get('STRIPE_FAILURE_URL'),
       // payment_intent_data: {
       //   application_fee_amount: Math.round(

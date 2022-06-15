@@ -148,11 +148,12 @@ export class UsersService {
         user.calendlyRefreshToken,
         user,
       );
-      const calendlyEvents = await this.calendlyService.getCalendlyEvents(
-        response.access_token,
-        user,
-      );
-      profile.eventDuration = calendlyEvents.collection.find(
+      const calendlyEventTypes =
+        await this.calendlyService.getCalendlyEventTypes(
+          response.access_token,
+          user,
+        );
+      profile.eventDuration = calendlyEventTypes.collection.find(
         (event) => event.scheduling_url === profile.calendlyLink,
       ).duration;
     }
@@ -173,8 +174,8 @@ export class UsersService {
       user.calendlyLink &&
       user.stripeOnboarded &&
       user.specialities.length >= 1 &&
-      user.categories.length >= 1 &&
       user.languages.length >= 1 &&
+      user.category &&
       user.location &&
       user.experience &&
       user.eventPrice &&

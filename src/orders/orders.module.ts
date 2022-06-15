@@ -1,25 +1,26 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Order } from './order.entity';
-import { OrderController } from './order.controller';
+import { PostOrderController } from './post.order.controller';
 import { PaymentsModule } from '../payments/payments.module';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/user.entity';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from "../users/users.module";
-import { CalendlyModule } from "../calendly/calendly.module";
+import { UsersModule } from '../users/users.module';
+import { CalendlyModule } from '../calendly/calendly.module';
+import { PutOrderController } from './put.order.controller';
 
 @Module({
   imports: [
     ConfigModule,
-    PaymentsModule,
+    forwardRef(() => PaymentsModule),
     TypeOrmModule.forFeature([Order, User]),
     UsersModule,
     CalendlyModule,
   ],
   providers: [OrdersService, UsersService],
-  controllers: [OrderController],
+  controllers: [PostOrderController, PutOrderController],
   exports: [OrdersService],
 })
 export class OrdersModule {}

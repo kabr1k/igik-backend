@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class OrderDto {
-  @ApiProperty()
-  mentor_uuid: string;
+export class CalendlyCancelDto {
   @ApiProperty()
   event_link: string;
+  @ApiProperty()
+  mentor_uuid: string;
 }

@@ -8,11 +8,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PasswordUpdateController } from './password.update.controller';
 import { PostAvatarController } from './post.avatar.controller';
 import { ImageService } from './image.service';
-import { MentorController } from "./mentor.controller";
-import { MentorsController } from "./mentors.controller";
-import { DeleteAvatarController } from "./delete.avatar.controller";
-import { CalendlyModule } from "../calendly/calendly.module";
-import { MentorsCountController } from "./mentors.count.controller";
+import { MentorController } from './mentor.controller';
+import { MentorsController } from './mentors.controller';
+import { DeleteAvatarController } from './delete.avatar.controller';
+import { CalendlyModule } from '../calendly/calendly.module';
+import { MentorsCountController } from './mentors.count.controller';
 
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([User]), CalendlyModule],

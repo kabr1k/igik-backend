@@ -12,9 +12,11 @@ import { OrdersService } from '../orders/orders.service';
 import { Order } from '../orders/order.entity';
 import { UsersModule } from "../users/users.module";
 import { CalendlyModule } from "../calendly/calendly.module";
+import { OrdersModule } from "../orders/orders.module";
 
 @Module({
   imports: [
+    OrdersModule,
     UsersModule,
     CalendlyModule,
     ConfigModule,

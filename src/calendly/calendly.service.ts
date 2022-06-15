@@ -71,7 +71,7 @@ export class CalendlyService {
       );
     }
   }
-  public async getCalendlyEvents(accessToken, user) {
+  public async getCalendlyEventTypes(accessToken, user) {
     try {
       const response = await axios.get(
         this.configService.get('CAL_EVENT_TYPES_URL') +
@@ -80,6 +80,26 @@ export class CalendlyService {
           headers: { Authorization: 'Bearer ' + accessToken },
           params: {
             user: user.calendlyUserLink,
+          },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      throw new HttpException(
+        error.response.data.error_description,
+        error.response.status,
+      );
+    }
+  }
+  public async cancelCalendlyEvent(accessToken, eventLink) {
+    try {
+      const response = await axios.get(
+        this.configService.get('CAL_EVENTS_URL') +
+          `/${eventLink}/cancellation`,
+        {
+          headers: { Authorization: 'Bearer ' + accessToken },
+          params: {
+            reason: 'Not paid within 1 hour after booking',
           },
         },
       );
@@ -107,5 +127,13 @@ export class CalendlyService {
       timezone: calendlyUser.resource.timezone,
       calendlyUserLink: calendlyUser.resource.uri,
     });
+  }
+  public async cancelEvent(mentorUuid, eventLink): Promise<void> {
+    const user = await this.usersService.findByUuid(mentorUuid);
+    const { access_token } = await this.getTokenByRefresh(
+      user.calendlyRefreshToken,
+      user,
+    );
+    return await this.cancelCalendlyEvent(access_token, eventLink);
   }
 }
