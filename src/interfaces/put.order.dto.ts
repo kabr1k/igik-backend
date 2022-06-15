@@ -3,7 +3,7 @@ import { OrderStatus } from "../enums/order.status";
 
 export class PutOrderDto {
   @ApiProperty()
-  uuid: string;
+  id: number;
   @ApiPropertyOptional()
   status: OrderStatus;
 }

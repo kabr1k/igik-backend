@@ -12,14 +12,20 @@ import common from "../common/entity.mixin";
 @Entity()
 export class Order {
   @ApiProperty()
-  @PrimaryGeneratedColumn('uuid')
-  uuid: string;
+  @PrimaryGeneratedColumn()
+  id: number;
   @ApiProperty()
   @Column({
-    nullable: false,
+    nullable: true,
     type: 'float',
   })
-  amount: number;
+  price: number;
+  @ApiProperty()
+  @Column({
+    nullable: true,
+    type: 'int',
+  })
+  duration: number;
   @ApiProperty()
   @Column({
     type: 'enum',
@@ -27,13 +33,16 @@ export class Order {
     default: OrderStatus.PENDING,
   })
   status: OrderStatus;
-  // @ApiProperty({ type: () => User })
+  @ApiProperty({ type: () => User })
   @ManyToOne(() => User, (user) => user.postedOrders)
   buyer: User;
-  // @ApiProperty({ type: () => User })
+  @ApiProperty({ type: () => User })
   @ManyToOne(() => User, (user) => user.receivedOrders)
   seller: User;
   @ApiProperty()
   @Column(common.varcharNullable)
   eventLink: string;
+  @ApiProperty()
+  @Column('datetime')
+  startTime: string;
 }

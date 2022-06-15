@@ -65,9 +65,10 @@ export class StripeService {
       product: productUuid,
     });
   }
-  public async checkOut(user, orderDto): Promise<RedirectDto> {
-    const mentor = await this.usersService.findByUuid(orderDto.mentor_uuid);
+  public async checkOut(user, { order_id }): Promise<RedirectDto> {
+    const order = await this.ordersService.findById(order_id);
     let priceId;
+    const mentor = order.seller;
     if (!mentor.stripeProductId) {
       const product = await this.createProduct(mentor.email);
       const price = await this.createPrice(product.id, mentor.eventPrice * 100);
@@ -80,7 +81,7 @@ export class StripeService {
     } else {
       priceId = mentor.stripePriceId;
     }
-    const order = await this.ordersService.postOrder(user, orderDto);
+    // const order = await this.ordersService.postOrder(user, orderDto);
     const session = await this.stripe.checkout.sessions.create({
       line_items: [
         {
@@ -91,8 +92,8 @@ export class StripeService {
       mode: 'payment',
       success_url:
         this.configService.get('STRIPE_SUCCESS_URL') +
-        '?order_uuid=' +
-        order.uuid,
+        '?order_id=' +
+        order.id,
       cancel_url: this.configService.get('STRIPE_FAILURE_URL'),
       // payment_intent_data: {
       //   application_fee_amount: Math.round(

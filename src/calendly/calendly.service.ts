@@ -91,6 +91,26 @@ export class CalendlyService {
       );
     }
   }
+  public async getCalendlyEvents(accessToken, user) {
+    try {
+      const response = await axios.get(
+        this.configService.get('CAL_EVENTS_URL') +
+          `?user=${user.calendlyUserLink}`,
+        {
+          headers: { Authorization: 'Bearer ' + accessToken },
+          params: {
+            user: user.calendlyUserLink,
+          },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      throw new HttpException(
+        error.response.data.error_description,
+        error.response.status,
+      );
+    }
+  }
   public async cancelCalendlyEvent(accessToken, eventLink) {
     try {
       const response = await axios.get(

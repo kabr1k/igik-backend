@@ -17,6 +17,7 @@ import {
 import { StripeService } from './stripe.service';
 import { OrderDto } from '../interfaces/order.dto';
 import { RedirectDto } from '../interfaces/redirect.dto';
+import { StripeCheckoutDto } from "../interfaces/stripe.checkout.dto";
 
 @Controller()
 export class StripeCheckoutController {
@@ -37,7 +38,7 @@ export class StripeCheckoutController {
     description: 'Unauthorized, access denied',
   })
   @UseGuards(JwtGuard)
-  async checkOut(@Request() req, @Body() order: OrderDto) {
-    return await this.stripeService.checkOut(req.user.sub, order);
+  async checkOut(@Request() req, @Body() stripeCheckoutDto: StripeCheckoutDto) {
+    return await this.stripeService.checkOut(req.user.sub, stripeCheckoutDto);
   }
 }
