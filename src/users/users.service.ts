@@ -40,7 +40,9 @@ export class UsersService {
       .leftJoinAndSelect('user.specialities', 'specialities')
       .leftJoinAndSelect('user.category', 'category')
       .leftJoinAndSelect('user.receivedOrders', 'receivedOrders')
+      .leftJoinAndSelect('receivedOrders.buyer', 'buyer')
       .leftJoinAndSelect('user.postedOrders', 'postedOrders')
+      .leftJoinAndSelect('postedOrders.seller', 'seller')
       .getOne();
   }
   public async find({ amount, page }): Promise<User[] | undefined> {

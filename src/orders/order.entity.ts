@@ -2,8 +2,8 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToOne,
-} from 'typeorm';
+  ManyToOne, JoinTable, JoinColumn
+} from "typeorm";
 import { OrderStatus } from '../enums/order.status';
 import { User } from '../users/user.entity';
 import { ApiProperty } from "@nestjs/swagger";
