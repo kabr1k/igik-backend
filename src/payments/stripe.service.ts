@@ -93,11 +93,15 @@ export class StripeService {
       success_url:
         this.configService.get('STRIPE_SUCCESS_URL') +
         '?mentor_uuid=' +
-        mentor.uuid,
+        mentor.uuid +
+        '&order_id=' +
+        order_id,
       cancel_url:
         this.configService.get('STRIPE_FAILURE_URL') +
         '?mentor_uuid=' +
-        mentor.uuid,
+        mentor.uuid +
+        '&order_id=' +
+        order_id,
       // payment_intent_data: {
       //   application_fee_amount: Math.round(
       //     (mentor.eventPrice / 100) *
