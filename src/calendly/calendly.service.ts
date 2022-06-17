@@ -95,7 +95,7 @@ export class CalendlyService {
     try {
       const response = await axios.get(
         this.configService.get('CAL_EVENTS_URL') +
-          `?user=${user.calendlyUserLink}`,
+          `?count=100&user=${user.calendlyUserLink}`,
         {
           headers: { Authorization: 'Bearer ' + accessToken },
           params: {
