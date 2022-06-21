@@ -2,7 +2,7 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToOne, JoinTable, JoinColumn
+  ManyToOne, JoinTable, JoinColumn, CreateDateColumn, UpdateDateColumn
 } from "typeorm";
 import { OrderStatus } from '../enums/order.status';
 import { User } from '../users/user.entity';
@@ -27,6 +27,9 @@ export class Order {
   })
   duration: number;
   @ApiProperty()
+  @Column(common.varcharNullable)
+  joinUrl: string;
+  @ApiProperty()
   @Column({
     type: 'enum',
     enum: OrderStatus,
@@ -45,4 +48,10 @@ export class Order {
   @ApiProperty()
   @Column('datetime')
   startTime: string;
+  @ApiProperty()
+  @CreateDateColumn()
+  createdAt: string;
+  @ApiProperty()
+  @UpdateDateColumn()
+  updatedAt: string;
 }

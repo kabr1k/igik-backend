@@ -9,6 +9,7 @@ import { CalendlyService } from '../calendly/calendly.service';
 import { UpdateProfileDto } from '../interfaces/update.profile.dto';
 import { UpdateProfileDbDto } from '../interfaces/update.profile.db.dto';
 import { updateOutput } from 'ts-jest/dist/compiler/compiler-utils';
+import { OrderStatus } from '../enums/order.status';
 @Injectable()
 export class UsersService {
   constructor(
@@ -35,14 +36,20 @@ export class UsersService {
       .createQueryBuilder('user')
       .where('user.uuid = :uuid', { uuid })
       .leftJoinAndSelect('user.location', 'location')
-      .leftJoinAndSelect('user.languages', 'languages')
+      .leftJoinAndSelect('user.languages', 'language')
       .leftJoinAndSelect('user.experience', 'experience')
-      .leftJoinAndSelect('user.specialities', 'specialities')
+      .leftJoinAndSelect('user.specialities', 'speciality')
       .leftJoinAndSelect('user.category', 'category')
-      .leftJoinAndSelect('user.receivedOrders', 'receivedOrders')
-      .leftJoinAndSelect('receivedOrders.buyer', 'buyer')
-      .leftJoinAndSelect('user.postedOrders', 'postedOrders')
-      .leftJoinAndSelect('postedOrders.seller', 'seller')
+      .leftJoinAndSelect('user.receivedOrders', 'receivedOrder')
+      .leftJoinAndSelect('receivedOrder.buyer', 'buyer')
+      .leftJoinAndSelect('user.postedOrders', 'postedOrder')
+      .where('postedOrder.status <> :status', { status: OrderStatus.PENDING })
+      .andWhere('postedOrder.status <> :status', {
+        status: OrderStatus.CANCELED_SYSTEM,
+      })
+      .orderBy('postedOrder.createdAt', 'DESC')
+      .leftJoinAndSelect('postedOrder.seller', 'seller')
+      .leftJoinAndSelect('seller.category', 'sellerCategory')
       .getOne();
   }
   public async find({ amount, page }): Promise<User[] | undefined> {

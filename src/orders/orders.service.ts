@@ -31,7 +31,7 @@ export class OrdersService {
   public async saveOrder(order): Promise<Order | null> {
     return await this.ordersRepository.save(order);
   }
-  public async postOrder(user, orderDto): Promise<Order> {
+  public async postOrder(user, orderDto): Promise<Order | 406> {
     const mentor = await this.usersService.findByUuid(orderDto.mentor_uuid);
     const response = await this.calendlyService.getTokenByRefresh(
       mentor.calendlyRefreshToken,
@@ -41,9 +41,14 @@ export class OrdersService {
       response.access_token,
       mentor,
     );
-    const startTime = calendlyEvents.collection.find(
+    const event = calendlyEvents.collection.find(
       (event) => event.uri === orderDto.event_link,
-    ).start_time;
+    );
+    const startTime = event.start_time;
+    const joinUrl = event.location.join_url;
+    if (!joinUrl) {
+      return 406;
+    }
     const calendlyEventTypes = await this.calendlyService.getCalendlyEventTypes(
       response.access_token,
       mentor,
@@ -58,6 +63,7 @@ export class OrdersService {
       seller: { uuid: mentor.uuid },
       duration,
       startTime,
+      joinUrl,
     });
   }
   public async putOrder(user, { id, status }): Promise<Order> {
