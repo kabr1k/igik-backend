@@ -29,6 +29,7 @@ export class ProfileMeController {
   })
   @UseGuards(JwtGuard)
   async getUser(@Request() req) {
-    return await this.usersService.findByUuid(req.user.sub.uuid);
+    const me = await this.usersService.findByUuid(req.user.sub.uuid);
+    return me;
   }
 }

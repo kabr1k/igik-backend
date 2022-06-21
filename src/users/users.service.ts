@@ -43,10 +43,12 @@ export class UsersService {
       .leftJoinAndSelect('user.receivedOrders', 'receivedOrder')
       .leftJoinAndSelect('receivedOrder.buyer', 'buyer')
       .leftJoinAndSelect('user.postedOrders', 'postedOrder')
-      .where('postedOrder.status <> :status', { status: OrderStatus.PENDING })
-      .andWhere('postedOrder.status <> :status', {
-        status: OrderStatus.CANCELED_SYSTEM,
-      })
+      .leftJoinAndSelect(
+        'user.postedOrders',
+        'userPostedOrder',
+        'userPostedOrder.status <> :pending AND userPostedOrder.status <> :canceled',
+        { pending: OrderStatus.PENDING, canceled: OrderStatus.CANCELED_SYSTEM },
+      )
       .orderBy('postedOrder.createdAt', 'DESC')
       .leftJoinAndSelect('postedOrder.seller', 'seller')
       .leftJoinAndSelect('seller.category', 'sellerCategory')
