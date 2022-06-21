@@ -113,15 +113,12 @@ export class CalendlyService {
   }
   public async cancelCalendlyEvent(accessToken, eventLink, reason) {
     try {
-      const response = await axios.get(
-        this.configService.get('CAL_EVENTS_URL') + `/${eventLink}/cancellation`,
-        {
-          headers: { Authorization: 'Bearer ' + accessToken },
-          params: {
-            reason,
-          },
+      const response = await axios.post(`${eventLink}/cancellation`, {
+        headers: { Authorization: 'Bearer ' + accessToken },
+        params: {
+          reason,
         },
-      );
+      });
       return response.data;
     } catch (error) {
       throw new HttpException(
