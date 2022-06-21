@@ -40,17 +40,22 @@ export class UsersService {
       .leftJoinAndSelect('user.experience', 'experience')
       .leftJoinAndSelect('user.specialities', 'speciality')
       .leftJoinAndSelect('user.category', 'category')
-      .leftJoinAndSelect('user.receivedOrders', 'receivedOrder')
-      .leftJoinAndSelect('receivedOrder.buyer', 'buyer')
-      .leftJoinAndSelect('user.postedOrders', 'postedOrder')
+      .leftJoinAndSelect(
+        'user.receivedOrders',
+        'userReceivedOrder',
+        'userReceivedOrder.status <> :pending AND userReceivedOrder.status <> :canceled',
+        { pending: OrderStatus.PENDING, canceled: OrderStatus.CANCELED_SYSTEM },
+      )
+      .orderBy('userReceivedOrder.createdAt', 'DESC')
+      .leftJoinAndSelect('userReceivedOrder.buyer', 'buyer')
       .leftJoinAndSelect(
         'user.postedOrders',
         'userPostedOrder',
         'userPostedOrder.status <> :pending AND userPostedOrder.status <> :canceled',
         { pending: OrderStatus.PENDING, canceled: OrderStatus.CANCELED_SYSTEM },
       )
-      .orderBy('postedOrder.createdAt', 'DESC')
-      .leftJoinAndSelect('postedOrder.seller', 'seller')
+      .orderBy('userPostedOrder.createdAt', 'DESC')
+      .leftJoinAndSelect('userPostedOrder.seller', 'seller')
       .leftJoinAndSelect('seller.category', 'sellerCategory')
       .getOne();
   }
