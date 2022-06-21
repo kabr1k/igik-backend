@@ -111,15 +111,14 @@ export class CalendlyService {
       );
     }
   }
-  public async cancelCalendlyEvent(accessToken, eventLink) {
+  public async cancelCalendlyEvent(accessToken, eventLink, reason) {
     try {
       const response = await axios.get(
-        this.configService.get('CAL_EVENTS_URL') +
-          `/${eventLink}/cancellation`,
+        this.configService.get('CAL_EVENTS_URL') + `/${eventLink}/cancellation`,
         {
           headers: { Authorization: 'Bearer ' + accessToken },
           params: {
-            reason: 'Not paid within 1 hour after booking',
+            reason,
           },
         },
       );
@@ -148,12 +147,12 @@ export class CalendlyService {
       calendlyUserLink: calendlyUser.resource.uri,
     });
   }
-  public async cancelEvent(mentorUuid, eventLink): Promise<void> {
+  public async cancelEvent(mentorUuid, eventLink, reason): Promise<void> {
     const user = await this.usersService.findByUuid(mentorUuid);
     const { access_token } = await this.getTokenByRefresh(
       user.calendlyRefreshToken,
       user,
     );
-    return await this.cancelCalendlyEvent(access_token, eventLink);
+    return await this.cancelCalendlyEvent(access_token, eventLink, reason);
   }
 }

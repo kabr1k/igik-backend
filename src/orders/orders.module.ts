@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from '../users/users.module';
 import { CalendlyModule } from '../calendly/calendly.module';
 import { PutOrderController } from './put.order.controller';
+import { DeleteOrderController } from './delete.order.controller';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { PutOrderController } from './put.order.controller';
     CalendlyModule,
   ],
   providers: [OrdersService, UsersService],
-  controllers: [PostOrderController, PutOrderController],
+  controllers: [PostOrderController, PutOrderController, DeleteOrderController],
   exports: [OrdersService],
 })
 export class OrdersModule {}

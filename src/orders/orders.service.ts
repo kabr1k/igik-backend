@@ -72,4 +72,19 @@ export class OrdersService {
       status,
     });
   }
+  public async cancelOrder(user, { id, status, reason }): Promise<Order> {
+    const order = await this.findById(id);
+    const mentorUuid = order.seller.uuid;
+    const eventLink = order.eventLink;
+    const cancelResponse = await this.calendlyService.cancelEvent(
+      mentorUuid,
+      eventLink,
+      reason,
+    );
+    console.log(cancelResponse);
+    return await this.saveOrder({
+      id,
+      status,
+    });
+  }
 }

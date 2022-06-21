@@ -6,9 +6,7 @@ import { createHash } from 'crypto';
 import { ConfigService } from '@nestjs/config';
 import { usersSeed } from '../seed/seeds/users.seed';
 import { CalendlyService } from '../calendly/calendly.service';
-import { UpdateProfileDto } from '../interfaces/update.profile.dto';
 import { UpdateProfileDbDto } from '../interfaces/update.profile.db.dto';
-import { updateOutput } from 'ts-jest/dist/compiler/compiler-utils';
 import { OrderStatus } from '../enums/order.status';
 @Injectable()
 export class UsersService {
