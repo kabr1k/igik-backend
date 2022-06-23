@@ -8,6 +8,7 @@ import { usersSeed } from '../seed/seeds/users.seed';
 import { CalendlyService } from '../calendly/calendly.service';
 import { UpdateProfileDbDto } from '../interfaces/update.profile.db.dto';
 import { OrderStatus } from '../enums/order.status';
+import { MentorsQueryDto } from '../interfaces/mentors.query.dto';
 @Injectable()
 export class UsersService {
   constructor(
@@ -57,7 +58,14 @@ export class UsersService {
       .leftJoinAndSelect('seller.category', 'sellerCategory')
       .getOne();
   }
-  public async find({ amount, page }): Promise<User[] | undefined> {
+  public async find({
+    amount,
+    page,
+    category,
+    specialities,
+    priceRange,
+    search,
+  }: MentorsQueryDto): Promise<User[] | undefined> {
     let offset, limit;
     if (+page === 1) {
       limit = +amount + 1;
@@ -66,15 +74,19 @@ export class UsersService {
       limit = +amount;
       offset = +page * +amount - 1;
     }
-    console.log(offset, amount);
     const entityManager = getManager();
     return await entityManager
       .getRepository(User)
       .createQueryBuilder('user')
+      .where('user.role = :role', { role: 'mentor' })
+      .andWhere('user.eventPrice >= :min', { min: priceRange.min })
+      .andWhere('user.eventPrice <= :max', { max: priceRange.max })
+      .andWhere('user.category = :category', { category })
+      .andWhere('user.about like :search', { search: '%' + search + '%' })
       .leftJoinAndSelect('user.location', 'location')
-      .leftJoinAndSelect('user.languages', 'languages')
+      .leftJoinAndSelect('user.languages', 'language')
       .leftJoinAndSelect('user.experience', 'experience')
-      .leftJoinAndSelect('user.specialities', 'specialities')
+      .leftJoinAndSelect('user.specialities', 'speciality')
       .leftJoinAndSelect('user.category', 'category')
       .orderBy('user.email')
       .limit(limit)

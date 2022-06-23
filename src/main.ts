@@ -17,12 +17,12 @@ import { PaymentsModule } from './payments/payments.module';
 import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
 import { MailerModule } from './mailer/mailer.module';
-import { SpecialitiesModule } from "./speciality/specialities.module";
-import { CategoriesModule } from "./category/categories.module";
-import { LanguagesModule } from "./languages/languages.module";
-import { LocationsModule } from "./location/locations.module";
-import { ExperienceModule } from "./experience/experience.module";
-import { SeedModule } from "./seed/seed.module";
+import { SpecialitiesModule } from './speciality/specialities.module';
+import { CategoriesModule } from './category/categories.module';
+import { LanguagesModule } from './languages/languages.module';
+import { LocationsModule } from './location/locations.module';
+import { ExperienceModule } from './experience/experience.module';
+import { SeedModule } from './seed/seed.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -60,7 +60,7 @@ async function bootstrap() {
       ],
     };
     const setupOptions = {
-      customSiteTitle: 'Instagig API docs',
+      customSiteTitle: 'I-gik API docs',
     };
     const document = SwaggerModule.createDocument(app, config, options);
     SwaggerModule.setup('api/v1', app, document, setupOptions);

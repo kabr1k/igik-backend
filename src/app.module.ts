@@ -11,12 +11,12 @@ import { CalendlyModule } from './calendly/calendly.module';
 import { join } from 'path';
 import { PaymentsModule } from './payments/payments.module';
 import { OrdersModule } from './orders/orders.module';
-import { SpecialitiesModule } from "./speciality/specialities.module";
-import { CategoriesModule } from "./category/categories.module";
-import { LanguagesModule } from "./languages/languages.module";
-import { LocationsModule } from "./location/locations.module";
-import { ExperienceModule } from "./experience/experience.module";
-import { SeedModule } from "./seed/seed.module";
+import { SpecialitiesModule } from './speciality/specialities.module';
+import { CategoriesModule } from './category/categories.module';
+import { LanguagesModule } from './languages/languages.module';
+import { LocationsModule } from './location/locations.module';
+import { ExperienceModule } from './experience/experience.module';
+import { SeedModule } from './seed/seed.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
