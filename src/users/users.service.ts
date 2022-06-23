@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getManager, Repository } from 'typeorm';
+import { Brackets, getManager, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { createHash } from 'crypto';
 import { ConfigService } from '@nestjs/config';
@@ -17,8 +17,40 @@ export class UsersService {
     private readonly configService: ConfigService,
     private readonly calendlyService: CalendlyService,
   ) {}
-  public async seed(): Promise<void> {
-    await this.usersRepository.save(usersSeed);
+  public async seed(
+    categories,
+    specialities,
+    locations,
+    languages,
+  ): Promise<void> {
+    await this.usersRepository.save({
+      ...usersSeed[0],
+      category: categories[0],
+      location: locations[0],
+      specialities: [specialities[0], specialities[1]],
+      languages: [languages[0], languages[1]],
+    });
+    await this.usersRepository.save({
+      ...usersSeed[1],
+      category: categories[1],
+      location: locations[1],
+      specialities: [specialities[1], specialities[2], specialities[3]],
+      languages: [languages[2]],
+    });
+    await this.usersRepository.save({
+      ...usersSeed[2],
+      category: categories[2],
+      location: locations[3],
+      specialities: [specialities[0], specialities[1]],
+      languages: [languages[2], languages[1]],
+    });
+    await this.usersRepository.save({
+      ...usersSeed[3],
+      category: categories[2],
+      location: locations[3],
+      specialities: [specialities[4], specialities[5], specialities[6]],
+      languages: [languages[3]],
+    });
   }
   public async countMentors(): Promise<number | undefined> {
     const entityManager = getManager();
@@ -61,11 +93,11 @@ export class UsersService {
   public async find({
     amount,
     page,
-    category,
-    specialities,
     priceRange,
     search,
-  }: MentorsQueryDto): Promise<User[] | undefined> {
+    category,
+    specialities,
+  }): Promise<User[]> {
     let offset, limit;
     if (+page === 1) {
       limit = +amount + 1;
@@ -74,24 +106,53 @@ export class UsersService {
       limit = +amount;
       offset = +page * +amount - 1;
     }
+    if (page === 0) {
+      page = 1;
+    }
+    const skip = page === 1 ? 0 : amount;
     const entityManager = getManager();
-    return await entityManager
+    let searchString, min, max;
+    if (search) {
+      searchString = '%' + search + '%';
+    } else {
+      searchString = '%';
+    }
+    if (!priceRange) {
+      min = 0;
+      max = 10000000;
+    }
+    const query = entityManager
       .getRepository(User)
       .createQueryBuilder('user')
-      .where('user.role = :role', { role: 'mentor' })
-      .andWhere('user.eventPrice >= :min', { min: priceRange.min })
-      .andWhere('user.eventPrice <= :max', { max: priceRange.max })
-      .andWhere('user.category = :category', { category })
-      .andWhere('user.about like :search', { search: '%' + search + '%' })
-      .leftJoinAndSelect('user.location', 'location')
-      .leftJoinAndSelect('user.languages', 'language')
-      .leftJoinAndSelect('user.experience', 'experience')
-      .leftJoinAndSelect('user.specialities', 'speciality')
       .leftJoinAndSelect('user.category', 'category')
-      .orderBy('user.email')
-      .limit(limit)
-      .offset(offset)
-      .getMany();
+      .leftJoinAndSelect('user.specialities', 'speciality')
+      .where('user.role = :role', { role: 'mentor' })
+      .andWhere('user.active = :active', { active: true })
+      .andWhere('user.eventPrice >= :min', { min })
+      .andWhere('user.eventPrice <= :max', { max })
+      .leftJoinAndSelect('user.location', 'location')
+      .andWhere(
+        new Brackets((qb) => {
+          qb.where('location.name like :search', {
+            search: searchString,
+          })
+            .orWhere('user.about like :search', { search: searchString })
+            .orWhere('user.firstName like :search', { search: searchString })
+            .orWhere('user.lastName like :search', { search: searchString });
+        }),
+      )
+      .leftJoinAndSelect('user.languages', 'language')
+      .leftJoinAndSelect('user.experience', 'experience');
+    if (category) {
+      query.andWhere('category.uuid = :uuid', { uuid: category.uuid });
+    }
+    if (specialities && specialities.length > 0) {
+      query.andWhere('speciality.uuid IN (:...specialities)', {
+        specialities,
+      });
+    }
+    query.skip(skip).take(amount).orderBy('user.email');
+    return await query.getMany();
   }
   public async findByWallet(walletAddress: string): Promise<User | undefined> {
     return await this.usersRepository.findOne({ walletAddress });

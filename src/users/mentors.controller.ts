@@ -1,7 +1,7 @@
 import {
   Body,
   Controller,
-  Get, Post,
+  Get, HttpException, Post,
   Query
 } from "@nestjs/common";
 import {
@@ -12,6 +12,7 @@ import {
 import { UsersService } from './users.service';
 import { User } from './user.entity';
 import { MentorsQueryDto } from '../interfaces/mentors.query.dto';
+import { GetMentorsDto } from "../interfaces/get.mentors.dto";
 
 @Controller()
 export class MentorsController {
@@ -20,11 +21,20 @@ export class MentorsController {
   @ApiTags('Users')
   @ApiOperation({ description: 'Get random mentors list with pagination' })
   @ApiResponse({
-    status: 200,
+    status: 201,
     description: 'OK',
-    type: [User],
+    type: GetMentorsDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'No results',
   })
   async getMentors(@Body() body: MentorsQueryDto) {
-    return await this.usersService.find(body);
+    const mentors = await this.usersService.find(body);
+    if (mentors.length !== 0) {
+      return { mentors, count: mentors.length };
+    } else {
+      throw new HttpException('No results', 404);
+    }
   }
 }
