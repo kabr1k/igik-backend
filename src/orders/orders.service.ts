@@ -49,7 +49,7 @@ export class OrdersService {
     if (!joinUrl) {
       const cancelResponse = await this.calendlyService.cancelEvent(
         mentor.uuid,
-        orderDto.eventLink,
+        orderDto.event_link,
         'No zoom integration. Please connect zoom to your calendly account',
       );
       console.log(cancelResponse);
