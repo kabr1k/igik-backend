@@ -3,6 +3,9 @@ import common from '../common/entity.mixin';
 import { Category } from '../category/category.entity';
 import { Speciality } from '../speciality/speciality.entity';
 import { PriceRangeDto } from './price.range.dto';
+import { SpecialityDto } from "./speciality.dto";
+import { Experience } from "../experience/experience.entity";
+import { ExperienceDto } from "./experience.dto";
 export class MentorsQueryDto {
   @ApiProperty()
   amount: number;
@@ -12,8 +15,10 @@ export class MentorsQueryDto {
   search: string;
   @ApiPropertyOptional()
   category: Category;
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: () => [SpecialityDto] })
   specialities: Speciality[];
+  @ApiPropertyOptional({ type: () => [ExperienceDto] })
+  experiences: Experience[];
   @ApiPropertyOptional()
   priceRange: PriceRangeDto;
 }

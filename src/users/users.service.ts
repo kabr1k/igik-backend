@@ -8,7 +8,6 @@ import { usersSeed } from '../seed/seeds/users.seed';
 import { CalendlyService } from '../calendly/calendly.service';
 import { UpdateProfileDbDto } from '../interfaces/update.profile.db.dto';
 import { OrderStatus } from '../enums/order.status';
-import { MentorsQueryDto } from '../interfaces/mentors.query.dto';
 @Injectable()
 export class UsersService {
   constructor(
@@ -22,10 +21,12 @@ export class UsersService {
     specialities,
     locations,
     languages,
+    experiences,
   ): Promise<void> {
     await this.usersRepository.save({
       ...usersSeed[0],
       category: categories[0],
+      experience: experiences[0],
       location: locations[0],
       specialities: [specialities[0], specialities[1]],
       languages: [languages[0], languages[1]],
@@ -33,6 +34,7 @@ export class UsersService {
     await this.usersRepository.save({
       ...usersSeed[1],
       category: categories[1],
+      experience: experiences[1],
       location: locations[1],
       specialities: [specialities[1], specialities[2], specialities[3]],
       languages: [languages[2]],
@@ -40,6 +42,7 @@ export class UsersService {
     await this.usersRepository.save({
       ...usersSeed[2],
       category: categories[2],
+      experience: experiences[2],
       location: locations[3],
       specialities: [specialities[0], specialities[1]],
       languages: [languages[2], languages[1]],
@@ -47,6 +50,7 @@ export class UsersService {
     await this.usersRepository.save({
       ...usersSeed[3],
       category: categories[2],
+      experience: experiences[3],
       location: locations[3],
       specialities: [specialities[4], specialities[5], specialities[6]],
       languages: [languages[3]],
@@ -97,16 +101,9 @@ export class UsersService {
     search,
     category,
     specialities,
+    experiences,
   }): Promise<User[]> {
-    let offset, limit;
-    if (+page === 1) {
-      limit = +amount + 1;
-      offset = 0;
-    } else {
-      limit = +amount;
-      offset = +page * +amount - 1;
-    }
-    if (page === 0) {
+    if (!page) {
       page = 1;
     }
     const skip = page === 1 ? 0 : amount;
@@ -120,6 +117,17 @@ export class UsersService {
     if (!priceRange) {
       min = 0;
       max = 10000000;
+    } else {
+      if (priceRange.min) {
+        min = priceRange.min;
+      } else {
+        min = 0;
+      }
+      if (priceRange.max) {
+        max = priceRange.max;
+      } else {
+        max = 10000000;
+      }
     }
     const query = entityManager
       .getRepository(User)
@@ -147,8 +155,19 @@ export class UsersService {
       query.andWhere('category.uuid = :uuid', { uuid: category.uuid });
     }
     if (specialities && specialities.length > 0) {
+      const specialityUuids = specialities.map((spec) => {
+        return spec.uuid;
+      });
       query.andWhere('speciality.uuid IN (:...specialities)', {
-        specialities,
+        specialities: specialityUuids,
+      });
+    }
+    if (experiences && experiences.length > 0) {
+      const uuids = experiences.map((exp) => {
+        return exp.uuid;
+      });
+      query.andWhere('experience.uuid IN (:...experiences)', {
+        experiences: uuids,
       });
     }
     query.skip(skip).take(amount).orderBy('user.email');

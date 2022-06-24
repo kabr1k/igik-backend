@@ -49,11 +49,13 @@ export class SeedController {
     const specialities = await this.specialityService.findAll();
     const locations = await this.locationService.findAll();
     const languages = await this.languageService.findAll();
+    const experiences = await this.experienceService.findAll();
     await this.usersService.seed(
       categories,
       specialities,
       locations,
       languages,
+      experiences,
     );
   }
 }
