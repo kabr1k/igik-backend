@@ -146,7 +146,9 @@ export class UsersService {
           })
             .orWhere('user.about like :search', { search: searchString })
             .orWhere('user.firstName like :search', { search: searchString })
-            .orWhere('user.lastName like :search', { search: searchString });
+            .orWhere('user.lastName like :search', { search: searchString })
+            .orWhere('category.name like :search', { search: searchString })
+            .orWhere('speciality.name like :search', { search: searchString });
         }),
       )
       .leftJoinAndSelect('user.languages', 'language')
