@@ -41,7 +41,7 @@ export class PasswordUpdateController {
     if (user) {
       return user;
     } else {
-      throw new HttpException('Token or email is invalid', 401);
+      throw new HttpException('Password is incorrect.', 401);
     }
   }
 }

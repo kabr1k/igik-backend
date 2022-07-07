@@ -23,6 +23,7 @@ import { LanguagesModule } from './languages/languages.module';
 import { LocationsModule } from './location/locations.module';
 import { ExperienceModule } from './experience/experience.module';
 import { SeedModule } from './seed/seed.module';
+import { PublicModule } from "./public/public.module";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -30,10 +31,17 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
   app.setBaseViewsDir(join(__dirname, '..', 'src/stocks/views'));
   app.useStaticAssets('static/');
-  app.setViewEngine('pug');
   const configService = app.get(ConfigService);
   const port = +configService.get('PORT');
   const swagger = +configService.get('SWAGGER');
+  app.useStaticAssets(
+    join(
+      __dirname,
+      '../../..',
+      configService.get<string>('FRONTEND_PATH') + '/client/',
+    ),
+  );
+  app.setViewEngine('pug');
   if (swagger) {
     const config = new DocumentBuilder()
       .setTitle('iGik API')
@@ -57,6 +65,7 @@ async function bootstrap() {
         LocationsModule,
         ExperienceModule,
         SeedModule,
+        PublicModule,
       ],
     };
     const setupOptions = {

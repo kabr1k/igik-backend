@@ -37,7 +37,7 @@ export class ProfileUpdateController {
     );
     switch (user) {
       case 401:
-        throw new HttpException('Old password is incorrect', 401);
+        throw new HttpException('Old password is incorrect.', 401);
       default:
         return user;
     }
