@@ -5,4 +5,6 @@ export class CategoriesResponseDto {
   uuid: string;
   @ApiProperty()
   name: string;
+  @ApiProperty()
+  imagePath: string;
 }

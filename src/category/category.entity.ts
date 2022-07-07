@@ -12,4 +12,7 @@ export class Category {
   name: string;
   @OneToMany(() => User, (user) => user.category)
   users: User[];
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  imagePath: string;
 }

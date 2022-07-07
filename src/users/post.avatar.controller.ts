@@ -1,5 +1,6 @@
 import {
   Controller,
+  HttpException,
   Post,
   Req,
   UploadedFile,
@@ -58,16 +59,36 @@ export class PostAvatarController {
       storage: diskStorage({
         destination: 'static/upload/avatars',
         filename: function (req, file, cb) {
+          const fileSize = parseInt(req.headers['content-length']);
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           const user = req.user.sub;
           const extension = file.originalname.split('.').pop();
           const filename = user.uuid + '.' + extension;
-          cb(null, filename);
+          if (
+            (file.mimetype === 'image/png' ||
+              file.mimetype === 'image/jpg' ||
+              file.mimetype === 'image/jpeg' ||
+              file.mimetype === 'application/octet-stream') &&
+            fileSize <= 1282810
+          ) {
+            cb(null, filename);
+          } else {
+            cb(null, '406');
+          }
         },
       }),
     }),
   )
   async uploadFile(@UploadedFile() file: Express.Multer.File, @Req() req) {
-    return await this.imageService.processImages(req.user.sub, file);
+    switch (file.filename) {
+      case '406':
+        throw new HttpException(
+          "We can't accept this photo. Please try again or choose another file.",
+          406,
+        );
+      default:
+        return await this.imageService.processImages(req.user.sub, file);
+    }
   }
 }
