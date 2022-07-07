@@ -23,24 +23,28 @@ import { LanguagesModule } from './languages/languages.module';
 import { LocationsModule } from './location/locations.module';
 import { ExperienceModule } from './experience/experience.module';
 import { SeedModule } from './seed/seed.module';
-import { PublicModule } from "./public/public.module";
-
+import { PublicModule } from './public/public.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors();
-  app.useWebSocketAdapter(new IoAdapter(app));
-  app.setBaseViewsDir(join(__dirname, '..', 'src/stocks/views'));
-  app.useStaticAssets('static/');
   const configService = app.get(ConfigService);
   const port = +configService.get('PORT');
   const swagger = +configService.get('SWAGGER');
+  const dist = join(
+    __dirname,
+    '../..',
+    configService.get<string>('FRONTEND_PATH'),
+  );
+  app.enableCors();
   app.useStaticAssets(
     join(
       __dirname,
-      '../../..',
+      '../..',
       configService.get<string>('FRONTEND_PATH') + '/client/',
     ),
   );
+  app.useStaticAssets('static/');
+  app.useWebSocketAdapter(new IoAdapter(app));
+  app.setBaseViewsDir(join(__dirname, '..', 'src/stocks/views'));
   app.setViewEngine('pug');
   if (swagger) {
     const config = new DocumentBuilder()

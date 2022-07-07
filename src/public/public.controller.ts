@@ -18,10 +18,6 @@ export class PublicController {
       '../../..',
       this.configService.get<string>('FRONTEND_PATH'),
     );
-
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { ssr } = require(`${dist}/server/package.json`);
-
     // The manifest is required for preloading assets
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const manifest = require(`${dist}/client/ssr-manifest.json`);
@@ -39,9 +35,9 @@ export class PublicController {
       response,
       // initialState: { ... } // <- This would also be available
     });
-    response.type('html');
+    // response.type('html');
     // response.writeHead(status || 200, statusText || headers, headers);
-    response.end(html);
-    // return html;
+    // response.end(html);
+    return html;
   }
 }
