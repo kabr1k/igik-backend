@@ -24,6 +24,7 @@ import { LocationsModule } from './location/locations.module';
 import { ExperienceModule } from './experience/experience.module';
 import { SeedModule } from './seed/seed.module';
 import { PublicModule } from './public/public.module';
+import { TextModule } from "./text/text.module";
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
@@ -56,6 +57,7 @@ async function bootstrap() {
     const options: SwaggerDocumentOptions = {
       include: [
         RegisterModule,
+        TextModule,
         LoginModule,
         UsersModule,
         OrdersModule,

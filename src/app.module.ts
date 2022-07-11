@@ -18,6 +18,7 @@ import { LocationsModule } from './location/locations.module';
 import { ExperienceModule } from './experience/experience.module';
 import { SeedModule } from './seed/seed.module';
 import { PublicModule } from "./public/public.module";
+import { TextModule } from "./text/text.module";
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -49,6 +50,7 @@ import { PublicModule } from "./public/public.module";
       inject: [ConfigService],
     }),
     RegisterModule,
+    TextModule,
     LoginModule,
     UsersModule,
     OrdersModule,

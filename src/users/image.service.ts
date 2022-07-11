@@ -24,8 +24,9 @@ export class ImageService {
       width.toString() +
       '.' +
       extension;
+    let result;
     try {
-      await sharp(filename)
+      result = await sharp(filename)
         .resize({
           width,
           height,
@@ -34,10 +35,16 @@ export class ImageService {
     } catch (error) {
       console.log(error);
     }
+    console.log(result);
   }
-  public async processImages(user, file) {
-    await this.resize(user, file, this.widthS, this.widthS);
-    await this.resize(user, file, this.widthM, this.widthM);
+  public async processImages({ uuid }, file) {
+    const user = await this.usersService.findByUuid(uuid);
+    if (user.avatarS) {
+      await unlinkAsync('static' + user.avatarS);
+      await unlinkAsync('static' + user.avatarM);
+    }
+    const s = await this.resize(user, file, this.widthS, this.widthS);
+    const m = await this.resize(user, file, this.widthM, this.widthM);
     const extension = file.originalname.split('.').pop();
     const avatarL = '/upload/avatars/' + user.uuid + '.' + extension;
     const avatarS =

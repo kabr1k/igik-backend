@@ -21,7 +21,9 @@ import { diskStorage } from 'multer';
 import { ImageService } from './image.service';
 import { User } from './user.entity';
 const sharp = require('sharp');
-
+const fs = require('fs');
+const { promisify } = require('util');
+const unlinkAsync = promisify(fs.unlink);
 @Controller()
 export class PostAvatarController {
   constructor(private readonly imageService: ImageService) {}
@@ -58,13 +60,16 @@ export class PostAvatarController {
     FileInterceptor('file', {
       storage: diskStorage({
         destination: 'static/upload/avatars',
-        filename: function (req, file, cb) {
+        filename: async function (req, file, cb) {
           const fileSize = parseInt(req.headers['content-length']);
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           const user = req.user.sub;
           const extension = file.originalname.split('.').pop();
           const filename = user.uuid + '.' + extension;
+          try {
+            await unlinkAsync('static' + user.avatarL);
+          } catch (e) {}
           if (
             (file.mimetype === 'image/png' ||
               file.mimetype === 'image/jpg' ||
