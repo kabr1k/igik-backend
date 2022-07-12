@@ -15,4 +15,7 @@ export class Category {
   @ApiProperty()
   @Column(common.varcharNullable)
   imagePath: string;
+  @ApiProperty()
+  @Column(common.varcharNullable)
+  slug: string;
 }

@@ -18,6 +18,7 @@ import { SpecialityService } from '../speciality/speciality.service';
 import { UsersService } from '../users/users.service';
 import { CategoryService } from '../category/category.service';
 import { ExperienceService } from '../experience/experience.service';
+import { TextService } from "../text/text.service";
 
 @Controller()
 export class SeedController {
@@ -28,6 +29,7 @@ export class SeedController {
     private readonly specialityService: SpecialityService,
     private readonly categoryService: CategoryService,
     private readonly experienceService: ExperienceService,
+    private readonly textService: TextService,
   ) {}
   @Get('ksh74hf83')
   @ApiTags('Development')
@@ -40,6 +42,7 @@ export class SeedController {
     description: 'OK',
   })
   async seed(@Request() req) {
+    await this.textService.seed();
     await this.categoryService.seed();
     await this.locationService.seed();
     await this.languageService.seed();

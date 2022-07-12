@@ -9,7 +9,7 @@ import { SeedTextController } from "./seed.text.controller";
   imports: [TypeOrmModule.forFeature([Text])],
   providers: [TextService],
   controllers: [
-    TextController, SeedTextController
+    TextController
   ],
   exports: [TextService],
 })

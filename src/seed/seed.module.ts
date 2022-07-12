@@ -6,10 +6,12 @@ import { ExperienceModule } from '../experience/experience.module';
 import { CategoriesModule } from '../category/categories.module';
 import { SpecialitiesModule } from '../speciality/specialities.module';
 import { UsersModule } from '../users/users.module';
+import { TextModule } from "../text/text.module";
 
 @Module({
   imports: [
     LocationsModule,
+    TextModule,
     LanguagesModule,
     ExperienceModule,
     CategoriesModule,
