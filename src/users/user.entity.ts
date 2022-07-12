@@ -18,6 +18,7 @@ import { Category } from '../category/category.entity';
 import { Location } from '../location/location.entity';
 import { Language } from '../languages/language.entity';
 import { Experience } from '../experience/experience.entity';
+import { Ticket } from "../tickets/ticket.entity";
 
 @Entity()
 export class User {
@@ -64,6 +65,9 @@ export class User {
   @ApiProperty()
   @Column(common.varcharNullable)
   calendlyRefreshToken: string;
+  @ApiProperty({ type: [Ticket] })
+  @OneToMany(() => Ticket, (ticket) => ticket.user)
+  tickets: Ticket[];
   @ApiProperty({ type: [Order] })
   @OneToMany(() => Order, (order) => order.buyer)
   postedOrders: Order[];

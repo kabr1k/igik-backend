@@ -19,6 +19,7 @@ import { ExperienceModule } from './experience/experience.module';
 import { SeedModule } from './seed/seed.module';
 import { PublicModule } from "./public/public.module";
 import { TextModule } from "./text/text.module";
+import { TicketsModule } from "./tickets/tickets.module";
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -50,6 +51,7 @@ import { TextModule } from "./text/text.module";
       inject: [ConfigService],
     }),
     RegisterModule,
+    TicketsModule,
     TextModule,
     LoginModule,
     UsersModule,
