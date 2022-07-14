@@ -10,6 +10,8 @@ export class TicketUpdateDto {
   @ApiPropertyOptional()
   uuid?: number;
   @ApiPropertyOptional()
+  topic: string;
+  @ApiPropertyOptional()
   text: string;
   @ApiProperty({ type: () => UuidDto })
   user: User;

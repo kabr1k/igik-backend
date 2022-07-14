@@ -19,6 +19,9 @@ export class Ticket {
   uuid?: number;
   @ApiProperty()
   @Column(common.textNullable)
+  topic: string;
+  @ApiProperty()
+  @Column(common.textNullable)
   text: string;
   @ApiProperty({ type: () => User })
   @ManyToOne(() => User, (user) => user.tickets)

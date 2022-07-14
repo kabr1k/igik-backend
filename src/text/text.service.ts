@@ -12,7 +12,7 @@ export class TextService {
   public async findAll(): Promise<Text[] | undefined> {
     return await this.textRepository.find();
   }
-  public async findOne({ slug }) {
+  public async findBySlug(slug) {
     const entityManager = getManager();
     return await entityManager
       .getRepository(Text)

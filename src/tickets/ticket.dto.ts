@@ -11,6 +11,9 @@ class UuidDto {
 export class TicketDto {
   @Expose()
   @ApiPropertyOptional()
+  topic: string;
+  @Expose()
+  @ApiPropertyOptional()
   text: string;
   @Expose()
   @ApiProperty({ type: () => UuidDto })

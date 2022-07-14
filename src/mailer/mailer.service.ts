@@ -63,14 +63,14 @@ export class MailerService {
     });
     console.log(info);
   }
-  public async sendTicket(user, text): Promise<void> {
+  public async sendTicket(user, dto): Promise<void> {
     const info = await this.transporter.sendMail({
       from: this.configService.get('SMTP_SENDER'),
       to: this.configService.get('SUPPORT_EMAIL'),
       subject: 'Support Ticket ✔',
       html: `
-      <p>Support ticket from ${user}</p> 
-      <p>${text}</p>
+      <p>Support ticket from ${user}: ${dto.topic}</p> 
+      <p>${dto.text}</p>
       `,
     });
     console.log(info);

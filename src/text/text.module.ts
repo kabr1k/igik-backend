@@ -3,10 +3,10 @@ import { TextService } from './text.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Text } from './text.entity';
 import { TextController } from './text.controller';
-import { SeedTextController } from "./seed.text.controller";
+import { CategoriesModule } from "../category/categories.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Text])],
+  imports: [CategoriesModule, TypeOrmModule.forFeature([Text])],
   providers: [TextService],
   controllers: [
     TextController
