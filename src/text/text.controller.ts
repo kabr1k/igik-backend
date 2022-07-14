@@ -23,7 +23,7 @@ export class TextController {
   async find(@Request() req, @Query() { name, slug }: TextDto) {
     if (name === 'main') {
       const categories = await this.categoryService.findAll();
-      return { state: { categories }, name, server: true };
+      return { categories, name, server: true };
     } else {
       const text = await this.textService.findBySlug(slug);
       return { ...text, name, server: true };
