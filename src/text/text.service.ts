@@ -23,7 +23,9 @@ export class TextService {
   public async seed(): Promise<void> {
     await this.textRepository.save([
       {
-        text: 'Lorem ipsum dolor sit amet consectetur text more text',
+        text:
+          'On iGik you can find a programmer for live mentoring or conducting a project. Master essential programming concepts, practice your newfound coding skills in Python, PHP, HTML, SAS, JavaScript, jQuery, CSS, React and more with programming experts located all around the world. You can  find data science and analysis mentors today to improve your skills and achieve your personal goals.\n' +
+          'Get guidance on how to become a mobile app developer and find out everything you need to know about the mobile app landscape. Get help from game development experts. Learn software testing and successfully become software testers.',
         title: 'Category title',
         metaDescription: 'Some met description',
         metaTitle: 'Some title',
