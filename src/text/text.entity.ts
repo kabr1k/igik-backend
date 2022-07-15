@@ -19,13 +19,13 @@ export class Text {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
   @ApiProperty()
-  @Column(common.varcharNullable)
+  @Column(common.textNullable)
   text: string;
   @ApiProperty()
   @Column(common.varcharNullable)
   title: string;
   @ApiProperty()
-  @Column(common.varcharNullable)
+  @Column(common.textNullable)
   metaDescription: string;
   @ApiProperty()
   @Column(common.varcharNullable)
