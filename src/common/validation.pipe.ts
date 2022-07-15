@@ -14,7 +14,11 @@ export class ValidationPipe implements PipeTransform<any> {
       const response = {};
       for (const error of errors) {
         for (const key in error.constraints) {
-          response[error.property] = error.constraints[key];
+          if (error.property === 'email') {
+            response[error.property] = 'Value is not a valid email address';
+          } else {
+            response[error.property] = error.constraints[key];
+          }
         }
       }
       throw new HttpException(response, 400);
