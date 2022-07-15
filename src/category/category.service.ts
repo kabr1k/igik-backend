@@ -12,6 +12,15 @@ export class CategoryService {
   public async findAll(): Promise<Category[] | undefined> {
     return await this.categoryRepository.find();
   }
+  public async findBySlug(slug) {
+    const entityManager = getManager();
+    return await entityManager
+      .getRepository(Category)
+      .createQueryBuilder('category')
+      .where('category.slug = :slug', { slug })
+      // .leftJoinAndSelect('category.users', 'user')
+      .getOne();
+  }
   public async findOne(uuid) {
     const entityManager = getManager();
     return await entityManager

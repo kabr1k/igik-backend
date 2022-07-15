@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpException, Query, Request, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TextService } from './text.service';
 import { Text } from './text.entity';
@@ -26,7 +26,18 @@ export class TextController {
       return { categories, name, server: true };
     } else {
       const text = await this.textService.findBySlug(slug);
-      return { ...text, name, server: true };
+      const category = await this.categoryService.findBySlug(slug);
+      if (category) {
+        return {
+          ...text,
+          title: category.name,
+          metaTitle: category.name,
+          name,
+          server: true,
+        };
+      } else {
+        throw new HttpException('Slug not found', 404)
+      }
     }
   }
 }
