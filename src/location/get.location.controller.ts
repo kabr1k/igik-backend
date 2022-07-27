@@ -26,7 +26,7 @@ export class GetLocationController {
     type: Location,
   })
   async find(@Query() query: LocationDto) {
-    const result = await this.locationService.findOne(query.uuid)
+    const result = await this.locationService.findLocation(query.uuid)
     if (result) {
       return result;
     } else {

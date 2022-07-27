@@ -25,7 +25,7 @@ export class GetExperienceController {
     type: Experience,
   })
   async find(@Query() query: ExperienceDto) {
-    const result = await this.experienceService.findOne(query.uuid)
+    const result = await this.experienceService.findExperience(query.uuid)
     if (result) {
       return result;
     } else {

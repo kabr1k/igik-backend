@@ -3,16 +3,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getManager } from 'typeorm';
 import { Language } from './language.entity';
 import { languagesSeed } from '../seed/seeds/languages.seed';
+import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
 @Injectable()
-export class LanguageService {
+export class LanguageService extends TypeOrmCrudService<Language> {
   constructor(
     @InjectRepository(Language)
     private languageRepository: Repository<Language>,
-  ) {}
+  ) {
+    super(languageRepository);
+  }
   public async findAll(): Promise<Language[] | undefined> {
     return await this.languageRepository.find();
   }
-  public async findOne(uuid) {
+  public async findLanguage(uuid) {
     const entityManager = getManager();
     return await entityManager
       .getRepository(Language)

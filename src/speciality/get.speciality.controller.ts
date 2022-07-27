@@ -23,7 +23,7 @@ export class GetSpecialityController {
     type: Speciality,
   })
   async find(@Query() query: SpecialityDto) {
-    const result = await this.specialityService.findOne(query.uuid)
+    const result = await this.specialityService.findSpeciality(query.uuid)
     if (result) {
       return result;
     } else {

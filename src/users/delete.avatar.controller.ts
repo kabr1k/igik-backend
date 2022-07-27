@@ -1,6 +1,6 @@
 import {
   Controller, Delete,
-  Post,
+  Post, Query,
   Req,
   UploadedFile,
   UseGuards,

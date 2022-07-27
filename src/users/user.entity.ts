@@ -67,7 +67,7 @@ export class User {
   calendlyRefreshToken: string;
   @ApiProperty({ type: [Ticket] })
   @OneToMany(() => Ticket, (ticket) => ticket.user)
-  tickets: Ticket[];
+  tickets?: Ticket[];
   @ApiProperty({ type: [Order] })
   @OneToMany(() => Order, (order) => order.buyer)
   postedOrders: Order[];
@@ -139,10 +139,8 @@ export class User {
   @Column(common.varcharNullable)
   socialNetwork1: string;
   @ApiProperty()
-  @ApiProperty()
   @Column(common.varcharNullable)
   socialNetwork2: string;
-  @ApiProperty()
   @ApiProperty()
   @Column(common.varcharNullable)
   socialNetwork3: string;

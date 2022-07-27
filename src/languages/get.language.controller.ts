@@ -26,7 +26,7 @@ export class GetLanguageController {
     type: Language,
   })
   async find(@Query() query: LanguageDto) {
-    const result = await this.languageService.findOne(query.uuid)
+    const result = await this.languageService.findLanguage(query.uuid)
     if (result) {
       return result;
     } else {

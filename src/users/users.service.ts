@@ -8,14 +8,17 @@ import { usersSeed } from '../seed/seeds/users.seed';
 import { CalendlyService } from '../calendly/calendly.service';
 import { UpdateProfileDbDto } from '../interfaces/update.profile.db.dto';
 import { OrderStatus } from '../enums/order.status';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 @Injectable()
-export class UsersService {
+export class UsersService extends TypeOrmCrudService<User> {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private readonly configService: ConfigService,
     private readonly calendlyService: CalendlyService,
-  ) {}
+  ) {
+    super(usersRepository);
+  }
   public async seed(
     categories,
     specialities,
@@ -94,7 +97,7 @@ export class UsersService {
       .leftJoinAndSelect('seller.category', 'sellerCategory')
       .getOne();
   }
-  public async find({
+  public async findMentors({
     amount,
     page,
     priceRange,

@@ -30,7 +30,7 @@ export class MentorsController {
     description: 'No results',
   })
   async getMentors(@Body() body: MentorsQueryDto) {
-    const mentors = await this.usersService.find(body);
+    const mentors = await this.usersService.findMentors(body);
     if (mentors.length !== 0) {
       return { mentors, count: mentors.length };
     } else {

@@ -25,7 +25,7 @@ export class GetCategoryController {
     type: Category,
   })
   async find(@Query() query: CategoryDto) {
-    const result = await this.categoryService.findOne(query.uuid)
+    const result = await this.categoryService.findCategory(query.uuid)
     if (result) {
       return result;
     } else {

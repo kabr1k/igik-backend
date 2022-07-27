@@ -6,15 +6,18 @@ import { UsersService } from '../users/users.service';
 import { OrderStatus } from '../enums/order.status';
 import { User } from '../users/user.entity';
 import { CalendlyService } from '../calendly/calendly.service';
+import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
 
 @Injectable()
-export class OrdersService {
+export class OrdersService extends TypeOrmCrudService<Order> {
   constructor(
     @InjectRepository(Order)
     private ordersRepository: Repository<Order>,
     private readonly usersService: UsersService,
     private readonly calendlyService: CalendlyService,
-  ) {}
+  ) {
+    super(ordersRepository);
+  }
   public async findAll(): Promise<Order[] | undefined> {
     return await this.ordersRepository.find();
   }

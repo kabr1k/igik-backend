@@ -17,25 +17,27 @@ import { LanguagesModule } from './languages/languages.module';
 import { LocationsModule } from './location/locations.module';
 import { ExperienceModule } from './experience/experience.module';
 import { SeedModule } from './seed/seed.module';
-import { PublicModule } from "./public/public.module";
-import { TextModule } from "./text/text.module";
-import { TicketsModule } from "./tickets/tickets.module";
+import { PublicModule } from './public/public.module';
+import { TextModule } from './text/text.module';
+import { TicketsModule } from './tickets/tickets.module';
+import { CrudModule } from './crud/crud.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    // ServeStaticModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: (configService: ConfigService) => [
-    //     {
-    //       rootPath: join(
-    //         __dirname,
-    //         '../../..',
-    //         configService.get<string>('FRONTEND_PATH'),
-    //       ),
-    //     },
-    //   ],
-    //   inject: [ConfigService],
-    // }),
+    ServeStaticModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => [
+        {
+          rootPath: join(
+            __dirname,
+            '../..',
+            configService.get<string>('PRIVATE_PATH'),
+          ),
+          serveRoot: '/personal',
+        },
+      ],
+      inject: [ConfigService],
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -66,6 +68,7 @@ import { TicketsModule } from "./tickets/tickets.module";
     ExperienceModule,
     SeedModule,
     PublicModule,
+    CrudModule,
   ],
 })
 export class AppModule {

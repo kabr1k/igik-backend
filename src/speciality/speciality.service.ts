@@ -3,16 +3,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getManager } from 'typeorm';
 import { Speciality } from './speciality.entity';
 import { specialitiesSeed } from '../seed/seeds/specialities.seed';
+import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
 @Injectable()
-export class SpecialityService {
+export class SpecialityService extends TypeOrmCrudService<Speciality> {
   constructor(
     @InjectRepository(Speciality)
     private specialityRepository: Repository<Speciality>,
-  ) {}
+  ) {
+    super(specialityRepository);
+  }
   public async findAll(): Promise<Speciality[] | undefined> {
     return await this.specialityRepository.find();
   }
-  public async findOne(uuid) {
+  public async findSpeciality(uuid) {
     const entityManager = getManager();
     return await entityManager
       .getRepository(Speciality)

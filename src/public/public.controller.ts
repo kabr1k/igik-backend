@@ -6,13 +6,13 @@ import { join } from 'path';
 @Controller()
 export class PublicController {
   constructor(private configService: ConfigService) {}
-  @Get('*')
+  @Get('/')
   @ApiTags('SSR routes')
   @ApiResponse({
     status: 200,
     description: 'OK',
   })
-  async getProfile(@Request() request, @Res({ passthrough: true }) response) {
+  async serveSSR(@Request() request, @Res({ passthrough: true }) response) {
     const dist = join(
       __dirname,
       '../../..',
