@@ -7,7 +7,7 @@ export const usersSeed = [
     enabled: true,
     firstName: 'Andrei',
     lastName: 'Kabrin',
-    role: 'mentor',
+    role: 'admin',
     emailConfirmed: true,
     stripeOnboarded: true,
     eventPrice: 50,
