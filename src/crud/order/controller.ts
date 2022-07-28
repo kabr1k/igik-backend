@@ -26,7 +26,7 @@ import { OrderGetmanyDto } from './getmany.dto';
   },
   params: {
     id: {
-      field: 'uuid',
+      field: 'id',
       type: 'number',
       primary: true,
     },
@@ -43,7 +43,7 @@ import { OrderGetmanyDto } from './getmany.dto';
     },
     sort: [
       {
-        field: 'uuid',
+        field: 'id',
         order: 'DESC',
       },
     ],

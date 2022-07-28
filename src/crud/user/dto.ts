@@ -73,6 +73,7 @@ export class UserDto {
     type: CategoryDto,
   })
   category: CategoryDto;
+  @Expose()
   @ApiPropertyOptional({
     type: [LanguageDto],
   })

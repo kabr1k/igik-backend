@@ -12,6 +12,8 @@ import { ExperienceModule } from '../experience/experience.module';
 import { SpecialitiesModule } from '../speciality/specialities.module';
 import { LanguagesModule } from '../languages/languages.module';
 import { LocationsModule } from '../location/locations.module';
+import { OrderController } from "./order/controller";
+import { OrdersModule } from "../orders/orders.module";
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import { LocationsModule } from '../location/locations.module';
     SpecialitiesModule,
     LanguagesModule,
     LocationsModule,
+    OrdersModule,
   ],
   providers: [],
   controllers: [
@@ -31,6 +34,7 @@ import { LocationsModule } from '../location/locations.module';
     SpecialityController,
     LanguageController,
     LocationController,
+    OrderController,
   ],
   exports: [],
 })

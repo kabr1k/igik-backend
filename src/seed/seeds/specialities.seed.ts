@@ -41,4 +41,9 @@ export const specialitiesSeed = [
   { name: 'Web Analytics' },
   { name: 'Web design' },
   { name: 'Website Development' },
+  { name: 'Cryptocurrency' },
+  { name: 'Arts and crafts' },
+  { name: 'Personal stylists' },
+  { name: 'Wellness' },
+  { name: 'Other' },
 ];

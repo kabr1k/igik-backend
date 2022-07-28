@@ -96,6 +96,32 @@ export class UserController implements CrudController<User> {
   //   action: 'update',
   // })
   updateOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UserUpdateDto) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (dto.languages.uuid) {
+      const normLangs = [];
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      for (const lang of dto.languages.uuid) {
+        normLangs.push({
+          uuid: lang,
+        });
+      }
+      dto.languages = normLangs;
+    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (dto.specialities.uuid) {
+      const normSpecs = [];
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      for (const spec of dto.specialities.uuid) {
+        normSpecs.push({
+          uuid: spec,
+        });
+      }
+      dto.specialities = normSpecs;
+    }
     return this.base.updateOneBase(req, <User>dto);
   }
 
