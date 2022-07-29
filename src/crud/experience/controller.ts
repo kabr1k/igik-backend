@@ -35,8 +35,8 @@ import { ExperienceGetmanyDto } from './getmany.dto';
     alwaysPaginate: true,
     sort: [
       {
-        field: 'uuid',
-        order: 'DESC',
+        field: 'name',
+        order: 'ASC',
       },
     ],
   },

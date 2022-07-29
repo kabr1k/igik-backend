@@ -35,8 +35,8 @@ import { SpecialityService } from "../../speciality/speciality.service";
     alwaysPaginate: true,
     sort: [
       {
-        field: 'uuid',
-        order: 'DESC',
+        field: 'name',
+        order: 'ASC',
       },
     ],
   },

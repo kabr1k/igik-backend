@@ -58,7 +58,7 @@ import { UserGetmanyDto } from './getmany.dto';
     },
     sort: [
       {
-        field: 'uuid',
+        field: 'createdAt',
         order: 'DESC',
       },
     ],
