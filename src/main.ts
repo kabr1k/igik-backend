@@ -24,9 +24,9 @@ import { LocationsModule } from './location/locations.module';
 import { ExperienceModule } from './experience/experience.module';
 import { SeedModule } from './seed/seed.module';
 import { PublicModule } from './public/public.module';
-import { TextModule } from "./text/text.module";
-import { TicketsModule } from "./tickets/tickets.module";
-import { CrudModule } from "./crud/crud.module";
+import { TextModule } from './text/text.module';
+import { TicketsModule } from './tickets/tickets.module';
+import { CrudModule } from './crud/crud.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);

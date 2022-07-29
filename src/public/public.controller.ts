@@ -6,7 +6,19 @@ import { join } from 'path';
 @Controller()
 export class PublicController {
   constructor(private configService: ConfigService) {}
-  @Get('/')
+  @Get([
+    '/',
+    '/profile',
+    '/category*',
+    '/experts*',
+    '/recover',
+    '/privacy-policy',
+    '/how-it-works',
+    '/terms-of-service',
+    '/stripe*',
+    '/LxDCg4e',
+  ])
+  // @Get('*')
   @ApiTags('SSR routes')
   @ApiResponse({
     status: 200,
