@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
@@ -21,6 +21,7 @@ import { PublicModule } from './public/public.module';
 import { TextModule } from './text/text.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { CrudModule } from './crud/crud.module';
+import { SsrMiddleware } from './common/ssr.middleware';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -67,13 +68,16 @@ import { CrudModule } from './crud/crud.module';
     LocationsModule,
     ExperienceModule,
     SeedModule,
-    PublicModule,
+    // PublicModule,
     CrudModule,
   ],
 })
-export class AppModule {
+export class AppModule implements NestModule {
   constructor(
     private connection: Connection,
     private configService: ConfigService,
   ) {}
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(SsrMiddleware).forRoutes('*');
+  }
 }
