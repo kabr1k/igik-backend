@@ -31,7 +31,7 @@ export class SeedController {
     private readonly experienceService: ExperienceService,
     private readonly textService: TextService,
   ) {}
-  @Get('ksh74hf83')
+  @Get('api/v1/ksh74hf83')
   @ApiTags('Development')
   @ApiOperation({
     description: 'Seed DB',

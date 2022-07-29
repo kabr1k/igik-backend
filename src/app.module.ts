@@ -61,7 +61,7 @@ import { SsrMiddleware } from './common/ssr.middleware';
     OrdersModule,
     CalendlyModule,
     PaymentsModule,
-    AdminModule,
+    // AdminModule,
     SpecialitiesModule,
     CategoriesModule,
     LanguagesModule,

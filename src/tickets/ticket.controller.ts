@@ -48,7 +48,7 @@ import { TicketGetmanyDto } from './ticket.getmany.dto';
     get: TicketDto,
   },
 })
-@Controller('tickets')
+@Controller('api/v1/tickets')
 export class TicketController implements CrudController<Ticket> {
   constructor(public service: TicketsService) {}
   get base(): CrudController<Ticket> {

@@ -65,7 +65,7 @@ async function bootstrap() {
         OrdersModule,
         CalendlyModule,
         PaymentsModule,
-        AdminModule,
+        // AdminModule,
         MailerModule,
         SpecialitiesModule,
         CategoriesModule,
