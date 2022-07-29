@@ -58,6 +58,7 @@ export class UsersService extends TypeOrmCrudService<User> {
       specialities: [specialities[4], specialities[5], specialities[6]],
       languages: [languages[3]],
     });
+    await this.usersRepository.save(usersSeed[4]);
   }
   public async countMentors(): Promise<number | undefined> {
     const entityManager = getManager();
