@@ -27,11 +27,21 @@ import { PublicModule } from './public/public.module';
 import { TextModule } from './text/text.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { CrudModule } from './crud/crud.module';
+import { ArgumentsHost, Catch, ExceptionFilter, NotFoundException } from "@nestjs/common";
+@Catch(NotFoundException)
+export class NotFoundExceptionFilter implements ExceptionFilter {
+  catch(exception: NotFoundException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse();
+    response.redirect('404');
+  }
+}
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
   const port = +configService.get('PORT');
   const swagger = +configService.get('SWAGGER');
+  app.useGlobalFilters(new NotFoundExceptionFilter());
   app.enableCors();
   app.useStaticAssets(
     join(__dirname, '../..', configService.get('PRIVATE_PATH')),

@@ -13,7 +13,11 @@ export class SpecialityService extends TypeOrmCrudService<Speciality> {
     super(specialityRepository);
   }
   public async findAll(): Promise<Speciality[] | undefined> {
-    return await this.specialityRepository.find();
+    return await this.specialityRepository.find({
+      order: {
+        name: 'ASC',
+      },
+    });
   }
   public async findSpeciality(uuid) {
     const entityManager = getManager();

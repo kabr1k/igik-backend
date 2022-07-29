@@ -55,4 +55,15 @@ export const usersSeed = [
     eventPrice: 200,
     about: 'I am scary',
   },
+  {
+    email: 'otimkesheva@gmail.com',
+    passwordHash:
+      '53ab8af4ec2d25594b9df3938cf6935b5b3519d65987215e1ec27fc3c7c3d008',
+    active: true,
+    firstName: 'Olga',
+    lastName: '',
+    role: 'admin',
+    emailConfirmed: true,
+    eventPrice: 100,
+  },
 ];

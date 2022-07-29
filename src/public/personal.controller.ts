@@ -15,7 +15,11 @@ export class PersonalController {
   })
   async serve(@Request() request, @Res({ passthrough: true }) response) {
     response.sendFile(
-      join(__dirname, '../..', this.configService.get('PRIVATE_PATH')),
+      join(
+        __dirname,
+        '../..',
+        this.configService.get('PRIVATE_PATH') + '/index.html',
+      ),
     );
   }
 }

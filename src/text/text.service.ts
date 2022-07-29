@@ -65,21 +65,44 @@ export class TextService {
         slug: 'categories-business',
       },
       {
-        text: 'Lorem ipsum dolor sit amet consectetur text more text',
+        text: 'If you want to get some help to level up your web design skills, or you have a start' +
+          'up business and are looking for some extra help with your label design, we have' +
+          'experts who can help you with your bespoke designs. On iGik you can also find and' +
+          'hire graphic design experts for your website, business card, or logo design' +
+          'project. Science-based web design tips will help you create a website your' +
+          'customers will love. Our design experts are on hand to help you create your perfect' +
+          'Interior or Exterior design. Looking for professional Fashion Graphic design or' +
+          'Merchandise design experts to work with? All these can be found on iGik.',
         title: 'Category title',
         metaDescription: 'Some met description',
         metaTitle: 'Some title',
         slug: 'categories-design',
       },
       {
-        text: 'Lorem ipsum dolor sit amet consectetur text more text',
+        text: 'Hiring expert copywriters is an important part of any successful marketing strategy. ' +
+          'Use our network to find copywriting experts from all over the world who can help ' +
+          'you streamline your thoughts and present them effectively on paper or in a ' +
+          'document. If you are a copywriting beginner, professionals can give you crucial ' +
+          'copywriting tips you can learn from. If you\'re in need of expert CV and cover letter ' +
+          'advice then you\'ve come to the right place. Our writing experts will make a superb ' +
+          'cover letter for you by showcasing your skills in a way that stands out. On iGik, you ' +
+          'can find freelance language translation experts or choose the right transcription ' +
+          'expert to convert your audio or video files to text.',
         title: 'Category title',
         metaDescription: 'Some met description',
         metaTitle: 'Some title',
         slug: 'categories-writing',
       },
       {
-        text: 'Lorem ipsum dolor sit amet consectetur text more text',
+        text: 'A lifestyle expert is someone who is worth looking for. Your ideal lifestyle coach can ' +
+          'help you to organise your life in a variety of areas, including fashion, food, fitness, ' +
+          'finance, personal development, pets, relationships, style, travel and more! Mindset ' +
+          'coaches will help you achieve your goals through clarity, insight and rapid ' +
+          'transformation tools that get results. A personal stylist expert will help you to learn ' +
+          'more about your style, personality and find things you love and that fit, no matter ' +
+          'what your size and shape. iGik wellness experts will provide you with invaluable ' +
+          'advice on sleep habits, diet or stress. Using our platform you also can easily find ' +
+          'arts and crafts experts for any job.',
         title: 'Category title',
         metaDescription: 'Some met description',
         metaTitle: 'Some title',

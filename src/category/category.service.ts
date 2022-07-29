@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getManager } from 'typeorm';
 import { Category } from './category.entity';
 import { categoriesSeed } from '../seed/seeds/categories.seed';
-import { User } from "../users/user.entity";
-import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
+import { User } from '../users/user.entity';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 @Injectable()
 export class CategoryService extends TypeOrmCrudService<Category> {
   constructor(
@@ -14,7 +14,11 @@ export class CategoryService extends TypeOrmCrudService<Category> {
     super(categoryRepository);
   }
   public async findAll(): Promise<Category[] | undefined> {
-    return await this.categoryRepository.find();
+    return await this.categoryRepository.find({
+      order: {
+        name: 'ASC',
+      },
+    });
   }
   public async findBySlug(slug) {
     const entityManager = getManager();
