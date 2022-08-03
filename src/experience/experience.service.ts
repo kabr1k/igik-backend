@@ -13,7 +13,7 @@ export class ExperienceService extends TypeOrmCrudService<Experience> {
     super(experienceRepository);
   }
   public async findAll(): Promise<Experience[] | undefined> {
-    return await this.experienceRepository.find();
+    return await this.experienceRepository.find({ order: { ordering: 'ASC' } });
   }
   public async findExperience(uuid) {
     const entityManager = getManager();

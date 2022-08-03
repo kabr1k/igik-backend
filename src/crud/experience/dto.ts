@@ -16,6 +16,9 @@ export class ExperienceDto {
   @ApiPropertyOptional()
   name: string;
   @Expose()
+  @ApiPropertyOptional()
+  ordering: number;
+  @Expose()
   @ApiPropertyOptional({
     type: [UserDto],
   })
