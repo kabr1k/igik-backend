@@ -194,7 +194,7 @@ export class UsersService extends TypeOrmCrudService<User> {
       .digest('hex');
     return token === hash;
   }
-  public async updateProfile({ uuid }, updateDto): Promise<User | null | 401> {
+  public async updateProfile({ uuid }, updateDto): Promise<User | null | 401 | 406> {
     let user = await this.findByUuid(uuid);
     let hash;
     if (updateDto.oldPassword) {
@@ -256,18 +256,22 @@ export class UsersService extends TypeOrmCrudService<User> {
     }
     // обновим длительность события если пришла новая ссылка
     if (updateDto.calendlyLink && user.calendlyRefreshToken) {
-      const response = await this.calendlyService.getTokenByRefresh(
-        user.calendlyRefreshToken,
-        user,
-      );
-      const calendlyEventTypes =
-        await this.calendlyService.getCalendlyEventTypes(
-          response.access_token,
-          user,
+      try {
+        const response = await this.calendlyService.getTokenByRefresh(
+          user.calendlyRefreshToken,
+          user
         );
-      profile.eventDuration = calendlyEventTypes.collection.find(
-        (event) => event.scheduling_url === profile.calendlyLink,
-      ).duration;
+        const calendlyEventTypes =
+          await this.calendlyService.getCalendlyEventTypes(
+            response.access_token,
+            user
+          );
+        profile.eventDuration = calendlyEventTypes.collection.find(
+          (event) => event.scheduling_url === profile.calendlyLink,
+        ).duration;
+      } catch (e) {
+        return 406;
+      }
     }
     await this.usersRepository.save(profile);
     user = await this.findByUuid(uuid);
