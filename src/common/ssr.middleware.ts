@@ -10,6 +10,7 @@ export class SsrMiddleware implements NestMiddleware {
     const { originalUrl } = request;
     if (
       originalUrl.indexOf('/personal') === 0 ||
+      originalUrl.indexOf('/robots.txt') === 0 ||
       originalUrl.indexOf('/api') === 0
     ) {
       next();

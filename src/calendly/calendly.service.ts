@@ -92,6 +92,11 @@ export class CalendlyService {
     }
   }
   public async getCalendlyEvents(accessToken, user) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const min_start_time = new Date() - 1;
+    console.log(min_start_time);
+    console.log(min_start_time.toString());
     try {
       const response = await axios.get(
         this.configService.get('CAL_EVENTS_URL') +
@@ -100,6 +105,7 @@ export class CalendlyService {
           headers: { Authorization: 'Bearer ' + accessToken },
           params: {
             user: user.calendlyUserLink,
+            min_start_time,
           },
         },
       );
