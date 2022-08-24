@@ -13,7 +13,11 @@ export class LocationService extends TypeOrmCrudService<Location> {
     super(locationRepository);
   }
   public async findAll(): Promise<Location[] | undefined> {
-    return await this.locationRepository.find();
+    return await this.locationRepository.find({
+      order: {
+        name: 'ASC',
+      },
+    });
   }
   public async findLocation(uuid) {
     const entityManager = getManager();

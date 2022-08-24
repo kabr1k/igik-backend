@@ -13,7 +13,11 @@ export class LanguageService extends TypeOrmCrudService<Language> {
     super(languageRepository);
   }
   public async findAll(): Promise<Language[] | undefined> {
-    return await this.languageRepository.find();
+    return await this.languageRepository.find({
+      order: {
+        name: 'ASC',
+      },
+    });
   }
   public async findLanguage(uuid) {
     const entityManager = getManager();
