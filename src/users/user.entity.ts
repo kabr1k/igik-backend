@@ -18,7 +18,7 @@ import { Category } from '../category/category.entity';
 import { Location } from '../location/location.entity';
 import { Language } from '../languages/language.entity';
 import { Experience } from '../experience/experience.entity';
-import { Ticket } from "../tickets/ticket.entity";
+import { Ticket } from '../tickets/ticket.entity';
 
 @Entity()
 export class User {
@@ -145,7 +145,7 @@ export class User {
   @Column(common.varcharNullable)
   socialNetwork3: string;
   @ApiProperty()
-  @Column(common.varcharNullable)
+  @Column(common.textNullable)
   about: string;
   @ApiProperty()
   @Column(common.varcharNullable)

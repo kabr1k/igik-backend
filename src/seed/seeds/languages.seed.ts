@@ -39,7 +39,7 @@ export const languagesSeed = [
   { name: 'Greek, Modern' },
   { name: 'English' },
   { name: 'Esperanto' },
-  { name: 'Spanish; Castilian' },
+  { name: 'Spanish' },
   { name: 'Estonian' },
   { name: 'Basque' },
   { name: 'Persian (Farsi)' },

@@ -1,11 +1,8 @@
-import { Controller, Get, HttpException, Query } from "@nestjs/common";
+import { Controller, Get, HttpException, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LanguageService } from './language.service';
-import { CategoryDto } from '../interfaces/category.dto';
 import { Language } from './language.entity';
-import { LanguageDto } from "../interfaces/language.dto";
-import { Speciality } from "../speciality/speciality.entity";
-import { SpecialityDto } from "../interfaces/speciality.dto";
+import { LanguageDto } from '../interfaces/language.dto';
 
 @Controller()
 export class GetLanguageController {
@@ -26,7 +23,7 @@ export class GetLanguageController {
     type: Language,
   })
   async find(@Query() query: LanguageDto) {
-    const result = await this.languageService.findLanguage(query.uuid)
+    const result = await this.languageService.findLanguage(query.uuid);
     if (result) {
       return result;
     } else {

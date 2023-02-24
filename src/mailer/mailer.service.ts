@@ -54,9 +54,9 @@ export class MailerService {
     const info = await this.transporter.sendMail({
       from: this.configService.get('SMTP_SENDER'),
       to: user.email,
-      subject: 'Instagig registration ✔',
+      subject: 'I-gik registration ✔',
       html: `
-      <p>Your email was registered at instagig.
+      <p>Your email was registered at i-gik.com.
       Please follow <a href=${link}>this link</a> 
       to finish the registration process.</p>
       `,

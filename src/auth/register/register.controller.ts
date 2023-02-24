@@ -1,7 +1,6 @@
 import { Body, Controller, HttpException, Post } from '@nestjs/common';
 import { RegisterUserDto } from '../../interfaces/register.user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { JwtDto } from '../../interfaces/jwt.dto';
 import { RegisterService } from './register.service';
 import { LoginService } from '../login/login.service';
 import { ValidationPipe } from '../../common/validation.pipe';
