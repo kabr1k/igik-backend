@@ -112,7 +112,7 @@ export class CalendlyService {
       );
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.details);
       throw new HttpException(
         error.response.data.error_description,
         error.response.status,
