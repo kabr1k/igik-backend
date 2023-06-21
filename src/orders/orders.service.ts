@@ -3,10 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { getManager, Repository } from 'typeorm';
 import { Order } from './order.entity';
 import { UsersService } from '../users/users.service';
-import { OrderStatus } from '../enums/order.status';
-import { User } from '../users/user.entity';
 import { CalendlyService } from '../calendly/calendly.service';
-import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 
 @Injectable()
 export class OrdersService extends TypeOrmCrudService<Order> {
@@ -36,10 +34,12 @@ export class OrdersService extends TypeOrmCrudService<Order> {
   }
   public async postOrder(user, orderDto): Promise<Order | 406> {
     const mentor = await this.usersService.findByUuid(orderDto.mentor_uuid);
+    console.log('mentor', mentor);
     const response = await this.calendlyService.getTokenByRefresh(
       mentor.calendlyRefreshToken,
       mentor,
     );
+    console.log('response', response);
     const calendlyEvents = await this.calendlyService.getCalendlyEvents(
       response.access_token,
       mentor,
@@ -47,6 +47,7 @@ export class OrdersService extends TypeOrmCrudService<Order> {
     const event = calendlyEvents.collection.find(
       (event) => event.uri === orderDto.event_link,
     );
+    console.log('event', event);
     const startTime = event.start_time;
     const joinUrl = event.location.join_url;
     if (!joinUrl) {
@@ -62,10 +63,12 @@ export class OrdersService extends TypeOrmCrudService<Order> {
       response.access_token,
       mentor,
     );
+    console.log('calendlyEventTypes', calendlyEventTypes);
     const duration = calendlyEventTypes.collection.find(
       (event) => event.scheduling_url === mentor.calendlyLink,
     ).duration;
-    return await this.saveOrder({
+    console.log('duration', duration);
+    const saved = await this.saveOrder({
       price: mentor.eventPrice,
       eventLink: orderDto.event_link,
       buyer: { uuid: user.uuid },
@@ -74,6 +77,7 @@ export class OrdersService extends TypeOrmCrudService<Order> {
       startTime,
       joinUrl,
     });
+    return saved;
   }
   public async putOrder(user, { id, status }): Promise<Order> {
     return await this.saveOrder({
