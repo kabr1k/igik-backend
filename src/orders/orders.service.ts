@@ -44,6 +44,7 @@ export class OrdersService extends TypeOrmCrudService<Order> {
       response.access_token,
       mentor,
     );
+    console.log('calendlyEvents', calendlyEvents);
     const event = calendlyEvents.collection.find(
       (event) => event.uri === orderDto.event_link,
     );
