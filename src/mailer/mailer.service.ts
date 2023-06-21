@@ -34,9 +34,9 @@ export class MailerService {
     const info = await this.transporter.sendMail({
       from: this.configService.get('SMTP_SENDER'),
       to: email,
-      subject: 'Instagig password recovery',
+      subject: 'I-Gik password recovery',
       html: `
-      <p>You have requested password recovery for instagig.
+      <p>You have requested password recovery for i-gik.
       Please follow <a href=${link}>this link</a> 
       to set a new password.</p>
       `,

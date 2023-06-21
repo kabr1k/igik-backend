@@ -33,6 +33,7 @@ export class PostOrderController {
   })
   @UseGuards(JwtGuard)
   async postOrder(@Request() req, @Body() orderDto: OrderDto) {
+    console.log('orderDto', orderDto);
     const response = await this.ordersService.postOrder(req.user.sub, orderDto);
     switch (response) {
       case 406:
