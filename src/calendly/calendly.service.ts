@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
 import { CalendlyLinkDto } from '../interfaces/calendly.link.dto';
 import axios from 'axios';
+import * as moment from 'moment';
 
 @Injectable()
 export class CalendlyService {
@@ -93,11 +94,8 @@ export class CalendlyService {
     }
   }
   public async getCalendlyEvents(accessToken, user) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const min_start_time = new Date() - 1;
-    console.log(min_start_time);
-    console.log(min_start_time.toString());
+    const min_start_time = moment().add(-1, 'day').toISOString();
+    console.log('min_start_time', min_start_time);
     try {
       const response = await axios.get(
         this.configService.get('CAL_EVENTS_URL') +
